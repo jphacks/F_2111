@@ -10,6 +10,7 @@ type Props = {
 
 const Home = (props: Props) => {
   const { res } = props;
+
   return (
     <Box>
       <Head>
@@ -23,14 +24,12 @@ const Home = (props: Props) => {
   );
 }
 
-export const getServerSideProps = async () => {
-  return {
+export const getServerSideProps = async () => ({
     props: {
       res: {
         name: 'takurinton', 
         age: 21, 
       }
     }
-  }
-}
+  })
 export default Home;

@@ -16,17 +16,16 @@ const Links = [{
 //   },
 ];
 
-export const Header = () => {
-  return (
+const Header = () => (
     <>
       <Box>
-        <Flex padding={'20px'} alignItems={'center'}>
-          <HStack alignItems={'center'}>
-            <Link href={'/'}>
+        <Flex padding="20px" alignItems="center">
+          <HStack alignItems="center">
+            <Link href="/">
               <a><chakra.h1>baetoru.com</chakra.h1></a>
             </Link>
             <HStack
-              as={'nav'}
+              as="nav"
               display={{
                 md: 'flex'
               }}
@@ -44,5 +43,6 @@ export const Header = () => {
       </Box>
       <hr />
     </>
-  );
-}
+  )
+
+export default Header;
