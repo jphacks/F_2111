@@ -21,4 +21,4 @@ COPY --from=build /build/public ./public
 COPY --from=build /build/node_modules ./node_modules
 
 EXPOSE 3000
-CMD ["npm","run", "start"]
+CMD ["npm", "run", "start"]
