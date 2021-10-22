@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { Box, Text, chakra } from '@chakra-ui/react';
+import { Box, chakra } from '@chakra-ui/react';
 import Head from 'next/head';
 
 type Props = {
@@ -15,8 +14,8 @@ const Home = (props: Props) => {
     <Box>
       <Head>
         <title>Home | baetoru.com</title>
-        <meta name="description" content="Home | baetoru.com" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Home | baetoru.com' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <chakra.h1>{res.name}</chakra.h1>
       <chakra.p>{res.age}</chakra.p>
