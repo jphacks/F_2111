@@ -10,10 +10,10 @@ const Links = [{
     text: 'About', 
     path: '/about',
   },
-  {
-    text: 'Hoge', 
-    path: '/hoge',
-  },
+//   {
+//     text: 'Hoge', 
+//     path: '/hoge',
+//   },
 ];
 
 export const Header = () => {

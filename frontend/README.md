@@ -25,6 +25,7 @@ frontend/src/components/pages には、ページコンポーネントのパー�
         - /components
             - Header
                 - index.tsx
+                - Header に表示するリンクは Links という配列で保持してるので逐次そこに追加して行ってください
             - /pages
                 - /home
                     - hoge.tsx
