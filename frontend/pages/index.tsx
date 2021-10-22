@@ -8,7 +8,7 @@ type Props = {
   }
 }
 
-const Home = (props: Props) => {
+const Home = (props: Props): JSX.Element => {
   const { res } = props;
 
   return (
@@ -18,18 +18,26 @@ const Home = (props: Props) => {
         <meta name='description' content='Home | baetoru.com' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <chakra.h1>{res.name}</chakra.h1>
-      <chakra.p>{res.age}</chakra.p>
+      <chakra.h1>name: {res.name}</chakra.h1>
+      <chakra.p>age: {res.age}</chakra.p>
     </Box>
   );
 }
 
-export const getServerSideProps = async () => ({
+export const getServerSideProps = async (): Promise<{
+  props: Props
+}> => {
+  // 一時的な退避
+  const res = await fetch('https://api.takurinton.com');
+  const json = await res.json();
+
+  return {
     props: {
       res: {
-        name: 'takurinton', 
+        name: json, 
         age: 21, 
       }
     }
-  })
+  }
+}
 export default Home;

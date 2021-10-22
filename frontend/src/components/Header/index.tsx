@@ -16,7 +16,7 @@ const Links = [{
 //   },
 ];
 
-const Header = () => (
+const Header = (): JSX.Element => (
     <>
       <Box>
         <Flex padding="20px" alignItems="center">
