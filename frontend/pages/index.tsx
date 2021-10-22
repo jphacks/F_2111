@@ -29,7 +29,7 @@ export const getServerSideProps = async (): Promise<{
 }> => {
   // 一時的な退避
   const res = await fetch('https://api.takurinton.com');
-  const json = await res.json();
+  const json = await res.json() as string;
 
   return {
     props: {
