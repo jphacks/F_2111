@@ -8,7 +8,7 @@ services:
       - "443:443"
     volumes:
       # Nginxの設定ファイルを上書きする
-      - ./build/nginx/mesimasi.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./build/nginx/baetoru.conf:/etc/nginx/conf.d/default.conf:ro
       - ./build/nginx/nginx.conf:/etc/nginx/nginx.conf
 #      - ./docker/nginx/conf/key.pem:/etc/ssl/private/key.pem:ro
 #      - ./docker/nginx/conf/cert.pem:/etc/ssl/certs/cert.pem:ro
@@ -33,7 +33,7 @@ services:
   app:
     build:
       context: ./server/
-      dockerfile: server/docker/Dockerfile
+      dockerfile: docker/Dockerfile
     command: /baetoru
     depends_on:
       - db
@@ -50,7 +50,7 @@ services:
       environment:
         - .env
       networks:
-        - blog-network
+        - baetoru-network
 
 volumes:
   db-data:
