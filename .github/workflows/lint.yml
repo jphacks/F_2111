@@ -13,14 +13,14 @@ jobs:
           reporter: github-pr-review
           eslint_flags: './**/*.{js,jsx,ts,tsx}'
 
-  lint:
-    name: Lint codes
+  golangci-lint:
+    name: runner / golangci-lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
       - name: golangci-lint
-        working-directory: ./server
-        uses: golangci/golangci-lint-action@v2
+        uses: reviewdog/action-golangci-lint@v2
         with:
-          version: v1.40
-          args: --enable=staticcheck,stylecheck,gosimple,gosec,prealloc,gocognit,bodyclose,gofmt
+          workdir: server/
+          golangci_lint_flags: '--out-format=github-actions --enable=golint,gosec,prealloc,gocognit,bodyclose,gofmt'
