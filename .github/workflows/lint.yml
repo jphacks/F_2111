@@ -9,5 +9,6 @@ jobs:
       - name: eslint
         uses: reviewdog/action-eslint@v1
         with:
+          workdir: ./frontend/
           reporter: github-pr-review
-          eslint_flags: './frontend/**/*.{js,jsx,ts,tsx}'
+          eslint_flags: './**/*.{js,jsx,ts,tsx}'
