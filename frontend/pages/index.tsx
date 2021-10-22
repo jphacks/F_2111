@@ -14,17 +14,12 @@ const Home = (props: Props) => {
   return (
     <Box>
       <Head>
-        <title>Create Next App</title>
+        <title>Home | baetoru.com</title>
         <meta name="description" content="Home | baetoru.com" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <chakra.h1>{res.name}</chakra.h1>
       <chakra.p>{res.age}</chakra.p>
-      <Link href="/about">
-        <a>
-          <Text>about page</Text>
-        </a>
-      </Link>
     </Box>
   );
 }
