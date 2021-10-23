@@ -1,11 +1,17 @@
 import { Box, chakra } from '@chakra-ui/react';
+import Link from 'next/link';
+import Image from 'next/image';
 import Head from 'next/head';
 
 type Props = {
   res: {
-    name: string;
-    age: number;
-  }
+    id: number;
+    url: string;
+    exif?: any;
+    title: string;
+    description?: string;
+    info?: any;
+  }[]
 }
 
 const Home = (props: Props): JSX.Element => {
@@ -18,8 +24,20 @@ const Home = (props: Props): JSX.Element => {
         <meta name='description' content='Home | baetoru.com' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <chakra.h1>name: {res.name}</chakra.h1>
-      <chakra.p>age: {res.age}</chakra.p>
+      {
+        res.map(p => {
+          return (
+            <Box>
+              <Link href={'/photo/[id]'} as={`/photo/${p.id}`}>
+                <a>
+                  <Image src={p.url} height={200} width={300} quality={30} />
+                  <chakra.h1>{p.title}</chakra.h1>
+                </a>
+              </Link>
+            </Box>
+          )
+        })
+      }
     </Box>
   );
 }
@@ -27,17 +45,11 @@ const Home = (props: Props): JSX.Element => {
 export const getServerSideProps = async (): Promise<{
   props: Props
 }> => {
-  // 一時的な退避
-  const res = await fetch('https://api.takurinton.com');
-  const json = await res.json() as string;
+  const res = await fetch('http://localhost:3000/api/mock_photos');
+  const data = await res.json() as Props;
 
   return {
-    props: {
-      res: {
-        name: json, 
-        age: 21, 
-      }
-    }
+    props: data
   }
 }
 export default Home;
