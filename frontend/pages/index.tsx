@@ -27,7 +27,7 @@ const Home = (props: Props): JSX.Element => {
       <Flex flexWrap={'wrap'}>
         {
           res.map(p => (
-              <Box>
+              <Box key={p.id}>
                 <Link href="/photo/[id]" as={`/photo/${p.id}`}>
                   <a>
                     <Image src={p.url} height={200} width={300} quality={30} />
