@@ -11,6 +11,7 @@ import {
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
+import { Map } from '../../src/components/pages/photo/Map';
 
 type Props = {
   res: {
@@ -89,6 +90,8 @@ const Photo = (props: Props): JSX.Element => {
           </Tbody>
         </Table>
       </Box>
+
+      <Map />
     </Box>
   )
 }
