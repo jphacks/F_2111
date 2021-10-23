@@ -24,16 +24,28 @@ const Home = (props: Props): JSX.Element => {
         <meta name='description' content='Home | baetoru.com' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Flex flexWrap={'wrap'}>
+      <Flex flexWrap="wrap">
         {
           res.map(p => (
-              <Box key={p.id} margin={'0 10px'}>
-                <Link href="/photo/[id]" as={`/photo/${p.id}`}>
-                  <a>
-                    <Image src={p.url} height={300} width={450} quality={30} />
-                    <chakra.h1>{p.title}</chakra.h1>
-                  </a>
-                </Link>
+              <Box 
+                key={p.id} 
+                margin="5px 5px"
+                height={300}
+                width={450}
+                overflow="hidden"
+                position="relative"
+              >
+                <Box _hover={{ 
+                  transform: 'scale(1.2)',
+                  transition: 'transform .5s',  
+                  filter: 'brightness(50%)',
+                }}>
+                  <Link href="/photo/[id]" as={`/photo/${p.id}`}>
+                    <a>
+                      <Image src={p.url} height={300} width={450} quality={30} />
+                    </a>
+                  </Link>
+                </Box>
               </Box>
             ))
         }

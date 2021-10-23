@@ -1,4 +1,15 @@
-import { Box, chakra } from '@chakra-ui/react';
+import { 
+  Box, 
+  chakra,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+} from '@chakra-ui/react';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
@@ -19,13 +30,47 @@ const Photo = (props: Props): JSX.Element => {
   return (
     <Box>
       <Head>
-        <title>About | baetoru.com</title>
-        <meta name="description" content="About | baetoru.com" />
+        <title>{res.title} | baetoru.com</title>
+        <meta name="description" content={`${res.title} | baetoru.com`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>
-        <Image src={res.url} height={200} width={300} quality={30} />
-        <chakra.h1>{res.title}</chakra.h1>
+      <Box textAlign={'center'}>
+        <Image src={res.url} height={400} width={600} quality={100} />
+        <chakra.h1 fontSize={'2rem'}>{res.title}</chakra.h1>
+        <Table variant="simple" width={600} margin={'40px auto 0'}>
+          <Thead>
+            <Tr>
+              <Th>項目</Th>
+              <Th>説明</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <Tr>
+              <Th>コメント</Th>
+              <Td>{res?.description}</Td>
+            </Tr>
+            <Tr>
+              <Th>カメラ情報</Th>
+              <Td>{res.exif?.camera ?? ''}</Td>
+            </Tr>
+            <Tr>
+              <Th>場所</Th>
+              <Td>{res.exif?.place ?? ''}</Td>
+            </Tr>
+            <Tr>
+              <Th>F値</Th>
+              <Td>{res.exif?.fvalue ?? ''}</Td>
+            </Tr>
+            <Tr>
+              <Th>ISO</Th>
+              <Td>{res.exif?.iso ?? ''}</Td>
+            </Tr>
+            <Tr>
+              <Th>シャッタースピード</Th>
+              <Td>{res.exif?.speed ?? ''}</Td>
+            </Tr>
+          </Tbody>
+        </Table>
       </Box>
     </Box>
   )
