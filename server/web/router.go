@@ -19,7 +19,7 @@ func NewServer(photoUC *usecase.PhotoUseCase) (e *gin.Engine) {
 	if config.IsLocal() {
 		corsConfig.AllowOrigins = []string{"*"}
 	} else {
-		corsConfig.AllowOrigins = []string{"https://mesimasi.com"}
+		corsConfig.AllowOrigins = []string{"https://baetoru.com"}
 	}
 
 	e.Use(cors.New(corsConfig))
