@@ -30,8 +30,8 @@ func (p *PhotoHandler) StorePhoto(c *gin.Context) {
 		Description string `json:"description" binding:"required"`
 	}
 	var req photoReq
-	if err := c.ShouldBindJSON(req); err != nil {
-		logger.Errorf("failed to bind", err)
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Errorf("failed to bind: %v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -45,7 +45,7 @@ func (p *PhotoHandler) StorePhoto(c *gin.Context) {
 
 	photo, err := p.photoUC.CreatePhoto(photoDTO)
 	if err != nil {
-		logger.Errorf("store photo", err)
+		logger.Errorf("store photo: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})
 		return
 	}
