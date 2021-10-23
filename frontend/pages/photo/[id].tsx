@@ -4,11 +4,9 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
 } from '@chakra-ui/react';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
@@ -34,10 +32,10 @@ const Photo = (props: Props): JSX.Element => {
         <meta name="description" content={`${res.title} | baetoru.com`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box textAlign={'center'}>
+      <Box textAlign="center">
         <Image src={res.url} height={400} width={600} quality={100} />
-        <chakra.h1 fontSize={'2rem'}>{res.title}</chakra.h1>
-        <Table variant="simple" width={600} margin={'40px auto 0'}>
+        <chakra.h1 fontSize="2rem">{res.title}</chakra.h1>
+        <Table variant="simple" width={600} margin="40px auto 0">
           <Thead>
             <Tr>
               <Th>項目</Th>
