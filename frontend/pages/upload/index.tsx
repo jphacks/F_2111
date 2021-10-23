@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button,Input } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 
 const Upload = () => {
@@ -31,14 +31,33 @@ const Upload = () => {
     </li>
   ));
 
+  const [title,setTitle] = useState<string>("");
+  const handleTitleInsert = (event: any) => {
+    setTitle(event.target.value);
+  }
+
+  const [description,setDescription] = useState<string>("");
+  const handleDescriptionInsert = (event: any) => {
+    setDescription(event.target.value);
+  }
+
   const handleSubmit = () => {
+    const submitData = {
+        res: {
+            title: title,
+            description: description
+        }
+    }
     console.log("Submitted!");
   }
 
   return (
     <>
+      <h1>投稿ページ</h1>
       <h4>Title</h4>
+      <Input type="text" value={title} onChange={handleTitleInsert}/>
       <h4>Description</h4>
+      <Input type="text" value={description} onChange={handleDescriptionInsert}/>
       <Box {...getRootProps()} height="100px" border="1px">
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -48,7 +67,7 @@ const Upload = () => {
         )}
         <Button onClick={open}>Select files</Button>
       </Box>
-      <h4>Files</h4>
+      <h4>Added Images</h4>
       <ul>{files}</ul>
       <Button onClick={handleSubmit}>Submit</Button>
     </>
