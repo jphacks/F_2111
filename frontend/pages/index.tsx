@@ -27,10 +27,10 @@ const Home = (props: Props): JSX.Element => {
       <Flex flexWrap={'wrap'}>
         {
           res.map(p => (
-              <Box key={p.id}>
+              <Box key={p.id} margin={'0 10px'}>
                 <Link href="/photo/[id]" as={`/photo/${p.id}`}>
                   <a>
-                    <Image src={p.url} height={200} width={300} quality={30} />
+                    <Image src={p.url} height={300} width={450} quality={30} />
                     <chakra.h1>{p.title}</chakra.h1>
                   </a>
                 </Link>
