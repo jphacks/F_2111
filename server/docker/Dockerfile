@@ -11,12 +11,12 @@ COPY go.mod  ./
 RUN go mod download
 
 COPY . .
-RUN go build -o batoru .
+RUN go build -o baetoru .
 
 FROM gcr.io/distroless/static-debian10:latest
 
 ENV TZ=Asia/Tokyo
 
-COPY --from=build /workdir/batoru /baetoru
+COPY --from=build /workdir/baetoru /baetoru
 
 ENTRYPOINT ["/baetoru"]
