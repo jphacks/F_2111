@@ -24,7 +24,7 @@ const Home = (props: Props): JSX.Element => {
         <meta name='description' content='Home | baetoru.com' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Flex flexWrap="wrap">
+      <Flex flexWrap="wrap" justifyContent="center">
         {
           res.map(p => (
               <Box 
