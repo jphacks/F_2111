@@ -90,8 +90,7 @@ const Photo = (props: Props): JSX.Element => {
           </Tbody>
         </Table>
       </Box>
-
-      <Map />
+      <Map {...res.exif}/>
     </Box>
   )
 }
