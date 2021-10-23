@@ -51,12 +51,28 @@ const Photo = (props: Props): JSX.Element => {
               <Td>{res?.description}</Td>
             </Tr>
             <Tr>
+              <Th>カメラメーカー</Th>
+              <Td>{res.exif?.maker ?? ''}</Td>
+            </Tr>
+            <Tr>
               <Th>カメラ情報</Th>
               <Td>{res.exif?.camera ?? ''}</Td>
             </Tr>
             <Tr>
+              <Th>レンズ情報</Th>
+              <Td>{res.exif?.lens ?? ''}</Td>
+            </Tr>
+            <Tr>
+              <Th>フラッシュ</Th>
+              <Td>{res.exif?.flash ?? ''}</Td>
+            </Tr>
+            <Tr>
               <Th>場所</Th>
               <Td>{res.exif?.place ?? ''}</Td>
+            </Tr>
+            <Tr>
+              <Th>方角</Th>
+              <Td>{res.exif?.compass ?? ''}</Td>
             </Tr>
             <Tr>
               <Th>F値</Th>
