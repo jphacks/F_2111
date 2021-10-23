@@ -1,4 +1,4 @@
-import { Box, chakra } from '@chakra-ui/react';
+import { Box, chakra, Flex } from '@chakra-ui/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
@@ -24,18 +24,20 @@ const Home = (props: Props): JSX.Element => {
         <meta name='description' content='Home | baetoru.com' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      {
-        res.map(p => (
-            <Box>
-              <Link href="/photo/[id]" as={`/photo/${p.id}`}>
-                <a>
-                  <Image src={p.url} height={200} width={300} quality={30} />
-                  <chakra.h1>{p.title}</chakra.h1>
-                </a>
-              </Link>
-            </Box>
-          ))
-      }
+      <Flex flexWrap={'wrap'}>
+        {
+          res.map(p => (
+              <Box>
+                <Link href="/photo/[id]" as={`/photo/${p.id}`}>
+                  <a>
+                    <Image src={p.url} height={200} width={300} quality={30} />
+                    <chakra.h1>{p.title}</chakra.h1>
+                  </a>
+                </Link>
+              </Box>
+            ))
+        }
+      </Flex>
     </Box>
   );
 }
