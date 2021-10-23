@@ -15,6 +15,7 @@ type Props = {
 
 const Photo = (props: Props): JSX.Element => {
   const { res } = props;
+
   return (
     <Box>
       <Head>
@@ -34,7 +35,7 @@ export const getServerSideProps = async (req: NextApiRequest): Promise<{
     props: Props
 }> => {
     const { id } = req.query;
-    const res = await fetch(`http://localhost:3000/api/mock_photo/${id}`);
+    const res = await fetch(`http://localhost:3000/api/mock_photo/${Number(id)}`);
     const data = await res.json() as Props;
 
     return {

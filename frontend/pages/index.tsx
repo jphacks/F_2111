@@ -25,18 +25,16 @@ const Home = (props: Props): JSX.Element => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {
-        res.map(p => {
-          return (
+        res.map(p => (
             <Box>
-              <Link href={'/photo/[id]'} as={`/photo/${p.id}`}>
+              <Link href="/photo/[id]" as={`/photo/${p.id}`}>
                 <a>
                   <Image src={p.url} height={200} width={300} quality={30} />
                   <chakra.h1>{p.title}</chakra.h1>
                 </a>
               </Link>
             </Box>
-          )
-        })
+          ))
       }
     </Box>
   );
