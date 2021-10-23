@@ -18,7 +18,6 @@ type Props = {
     exif?: any;
     title: string;
     description?: string;
-    info?: any;
   }
 }
 
@@ -43,6 +42,10 @@ const Photo = (props: Props): JSX.Element => {
             </Tr>
           </Thead>
           <Tbody>
+            <Tr>
+              <Th>撮影日時</Th>
+              <Td>{res.exif?.datetime ?? ''}</Td>
+            </Tr>
             <Tr>
               <Th>コメント</Th>
               <Td>{res?.description}</Td>
