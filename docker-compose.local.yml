@@ -30,6 +30,15 @@ services:
     networks:
       - baetoru-network
 
+  migration:
+    image: flyway/flyway
+    volumes:
+      - ./database/migration/schema:/flyway/sql
+    depends_on:
+      - db
+    networks:
+      - baetoru-network
+
   app:
     build:
       context: ./server/
