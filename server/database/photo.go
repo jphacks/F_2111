@@ -24,5 +24,9 @@ func (r *PhotoRepository) Create(photo *entity.Photo) error {
 		}
 	}()
 	_, err = stmt.Exec(photo.ID, photo.URL, photo.Title, photo.Description)
+	if err !=nil{
+		return err
+	}
+	err = r.db.QueryRowx("SELECT created_at, updated_at FROM photos WHERE id = ?", photo.ID).StructScan(photo)
 	return err
 }
