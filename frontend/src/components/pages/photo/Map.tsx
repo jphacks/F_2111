@@ -25,13 +25,13 @@ const MapComponent = ({
       });
     });
   
-    return <div ref={ref} id="map" />;
+    return <div style={{ height: '50vh', width: '50vw', margin: '50px auto' }}ref={ref} id="map" />;
   }
 
 export const Map = () => {
   const API_KEY = '';
-  const center = { lat: -34.397, lng: 150.644 };
-  const zoom = 4;
+  const center = { lat: 36, lng: 140 };
+  const zoom = 10;
   return (
     <Wrapper apiKey={API_KEY} render={render}>
         <MapComponent center={center} zoom={zoom} />
