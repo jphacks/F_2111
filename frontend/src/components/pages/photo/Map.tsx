@@ -41,7 +41,7 @@ const MapComponent = ({
         position: center,
         pov: {
           heading: 34,
-          pitch: 10,
+          pitch: 0,
         },
       });
 
@@ -76,7 +76,7 @@ export const Map = ({
   const API_KEY = '';
   const center = { lat, lng };
   const icon = image;
-  const zoom = 10;
+  const zoom = 15;
 
   return (
     <Wrapper apiKey={API_KEY} render={render}>
