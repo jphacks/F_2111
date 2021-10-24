@@ -10,7 +10,7 @@ type Props = {
   description?: string;
 }
 
-export const Photo = (props: Props) => (
+export const Photo = (props: Props): JSX.Element => (
     <Box 
     key={props.id} 
     margin="5px 5px"

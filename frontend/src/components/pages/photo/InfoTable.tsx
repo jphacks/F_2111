@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { PhotoType } from '../../../types';
 
-export const InfoTable = (res: PhotoType) => (
+export const InfoTable = (res: PhotoType): JSX.Element => (
     <Table variant="simple" width={600} margin="40px auto 0">
     <Thead>
       <Tr>
