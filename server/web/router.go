@@ -26,13 +26,14 @@ func NewServer(photoUC *usecase.PhotoUseCase) (e *gin.Engine) {
 
 	photoHandler := handler.NewPhotoHandler(photoUC)
 
-	e.GET("/", func(c *gin.Context) {
+
+	v1 := e.Group("/api/v1")
+
+	v1.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "hello world",
 		})
 	})
-
-	v1 := e.Group("/api/v1")
 
 	photos := v1.Group("/photos")
 	//photos.GET("", photoHandler.GetPhotos)
