@@ -13,14 +13,26 @@ const MapComponent = ({
     center,
     zoom,
     icon,
+    lat, 
+    lng,
   }: {
     // @ts-ignore
     center: google.maps.LatLngLiteral;
     zoom: number;
     icon: string;
+    lat: number;
+    lng: number;
   }): JSX.Element => {
     const mapRef = useRef(null);
     const panoRef = useRef(null);
+
+    // @ts-ignore
+    const place = new google.maps.LatLng(lat, lng)
+    const createCard = () => {
+      return `
+      <div>hoge</div>
+      `;
+    }
 
     useEffect(() => {
       // https://developers.google.com/maps/documentation/javascript/examples/marker-simple?hl=ja
@@ -29,12 +41,6 @@ const MapComponent = ({
         center,
         zoom,
       })
-      // @ts-ignore
-      // const marker = new window.google.maps.Marker({
-      //   position: center,
-      //   map, 
-      //   // icon
-      // });
 
       // @ts-ignore
       const pano = new google.maps.StreetViewPanorama(panoRef.current, {
@@ -44,6 +50,12 @@ const MapComponent = ({
           pitch: 0,
         },
       });
+
+      // @ts-ignore
+      const card = new google.maps.InfoWindow();
+      card.setContent(createCard());
+      card.setPosition(place);
+      card.open(map);
 
       map.setStreetView(pano);
     }, [center, zoom]);
@@ -72,7 +84,7 @@ export const Map = ({
 
   return (
     <Wrapper apiKey={API_KEY} render={render}>
-        <MapComponent center={center} zoom={zoom} icon={icon}/>
+        <MapComponent center={center} zoom={zoom} icon={icon} lat={lat} lng={lng}/>
     </Wrapper>
   )
 };
