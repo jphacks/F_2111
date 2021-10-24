@@ -54,7 +54,7 @@ const MapComponent = ({
           float: 'left',
           height: '100%',
           width: '50%',
-        }}></Box>
+        }} />
         <Box ref={panoRef} id="pano" style={{
           float: 'left',
           height: '100%',
