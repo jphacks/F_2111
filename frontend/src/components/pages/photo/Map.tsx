@@ -17,8 +17,7 @@ const MapComponent = ({
     lat, 
     lng,
   }: {
-    // @ts-ignore
-    center: google.maps.LatLngLiteral;
+    center: any;
     zoom: number;
     icon: string;
     title: string;
