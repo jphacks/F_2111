@@ -1,28 +1,16 @@
 import { 
   Box, 
   chakra,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
 } from '@chakra-ui/react';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
 import { Map } from '../../src/components/pages/photo/Map';
+import { InfoTable } from '../../src/components/pages/photo/InfoTable';
+import { PhotoProps, PhotoType } from '../../src/types';
 
-type Props = {
-  res: {
-    url: string;
-    exif?: any;
-    title: string;
-    description?: string;
-  }
-}
 
-const Photo = (props: Props): JSX.Element => {
+const Photo = (props: PhotoProps): JSX.Element => {
   const { res } = props;
 
   return (
@@ -35,60 +23,7 @@ const Photo = (props: Props): JSX.Element => {
       <Box textAlign="center">
         <Image src={res.url} height={400} width={600} quality={100} />
         <chakra.h1 fontSize="2rem">{res.title}</chakra.h1>
-        <Table variant="simple" width={600} margin="40px auto 0">
-          <Thead>
-            <Tr>
-              <Th>項目</Th>
-              <Th>説明</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Th>撮影日時</Th>
-              <Td>{res.exif?.datetime ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>コメント</Th>
-              <Td>{res?.description}</Td>
-            </Tr>
-            <Tr>
-              <Th>カメラメーカー</Th>
-              <Td>{res.exif?.maker ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>カメラ情報</Th>
-              <Td>{res.exif?.camera ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>レンズ情報</Th>
-              <Td>{res.exif?.lens ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>フラッシュ</Th>
-              <Td>{res.exif?.flash ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>場所</Th>
-              <Td>{res.exif?.place ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>方角</Th>
-              <Td>{res.exif?.compass ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>F値</Th>
-              <Td>{res.exif?.fvalue ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>ISO</Th>
-              <Td>{res.exif?.iso ?? ''}</Td>
-            </Tr>
-            <Tr>
-              <Th>シャッタースピード</Th>
-              <Td>{res.exif?.speed ?? ''}</Td>
-            </Tr>
-          </Tbody>
-        </Table>
+        <InfoTable {...res} />
       </Box>
       <Map {...res.exif}/>
     </Box>
@@ -96,11 +31,11 @@ const Photo = (props: Props): JSX.Element => {
 }
 
 export const getServerSideProps = async (req: NextApiRequest): Promise<{
-    props: Props
+    props: PhotoType
 }> => {
     const { id } = req.query;
     const res = await fetch(`http://localhost:3000/api/mock_photo/${Number(id)}`);
-    const data = await res.json() as Props;
+    const data = await res.json() as PhotoType;
 
     return {
       props: data

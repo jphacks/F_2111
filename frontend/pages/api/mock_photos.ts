@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { PhotosProps } from '../../src/types';
 
 export const mockJson = [
   {
@@ -32,27 +33,12 @@ export const mockJson = [
     id: 4, 
     title: 'kyoto', 
     url: 'http://baetoru-public.s3-website-ap-northeast-1.amazonaws.com/sample.jpg',
-    exif: {
-      lat: 130, 
-      lng: 0,
-    }
   },
 ]
 
-type Props = {
-  res: {
-    id: number;
-    url: string;
-    exif?: any;
-    title: string;
-    description?: string;
-    info?: any;
-  }[]
-}
-
 export default function handler(
   _: NextApiRequest,
-  res: NextApiResponse<Props>
+  res: NextApiResponse<PhotosProps>
 ): void {
   res.status(200).json({
     res: mockJson

@@ -19,14 +19,21 @@ const MapComponent = ({
     const ref = useRef(null);
 
     useEffect(() => {
-        // @ts-ignore
-      new window.google.maps.Map(ref.current, {
+      // https://developers.google.com/maps/documentation/javascript/examples/marker-simple?hl=ja
+      // @ts-ignore
+      const map = new window.google.maps.Map(ref.current, {
         center,
         zoom,
+      })
+      // @ts-ignore
+      new window.google.maps.Marker({
+        position: center,
+        map
       });
-    });
+    }, [center, zoom]);
+
   
-    return <div style={{ height: '50vh', width: '50vw', margin: '50px auto' }}ref={ref} id="map" />;
+    return <div style={{ height: '50vh', width: '50vw', margin: '50px auto' }} ref={ref} id="map" />;
   }
 
 export const Map = ({
