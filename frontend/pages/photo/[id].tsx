@@ -20,9 +20,20 @@ const Photo = (props: PhotoProps): JSX.Element => {
         <meta name="description" content={`${res.title} | baetoru.com`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box textAlign="center">
-        <Image src={res.url} height={400} width={600} quality={100} />
-        <chakra.h1 fontSize="2rem">{res.title}</chakra.h1>
+      <Box textAlign="center" margin="auto">
+        <Box padding="40px 0" background="#333333">
+          <Box 
+            boxShadow="8px 8px 8px rgba(0,0,0,0.7)" 
+            height={400} 
+            width={600} 
+            margin="0 auto 20px" 
+            borderRadius="5px" 
+            overflow="hidden"
+          >
+            <Image src={res.url} height={400} width={600} quality={80}/>
+          </Box>
+          <chakra.h1 fontSize="2rem" textColor="white" fontWeight="800">{res.title}</chakra.h1>
+        </Box>
         <InfoTable {...res} />
       </Box>
       {

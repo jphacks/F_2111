@@ -6,9 +6,7 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => (
     <ChakraProvider>
       <Header />
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Box margin="30px">
-        <Component {...pageProps} />
-      </Box>
+      <Component {...pageProps} />
     </ChakraProvider>
   )
 
