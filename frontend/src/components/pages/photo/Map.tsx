@@ -59,7 +59,7 @@ const MapComponent = ({
           float: 'left',
           height: '100%',
           width: '50%',
-        }}></Box>
+        }} />
       </Box>
     );
   }
