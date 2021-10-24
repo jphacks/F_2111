@@ -30,14 +30,12 @@ const MapComponent = ({
 
     // @ts-ignore
     const place = new google.maps.LatLng(lat, lng)
-    const createCard = () => {
-      return `
+    const createCard = () => `
       <div>
         <p style="padding-bottom: 5px; font-size: 1rem">${title}</p>
         <img src="${icon}" style="height: 100px; width: 150px;"/>
       </div>
-      `;
-    }
+      `
 
     useEffect(() => {
       // https://developers.google.com/maps/documentation/javascript/examples/marker-simple?hl=ja
