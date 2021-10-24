@@ -1,4 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Photo } from '../src/components/pages/home/Photo';
 import { PhotosProps } from '../src/types';
@@ -22,14 +23,15 @@ const Home = (props: PhotosProps): JSX.Element => {
   );
 }
 
-export const getServerSideProps = async (): Promise<{
+export const getStaticProps: GetStaticProps<PhotosProps> = async (): Promise<{
   props: PhotosProps
 }> => {
   const res = await fetch('http://localhost:3000/api/mock_photos');
   const data = await res.json() as PhotosProps;
 
   return {
-    props: data
+    props: data, 
+    revalidate: 60,
   }
 }
 export default Home;
