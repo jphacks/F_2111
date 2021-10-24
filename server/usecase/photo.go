@@ -17,9 +17,8 @@ func NewPhotoUseCase(photoRepository repository.Photo) *PhotoUseCase {
 }
 
 func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error) {
-	var photo *entity.Photo
 	var err error
-	photo = entity.NewPhoto()
+	photo := &entity.Photo{}
 	photo.ConvertFromDTO(photoDTO)
 
 	err = p.photoRepository.Create(photo)

@@ -15,12 +15,12 @@ type Photo struct {
 	UpdatedAt   time.Time `db:"updated_at"`
 }
 
-func NewPhoto() *Photo {
+func NewPhoto(id string, url string, title string, description string) *Photo {
 	return &Photo{
-		ID:          "",
-		URL:         "",
-		Title:       "",
-		Description: "",
+		ID:          id,
+		URL:         url,
+		Title:       title,
+		Description: description,
 		CreatedAt:   time.Time{},
 		UpdatedAt:   time.Time{},
 	}
