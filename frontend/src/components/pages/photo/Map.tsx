@@ -30,7 +30,7 @@ const MapComponent = ({
         position: center,
         map
       });
-    }, []);
+    }, [center, zoom]);
 
   
     return <div style={{ height: '50vh', width: '50vw', margin: '50px auto' }} ref={ref} id="map" />;
