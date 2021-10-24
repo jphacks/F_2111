@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `photos`
 (
-    `id`          CHAR(64) NOT NULL,
+    `id`          CHAR(36) NOT NULL,
     `url`         TEXT NOT NULL,
     `title`       TEXT NOT NULL,
     `description` TEXT,
