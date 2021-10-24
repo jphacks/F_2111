@@ -25,7 +25,7 @@ const Photo = (props: PhotoProps): JSX.Element => {
         <chakra.h1 fontSize="2rem">{res.title}</chakra.h1>
         <InfoTable {...res} />
       </Box>
-      <Map {...res.exif}/>
+      <Map {...res.exif} image={res.url} />
     </Box>
   )
 }

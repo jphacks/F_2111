@@ -11,10 +11,12 @@ const render = (status: Status): ReactElement => {
 const MapComponent = ({
     center,
     zoom,
+    icon,
   }: {
     // @ts-ignore
     center: google.maps.LatLngLiteral;
     zoom: number;
+    icon: string;
   }): JSX.Element => {
     const ref = useRef(null);
 
@@ -26,10 +28,12 @@ const MapComponent = ({
         zoom,
       })
       // @ts-ignore
-      new window.google.maps.Marker({
+      const marker = new window.google.maps.Marker({
         position: center,
-        map
+        map, 
+        icon
       });
+
     }, [center, zoom]);
 
   
@@ -37,18 +41,22 @@ const MapComponent = ({
   }
 
 export const Map = ({
-  lat, lng 
+  lat, 
+  lng,
+  image, 
 }: {
   lat: number;
   lng: number;
+  image: string;
 }): JSX.Element => {
   const API_KEY = '';
   const center = { lat, lng };
+  const icon = image;
   const zoom = 10;
 
   return (
     <Wrapper apiKey={API_KEY} render={render}>
-        <MapComponent center={center} zoom={zoom} />
+        <MapComponent center={center} zoom={zoom} icon={icon}/>
     </Wrapper>
   )
 };
