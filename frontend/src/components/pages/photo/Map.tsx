@@ -50,16 +50,8 @@ const MapComponent = ({
   
     return (
       <Box height="50vh" width="80vw" margin="50px auto">
-        <Box ref={mapRef} id="map" style={{
-          float: 'left',
-          height: '100%',
-          width: '50%',
-        }} />
-        <Box ref={panoRef} id="pano" style={{
-          float: 'left',
-          height: '100%',
-          width: '50%',
-        }} />
+        <Box ref={mapRef} id="map" float="left" height="100%" width="50%" />
+        <Box ref={panoRef} id="pano" float="left" height="100%" width="50%" />
       </Box>
     );
   }
