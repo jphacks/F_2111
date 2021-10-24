@@ -33,10 +33,6 @@ export const mockJson = [
     id: 4, 
     title: 'kyoto', 
     url: 'http://baetoru-public.s3-website-ap-northeast-1.amazonaws.com/sample.jpg',
-    exif: {
-      lat: 130, 
-      lng: 0,
-    }
   },
 ]
 
