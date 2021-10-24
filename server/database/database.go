@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -24,9 +26,14 @@ func NewDB() (db *sqlx.DB, err error) {
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
 	sqlDB.SetMaxOpenConns(100)
 
-	if err = sqlDB.Ping(); err != nil {
-		err = fmt.Errorf("failed to ping: %w", err)
-		return
+	defer sqlDB.Close()
+	for {
+		err := sqlDB.Ping()
+		if err == nil {
+			break
+		}
+		log.Println(err)
+		time.Sleep(time.Second * 1)
 	}
 	return
 }
