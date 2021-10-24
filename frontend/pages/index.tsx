@@ -1,7 +1,6 @@
-import { Box, chakra, Flex } from '@chakra-ui/react';
-import Link from 'next/link';
-import Image from 'next/image';
+import { Box, Flex } from '@chakra-ui/react';
 import Head from 'next/head';
+import { Photo } from '../src/components/pages/home/Photo';
 
 type Props = {
   res: {
@@ -26,28 +25,7 @@ const Home = (props: Props): JSX.Element => {
       </Head>
       <Flex flexWrap="wrap" justifyContent="center">
         {
-          res.map(p => (
-              <Box 
-                key={p.id} 
-                margin="5px 5px"
-                height={300}
-                width={450}
-                overflow="hidden"
-                position="relative"
-              >
-                <Box _hover={{ 
-                  transform: 'scale(1.2)',
-                  transition: 'transform .5s',  
-                  filter: 'brightness(50%)',
-                }}>
-                  <Link href="/photo/[id]" as={`/photo/${p.id}`}>
-                    <a>
-                      <Image src={p.url} height={300} width={450} quality={30} />
-                    </a>
-                  </Link>
-                </Box>
-              </Box>
-            ))
+          res.map(p => <Photo key={p.id} {...p} />)
         }
       </Flex>
     </Box>
