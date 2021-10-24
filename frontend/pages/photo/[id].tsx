@@ -25,7 +25,13 @@ const Photo = (props: PhotoProps): JSX.Element => {
         <chakra.h1 fontSize="2rem">{res.title}</chakra.h1>
         <InfoTable {...res} />
       </Box>
-      <Map {...res.exif} image={res.url} />
+      {
+        res.exif 
+        ? <Map {...res.exif} image={res.url} title={res.title} />
+        : <Box textAlign="center" margin="50px 0">
+            <chakra.h1 fontSize="1.2rem">この写真には位置情報がありません。</chakra.h1>
+          </Box>
+      }
     </Box>
   )
 }

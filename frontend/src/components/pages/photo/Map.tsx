@@ -13,6 +13,7 @@ const MapComponent = ({
     center,
     zoom,
     icon,
+    title,
     lat, 
     lng,
   }: {
@@ -20,6 +21,7 @@ const MapComponent = ({
     center: google.maps.LatLngLiteral;
     zoom: number;
     icon: string;
+    title: string;
     lat: number;
     lng: number;
   }): JSX.Element => {
@@ -30,7 +32,10 @@ const MapComponent = ({
     const place = new google.maps.LatLng(lat, lng)
     const createCard = () => {
       return `
-      <div>hoge</div>
+      <div>
+        <p style="padding-bottom: 5px; font-size: 1rem">${title}</p>
+        <img src="${icon}" style="height: 100px; width: 150px;"/>
+      </div>
       `;
     }
 
@@ -72,10 +77,12 @@ export const Map = ({
   lat, 
   lng,
   image, 
+  title,
 }: {
   lat: number;
   lng: number;
   image: string;
+  title: string;
 }): JSX.Element => {
   const API_KEY = '';
   const center = { lat, lng };
@@ -84,7 +91,14 @@ export const Map = ({
 
   return (
     <Wrapper apiKey={API_KEY} render={render}>
-        <MapComponent center={center} zoom={zoom} icon={icon} lat={lat} lng={lng}/>
+        <MapComponent 
+          center={center} 
+          zoom={zoom} 
+          icon={icon} 
+          title={title}
+          lat={lat} 
+          lng={lng}
+        />
     </Wrapper>
   )
 };
