@@ -3,6 +3,7 @@ package usecase
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
@@ -22,7 +23,9 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error
 	region := os.Getenv("AWS_REGION")
 	bucketName := os.Getenv("AWS_S3_BUCKET_NAME")
 
-	_, err := p.photoRepository.DownloadFromS3(photoDTO.ID, region, bucketName)
+	strs := strings.Split(photoDTO.URL, "/")
+	id := strs[len(strs)-1]
+	_, err := p.photoRepository.DownloadFromS3(id, region, bucketName)
 	if err != nil {
 		return nil, fmt.Errorf("download from s3: %w", err)
 	}
