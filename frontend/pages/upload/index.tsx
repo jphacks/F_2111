@@ -67,6 +67,15 @@ const Upload = (): JSX.Element => {
       accept: 'image/*',
       noClick: true,
     });
+    
+  const { 
+    type, 
+    style, 
+    onChange, 
+    onClick,
+    autoComplete, 
+    ref,
+  } = getInputProps();
 
   // 投稿内容の変数
   const [state, setState] = useState<{
@@ -95,7 +104,7 @@ const Upload = (): JSX.Element => {
     const params = {
       Body: file,
       Bucket: AWS_S3_BUCKET,
-      Key: `${uuid}-${file.name}`,
+      Key: `${uuid}-${file?.name}`,
       ACL: 'public-read',
     };
     myBucket.putObject(params).send((err) => {
@@ -116,7 +125,7 @@ const Upload = (): JSX.Element => {
       title: state.title,
       description: state.description,
     };
-    const path = "http://localhost:3000/api/mock_photos";
+    const path = "";
     await fetch(path, {
       method: 'POST',
       body: JSON.stringify(submitData),
@@ -167,7 +176,7 @@ const Upload = (): JSX.Element => {
         <FormControl id="images" isRequired>
           <FormLabel>Upload Images</FormLabel>
           <Box {...getRootProps()} style={Style.Box} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
-            <Input {...getInputProps()} />
+            <Input type={type} multiple={false} onChange={onChange} onClick={onClick} autoComplete={autoComplete} tabIndex={-1} ref={ref} style={style} />
             <Box marginBottom="10px">
               {isDragActive ? (
                 <Text>画像ファイルを追加する</Text>
@@ -195,7 +204,7 @@ const Upload = (): JSX.Element => {
           <Box style={Style.Box}>
             <Button
               type="submit"
-              onClick={handleSubmit}
+              onSubmit={handleSubmit}
               isLoading={clickSubmit}
               isDisabled={state.title === '' || file === undefined}
             >
