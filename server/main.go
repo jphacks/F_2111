@@ -1,26 +1,30 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"log"
-	"net/http"
+	"time"
+
+	"github.com/jphacks/F_2111/database"
+	"github.com/jphacks/F_2111/log"
+	"github.com/jphacks/F_2111/usecase"
+	"github.com/jphacks/F_2111/web"
 )
 
 func main() {
-	e := gin.New()
-	e.Use(gin.Logger())
-	e.Use(gin.Recovery())
+	logger := log.GetLogger()
+	logger.Infof("Initialized logger")
+	time.Local = time.FixedZone("JST", 9*60*60)
 
-	v1 := e.Group("/api/v1")
-	v1.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "hello world",
-		})
-	})
+	db, err := database.NewDB()
+	if err != nil {
+		logger.Fatal(err)
+	}
+	defer db.Close()
+	photoRepository := database.NewPhotoRepository(db)
+	photoUC := usecase.NewPhotoUseCase(photoRepository)
+
+	e := web.NewServer(photoUC)
 
 	if err := e.Run(":8080"); err != nil {
-		if err != nil {
-			log.Fatal(err.Error())
-		}
+		logger.Fatal(err.Error())
 	}
 }

@@ -13,7 +13,7 @@ const Home = (props: PhotosProps): JSX.Element => {
         <meta name='description' content='Home | baetoru.com' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Flex flexWrap="wrap" justifyContent="center">
+      <Flex flexWrap="wrap" justifyContent="center" marginTop="5px">
         {
           res.map(p => <Photo key={p.id} {...p} />)
         }
