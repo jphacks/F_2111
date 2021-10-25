@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   nginx:
     image: nginx:1.19.9-alpine
@@ -53,6 +53,7 @@ services:
       - db
     env_file:
       - .env
+      - .env.secret
     networks:
       - baetoru-network
 
@@ -67,6 +68,7 @@ services:
     working_dir: /workdir
     env_file:
       - .env
+      - .env.secret
     networks:
       - baetoru-network
 
