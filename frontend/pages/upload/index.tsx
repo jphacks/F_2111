@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useState } from 'react';
 import {
   Heading,
@@ -24,7 +25,8 @@ const myBucket = new AWS.S3({
 
 const Style = {
   Box: { marginTop: "10px", marginBottom: "10px" }
-}
+};
+
 const Upload = (): JSX.Element => {
 
   // Dropzonの設定
@@ -61,10 +63,7 @@ const Upload = (): JSX.Element => {
       Key: `${uuid}-${acceptedFiles[0].name}`,
       ACL: 'public-read',
     };
-    console.log(params);
-    myBucket.putObject(params).send((err) => {
-      if (err) console.log(err);
-    });
+    myBucket.putObject(params).send();
   };
 
   // 投稿時のAction
@@ -75,7 +74,6 @@ const Upload = (): JSX.Element => {
       description: state.description,
     };
     uploadFile();
-    console.log('Submitted!', submitData);
   };
 
   // TODO: UI設計
