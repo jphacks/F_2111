@@ -43,3 +43,14 @@ func (p *PhotoUseCase) GetPhotos(withDetail bool, pageSize int) (photoDTOs []*dt
 
 	return
 }
+
+func (p *PhotoUseCase) GetPhoto(id string) (photoDTO *dto.PhotoDTO, err error) {
+	var photo *entity.Photo
+	photo, err = p.photoRepository.FindByID(id)
+	if err != nil {
+		err = fmt.Errorf("get photo: %w", err)
+		return
+	}
+	photoDTO = photo.ConvertToDTO()
+	return
+}

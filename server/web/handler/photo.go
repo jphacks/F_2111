@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"net/http"
 	"strconv"
+
+	"errors"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/F_2111/domain/dto"
@@ -89,5 +91,25 @@ func (p *PhotoHandler) GetPhotos(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"photos": photos,
+	})
+}
+func (p *PhotoHandler) GetPhoto(c *gin.Context) {
+	logger := log.GetLogger()
+	id := c.Param("id")
+
+	photo, err := p.photoUC.GetPhoto(id)
+	if err != nil {
+		if errors.Is(err, entity.ErrPhotoNotFound) {
+			logger.Debug("get photo not found", err)
+			c.JSON(http.StatusNotFound, gin.H{"error": entity.ErrPhotoNotFound.Error()})
+			return
+		}
+		logger.Errorf("get photo: %w", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"photo": photo,
 	})
 }
