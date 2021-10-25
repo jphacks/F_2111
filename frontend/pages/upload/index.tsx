@@ -25,7 +25,7 @@ const myBucket = new AWS.S3({
 const Style = {
   Box: { marginTop: "10px", marginBottom: "10px" }
 }
-const Upload = () => {
+const Upload = (): JSX.Element => {
 
   // Dropzonの設定
   const { getRootProps, getInputProps, open, isDragActive, acceptedFiles } =
@@ -54,7 +54,7 @@ const Upload = () => {
   // S3にファイルをUpload
   const uploadFile = () => {
 
-    const uuid: string = crypto.randomUUID();
+    const uuid = String(crypto.randomUUID());
     const params = {
       Body: acceptedFiles[0],
       Bucket: AWS_S3_BUCKET,
@@ -146,7 +146,7 @@ const Upload = () => {
               isDisabled={state.title === '' || acceptedFiles.length === 0}
             >
               Submit
-          </Button>
+            </Button>
           </Box>
         </FormControl>
       </FormControl>
