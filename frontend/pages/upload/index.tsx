@@ -80,6 +80,9 @@ const Upload = (): JSX.Element => {
   // TODO: UI設計
   return (
     <>
+      <Head>
+        <title>投稿ページ</title>
+      </Head>
       <Heading>投稿ページ</Heading>
       <FormControl id="post">
         <FormControl
