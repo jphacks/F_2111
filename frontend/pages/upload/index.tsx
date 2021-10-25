@@ -21,38 +21,13 @@ const myBucket = new AWS.S3({
 });
 
 const Upload = () => {
-  // Uploadしたファイルの保存
-  const [uploadImage, setUploadImage] = useState<Array<File>>([]);
-
-  // DropBoxにFileDrop時のAction
-  const onDrop = (acceptedFiles: File[]) => {
-    console.log('acceptedFiles:', acceptedFiles);
-    const tempImage = uploadImage;
-    acceptedFiles.forEach((file: File) => {
-      tempImage.map((image) => image.name).includes(file.name) ?
-        console.log(`${file.name} is Duplicate`) :
-        tempImage.push(file);
-    });
-    setUploadImage(tempImage);
-    console.log('uploadImage:', uploadImage);
-  };
 
   // Dropzonの設定
-  const { getRootProps, getInputProps, open, isDragActive } =
+  const { getRootProps, getInputProps, open, isDragActive, acceptedFiles } =
     useDropzone({
-      onDrop,
       accept: 'image/*',
       noClick: true,
     });
-
-  // Drop成功したファイル＆サイズ集
-  const files = uploadImage.map((file: File) => (
-    <li key={file.name}>
-      <Text>
-        {file.name} - {file.size} bytes
-      </Text>
-    </li>
-  ));
 
   // 投稿内容の変数
   const [state, setState] = useState<{
@@ -73,23 +48,20 @@ const Upload = () => {
 
   // S3にファイルをUpload
   const uploadFile = () => {
-    if (uploadImage === []) return;
 
     const uuid: string = crypto.randomUUID();
-    uploadImage.forEach((image: File) => {
-      const params = {
-        Body: image,
-        Bucket: AWS_S3_BUCKET,
-        Key: `${uuid}-${image.name}`,
-        ACL: 'public-read',
-      };
-      console.log(params);
-      myBucket.putObject(params).send((err) => {
-        if (err) console.log(err);
-      });
+    const params = {
+      Body: acceptedFiles[0],
+      Bucket: AWS_S3_BUCKET,
+      Key: `${uuid}-${acceptedFiles[0].name}`,
+      ACL: 'public-read',
+    };
+    console.log(params);
+    myBucket.putObject(params).send((err) => {
+      if (err) console.log(err);
     });
   };
-  
+
   // 投稿時のAction
   const handleSubmit = () => {
     const submitData = {
@@ -110,52 +82,66 @@ const Upload = () => {
           isRequired
           isInvalid={insertTitle && state.title === ''}
         >
-          <FormLabel>Title</FormLabel>
-          <Input
-            type="text"
-            name="title"
-            placeholder="かっこいいタイトル"
-            value={state.title}
-            onChange={handleChange}
-          />
-          <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
+          <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
+            <FormLabel>Title</FormLabel>
+            <Input
+              type="text"
+              name="title"
+              placeholder="かっこいいタイトル"
+              value={state.title}
+              onChange={handleChange}
+            />
+            <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
+          </Box>
         </FormControl>
         <FormControl id="description">
-          <FormLabel>Description</FormLabel>
-          <Input
-            type="text"
-            name="description"
-            placeholder="分かりやすい説明"
-            value={state.description}
-            onChange={handleChange}
-          />
+          <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
+            <FormLabel>Description</FormLabel>
+            <Input
+              type="text"
+              name="description"
+              placeholder="分かりやすい説明"
+              value={state.description}
+              onChange={handleChange}
+            />
+          </Box>
         </FormControl>
         <FormControl id="images" isRequired>
           <FormLabel>Upload Images</FormLabel>
-          <Box {...getRootProps()} height="100px" border="1px">
+          <Box {...getRootProps()} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
             <Input {...getInputProps()} />
-            {isDragActive ? (
-              <Text>Drop the files here ...</Text>
-            ) : (
-              <Text>Drag 'n' drop some files here</Text>
-            )}
-            <Button type="submit" onClick={open}>
+            <Box marginBottom="10px">
+              {isDragActive ? (
+                <Text>Drop the files here ...</Text>
+              ) : (
+                <Text>Drag 'n' drop some files here</Text>
+              )}
+            </Box>
+            <Button type="submit" onClick={open} size="sm">
               Select files
             </Button>
           </Box>
-          <Text>Added Images</Text>
-          <ul>{files}</ul>
-        </FormControl>
-        <FormControl id="submit">
+          <Box marginTop="10px">
+            <Heading size="sm">Added Image</Heading>
+            <Text>
+              { acceptedFiles.length !==0 &&
+               `${acceptedFiles[0].name} - ${acceptedFiles[0].size} bytes`
+              }
+            </Text>
+          </Box>
+      </FormControl>
+      <FormControl id="submit">
+        <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
           <Button
             type="submit"
             onClick={handleSubmit}
-            isDisabled={state.title === '' || uploadImage.length === 0}
+            isDisabled={state.title === '' || acceptedFiles.length === 0}
           >
             Submit
           </Button>
-        </FormControl>
+        </Box>
       </FormControl>
+    </FormControl>
     </>
   );
 };
