@@ -17,21 +17,19 @@ import {
   AlertTitle,
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
-import AWS from 'aws-sdk';
+import { useUploadForm } from '../../src/hooks/useUploadForm';
 
-const AWS_S3_BUCKET = 'baetoru-public';
-const AWS_REGION = 'ap-northeast-1';
-
-const myBucket = new AWS.S3({
-  params: { Bucket: AWS_S3_BUCKET },
-  region: AWS_REGION,
-});
 
 const Style = {
   Box: { marginTop: "10px", marginBottom: "10px" }
 };
 
 const Upload = (): JSX.Element => {
+  const {
+    state, 
+    handleChange,
+    handleSubmit
+  } = useUploadForm();
 
   const toast = useToast()
   const pop = (Body: string, Status: "success" | "error") => {
@@ -77,63 +75,18 @@ const Upload = (): JSX.Element => {
     ref,
   } = getInputProps();
 
-  // 投稿内容の変数
-  const [state, setState] = useState<{
-    id: number;
-    title: string;
-    description?: string;
-  }>({
-    id: 0,
-    title: '',
-    description: '',
-  });
-
   const [insertTitle, setInsertTitle] = useState<boolean>(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (e.target.name === 'title') setInsertTitle(true);
-    setState({ ...state, [e.target.name]: e.target.value });
+  const onChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    handleChange(event);
   };
 
   const [clickSubmit, setClickSubmit] = useState<boolean>(false);
   const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
 
-  // S3にファイルをUpload
-  const uploadFile = () => {
-
-    const uuid = String(crypto.randomUUID());
-    const params = {
-      Body: file,
-      Bucket: AWS_S3_BUCKET,
-      Key: `${uuid}-${file?.name}`,
-      ACL: 'public-read',
-    };
-    myBucket.putObject(params).send((err) => {
-      if (err) {
-        setErrorSubmit(true);
-        setClickSubmit(false);
-      }
-    });
-
-    return uuid;
-  };
-
-  // 投稿時のAction
-  const handleSubmit = async () => {
-    const uuid = uploadFile();
-    const submitData = {
-      id: uuid,
-      title: state.title,
-      description: state.description,
-    };
-    const path = "";
-    await fetch(path, {
-      method: 'POST',
-      body: JSON.stringify(submitData),
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-
+  const onSubmitForm = async () => {
+    const submitError = handleSubmit({ file, state })
     setClickSubmit(true);
+    setErrorSubmit(submitError);
   };
 
   // TODO: UI設計
@@ -156,7 +109,7 @@ const Upload = (): JSX.Element => {
               name="title"
               placeholder="かっこいいタイトル"
               value={state.title}
-              onChange={handleChange}
+              onChange={onChangeForm}
             />
             <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
           </Box>
@@ -168,7 +121,7 @@ const Upload = (): JSX.Element => {
               name="description"
               placeholder="分かりやすい説明..."
               value={state.description}
-              onChange={handleChange}
+              onChange={onChangeForm}
               height="100px"
             />
           </Box>
@@ -204,7 +157,7 @@ const Upload = (): JSX.Element => {
           <Box style={Style.Box}>
             <Button
               type="submit"
-              onSubmit={handleSubmit}
+              onClick={onSubmitForm}
               isLoading={clickSubmit}
               isDisabled={state.title === '' || file === undefined}
             >
