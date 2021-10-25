@@ -8,7 +8,7 @@ down:
 
 .PHONY: logs
 logs:
-	docker compose -f docker-compose.local.yml logs -f ${T}
+	docker compose -f docker-compose.local.yml logs  ${T}
 
 .PHONY: deploy
 deploy: prod_down prod_update prod_up

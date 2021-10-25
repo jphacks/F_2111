@@ -1,11 +1,11 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"time"
 
+	// mysql driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 
@@ -19,8 +19,7 @@ func NewDB() (db *sqlx.DB, err error) {
 		return
 	}
 
-	var sqlDB *sql.DB
-	sqlDB = db.DB
+	sqlDB := db.DB
 	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
 	sqlDB.SetMaxIdleConns(100)
 	// SetMaxOpenConns sets the maximum number of open connections to the database.

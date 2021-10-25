@@ -1,8 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
+	"strconv"
 )
 
 type PhotoRepository struct {
@@ -24,9 +26,36 @@ func (r *PhotoRepository) Create(photo *entity.Photo) error {
 		}
 	}()
 	_, err = stmt.Exec(photo.ID, photo.URL, photo.Title, photo.Description)
-	if err !=nil{
+	if err != nil {
 		return err
 	}
 	err = r.db.QueryRowx("SELECT created_at, updated_at FROM photos WHERE id = ?", photo.ID).StructScan(photo)
 	return err
+}
+
+func (r *PhotoRepository) FindAll(withDetail bool, pageSize int) ([]*entity.Photo, error) {
+	var photos []*entity.Photo
+	var query string
+	var params []interface{}
+
+	if withDetail {
+		//TODO: まだGPS情報をDBに保存していない．スキーマができたらそれを取得するクエリを使うようにする
+		query = "SELECT id, url, title, description, created_at, updated_at FROM photos"
+	} else {
+		query = "SELECT id, url FROM photos"
+	}
+	if pageSize != 0 {
+		query += " LIMIT ?"
+		params = append(params, strconv.Itoa(pageSize))
+	}
+
+	stmt, err := r.db.Preparex(query)
+	if err != nil {
+		return photos, err
+	}
+	err = stmt.Select(&photos, params...)
+	if err != nil {
+		return photos, err
+	}
+	return photos, err
 }
