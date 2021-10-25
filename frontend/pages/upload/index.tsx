@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Heading,
   Text,
+  Image,
   Box,
   FormControl,
   FormLabel,
@@ -21,6 +22,9 @@ const myBucket = new AWS.S3({
   region: AWS_REGION,
 });
 
+const Style = {
+  Box: { marginTop: "10px", marginBottom: "10px" }
+}
 const Upload = () => {
 
   // Dropzonの設定
@@ -42,7 +46,7 @@ const Upload = () => {
   });
 
   const [insertTitle, setInsertTitle] = useState<boolean>(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.name === 'title') setInsertTitle(true);
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -83,7 +87,7 @@ const Upload = () => {
           isRequired
           isInvalid={insertTitle && state.title === ''}
         >
-          <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
+          <Box style={Style.Box}>
             <FormLabel>Title</FormLabel>
             <Input
               type="text"
@@ -96,7 +100,7 @@ const Upload = () => {
           </Box>
         </FormControl>
         <FormControl id="description">
-          <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
+          <Box style={Style.Box}>
             <FormLabel>Description</FormLabel>
             <Textarea
               name="description"
@@ -109,7 +113,7 @@ const Upload = () => {
         </FormControl>
         <FormControl id="images" isRequired>
           <FormLabel>Upload Images</FormLabel>
-          <Box {...getRootProps()} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
+          <Box {...getRootProps()} style={Style.Box} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
             <Input {...getInputProps()} />
             <Box marginBottom="10px">
               {isDragActive ? (
@@ -122,27 +126,30 @@ const Upload = () => {
               Select files
             </Button>
           </Box>
-          <Box marginTop="10px">
+          <Box style={Style.Box}>
             <Heading size="sm">Added Image</Heading>
-            <Text>
-              { acceptedFiles.length !==0 &&
-               `${acceptedFiles[0].name} - ${acceptedFiles[0].size} bytes`
-              }
-            </Text>
+            {acceptedFiles.length !== 0 && (
+              <>
+                <Image src={URL.createObjectURL(acceptedFiles[0])} width={200} quality={100} />
+                <Text>
+                  {acceptedFiles[0].name} - {acceptedFiles[0].size} bytes
+                </Text>
+              </>
+            )}
           </Box>
-      </FormControl>
-      <FormControl id="submit">
-        <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
-          <Button
-            type="submit"
-            onClick={handleSubmit}
-            isDisabled={state.title === '' || acceptedFiles.length === 0}
-          >
-            Submit
+        </FormControl>
+        <FormControl id="submit">
+          <Box style={Style.Box}>
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              isDisabled={state.title === '' || acceptedFiles.length === 0}
+            >
+              Submit
           </Button>
-        </Box>
+          </Box>
+        </FormControl>
       </FormControl>
-    </FormControl>
     </>
   );
 };
