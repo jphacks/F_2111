@@ -29,16 +29,16 @@ const Upload = () => {
     console.log('acceptedFiles:', acceptedFiles);
     const tempImage = uploadImage;
     acceptedFiles.forEach((file: File) => {
-      tempImage.map((image) => image.name).includes(file.name)
-        ? console.log(`${file.name} is Duplicate`)
-        : tempImage.push(file);
+      tempImage.map((image) => image.name).includes(file.name) ?
+        console.log(`${file.name} is Duplicate`) :
+        tempImage.push(file);
     });
     setUploadImage(tempImage);
     console.log('uploadImage:', uploadImage);
   };
 
   // Dropzonの設定
-  const { getRootProps, getInputProps, open, isDragActive, acceptedFiles } =
+  const { getRootProps, getInputProps, open, isDragActive } =
     useDropzone({
       onDrop,
       accept: 'image/*',
@@ -46,8 +46,8 @@ const Upload = () => {
     });
 
   // Drop成功したファイル＆サイズ集
-  const files = uploadImage.map((file: File, index: number) => (
-    <li key={index}>
+  const files = uploadImage.map((file: File) => (
+    <li key={file.name}>
       <Text>
         {file.name} - {file.size} bytes
       </Text>
@@ -65,27 +65,17 @@ const Upload = () => {
     description: '',
   });
 
-  const [insertTitle, setInsertTitle] = useState<Boolean>(false);
+  const [insertTitle, setInsertTitle] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name == 'title') setInsertTitle(true);
+    if (e.target.name === 'title') setInsertTitle(true);
     setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  // 投稿時のAction
-  const handleSubmit = () => {
-    const submitData = {
-      title: state.title,
-      description: state.description,
-    };
-    uploadFile();
-    console.log('Submitted!', submitData);
   };
 
   // S3にファイルをUpload
   const uploadFile = () => {
     if (uploadImage === []) return;
 
-    const uuid = crypto.randomUUID();
+    const uuid: string = crypto.randomUUID();
     uploadImage.forEach((image: File) => {
       const params = {
         Body: image,
@@ -98,6 +88,16 @@ const Upload = () => {
         if (err) console.log(err);
       });
     });
+  };
+  
+  // 投稿時のAction
+  const handleSubmit = () => {
+    const submitData = {
+      title: state.title,
+      description: state.description,
+    };
+    uploadFile();
+    console.log('Submitted!', submitData);
   };
 
   // TODO: UI設計
@@ -133,11 +133,11 @@ const Upload = () => {
         <FormControl id="images" isRequired>
           <FormLabel>Upload Images</FormLabel>
           <Box {...getRootProps()} height="100px" border="1px">
-            <input {...getInputProps()} />
+            <Input {...getInputProps()} />
             {isDragActive ? (
-              <p>Drop the files here ...</p>
+              <Text>Drop the files here ...</Text>
             ) : (
-              <p>Drag 'n' drop some files here</p>
+              <Text>Drag 'n' drop some files here</Text>
             )}
             <Button type="submit" onClick={open}>
               Select files
