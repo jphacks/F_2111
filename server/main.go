@@ -18,6 +18,7 @@ func main() {
 	if err != nil {
 		logger.Fatal(err)
 	}
+	defer db.Close()
 	photoRepository := database.NewPhotoRepository(db)
 	photoUC := usecase.NewPhotoUseCase(photoRepository)
 
