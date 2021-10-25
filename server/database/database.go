@@ -26,7 +26,6 @@ func NewDB() (db *sqlx.DB, err error) {
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
 	sqlDB.SetMaxOpenConns(100)
 
-	defer sqlDB.Close()
 	for {
 		err := sqlDB.Ping()
 		if err == nil {
