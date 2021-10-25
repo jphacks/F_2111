@@ -29,9 +29,9 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error
 	return photo.ConvertToDTO(), err
 }
 
-func (p *PhotoUseCase) GetPhotos(withDetail bool) (photoDTOs []*dto.PhotoDTO, err error) {
+func (p *PhotoUseCase) GetPhotos(withDetail bool, pageSize int) (photoDTOs []*dto.PhotoDTO, err error) {
 	var photos []*entity.Photo
-	photos, err = p.photoRepository.FindAll(withDetail)
+	photos, err = p.photoRepository.FindAll(withDetail, pageSize)
 	if err != nil {
 		err = fmt.Errorf("get photos: %w", err)
 		return

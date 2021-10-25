@@ -70,7 +70,18 @@ func (p *PhotoHandler) GetPhotos(c *gin.Context) {
 		}
 	}
 
-	photos, err := p.photoUC.GetPhotos(withDetail)
+	var pageSize int
+	if c.Query("page-size") != "" {
+		var err error
+		pageSize, err = strconv.Atoi(c.Query("page-size"))
+		if err != nil {
+			logger.Errorf("page-size invalid, %v : %v", c.Query("page-size"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	photos, err := p.photoUC.GetPhotos(withDetail, pageSize)
 	if err != nil {
 		logger.Errorf("get photos: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})

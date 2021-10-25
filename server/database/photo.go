@@ -1,8 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
+	"strconv"
 )
 
 type PhotoRepository struct {
@@ -31,20 +33,27 @@ func (r *PhotoRepository) Create(photo *entity.Photo) error {
 	return err
 }
 
-func (r *PhotoRepository) FindAll(withDetail bool) ([]*entity.Photo, error) {
+func (r *PhotoRepository) FindAll(withDetail bool, pageSize int) ([]*entity.Photo, error) {
 	var photos []*entity.Photo
 	var query string
+	var params []interface{}
+
 	if withDetail {
 		//TODO: まだGPS情報をDBに保存していない．スキーマができたらそれを取得するクエリを使うようにする
 		query = "SELECT id, url, title, description, created_at, updated_at FROM photos"
 	} else {
 		query = "SELECT id, url FROM photos"
 	}
+	if pageSize != 0 {
+		query += " LIMIT ?"
+		params = append(params, strconv.Itoa(pageSize))
+	}
+
 	stmt, err := r.db.Preparex(query)
 	if err != nil {
 		return photos, err
 	}
-	err = stmt.Select(&photos)
+	err = stmt.Select(&photos, params...)
 	if err != nil {
 		return photos, err
 	}
