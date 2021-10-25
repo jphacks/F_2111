@@ -70,6 +70,7 @@ const Upload = (): JSX.Element => {
   // 投稿時のAction
   const handleSubmit = () => {
     const submitData = {
+      id: state.id,
       title: state.title,
       description: state.description,
     };
