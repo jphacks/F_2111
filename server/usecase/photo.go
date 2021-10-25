@@ -28,3 +28,18 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error
 
 	return photo.ConvertToDTO(), err
 }
+
+func (p *PhotoUseCase) GetPhotos(withDetail bool) (photoDTOs []*dto.PhotoDTO, err error) {
+	var photos []*entity.Photo
+	photos, err = p.photoRepository.FindAll(withDetail)
+	if err != nil {
+		err = fmt.Errorf("get photos: %w", err)
+		return
+	}
+
+	for _, photo := range photos {
+		photoDTOs = append(photoDTOs, photo.ConvertToDTO())
+	}
+
+	return
+}

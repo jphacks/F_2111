@@ -26,7 +26,6 @@ func NewServer(photoUC *usecase.PhotoUseCase) (e *gin.Engine) {
 
 	photoHandler := handler.NewPhotoHandler(photoUC)
 
-
 	v1 := e.Group("/api/v1")
 
 	v1.GET("/", func(c *gin.Context) {
@@ -36,7 +35,7 @@ func NewServer(photoUC *usecase.PhotoUseCase) (e *gin.Engine) {
 	})
 
 	photos := v1.Group("/photos")
-	//photos.GET("", photoHandler.GetPhotos)
+	photos.GET("", photoHandler.GetPhotos)
 	photos.POST("", photoHandler.StorePhoto)
 	return
 }
