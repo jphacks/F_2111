@@ -62,7 +62,7 @@ func (r *PhotoRepository) FindAll(withDetail bool, pageSize int) ([]*entity.Phot
 
 func (r *PhotoRepository) FindByID(id string) (*entity.Photo, error) {
 	photo := &entity.Photo{}
-	stmt, err := r.db.Preparex("SELECT * FROM photos WHERE id = ? ")
+	stmt, err := r.db.Preparex("SELECT id, url, title, description, created_at, updated_at FROM photos WHERE id = ? ")
 	if err != nil {
 		return photo, err
 	}
