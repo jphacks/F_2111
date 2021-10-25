@@ -7,6 +7,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
+  Textarea,
   Button,
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
@@ -41,7 +42,7 @@ const Upload = () => {
   });
 
   const [insertTitle, setInsertTitle] = useState<boolean>(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
     if (e.target.name === 'title') setInsertTitle(true);
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -97,12 +98,12 @@ const Upload = () => {
         <FormControl id="description">
           <Box style={{ marginTop: "10px", marginBottom: "10px" }}>
             <FormLabel>Description</FormLabel>
-            <Input
-              type="text"
+            <Textarea
               name="description"
-              placeholder="分かりやすい説明"
+              placeholder="分かりやすい説明..."
               value={state.description}
               onChange={handleChange}
+              height="100px"
             />
           </Box>
         </FormControl>
@@ -112,9 +113,9 @@ const Upload = () => {
             <Input {...getInputProps()} />
             <Box marginBottom="10px">
               {isDragActive ? (
-                <Text>Drop the files here ...</Text>
+                <Text>画像ファイルを追加する</Text>
               ) : (
-                <Text>Drag 'n' drop some files here</Text>
+                <Text>画像ファイルをドロップしてください</Text>
               )}
             </Box>
             <Button type="submit" onClick={open} size="sm">
