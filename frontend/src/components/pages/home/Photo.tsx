@@ -31,8 +31,9 @@ export const Photo = ({
               height={300} 
               width={450} 
               quality={30}
+              alt={url}
               placeholder="blur"
-              blurDataURL="/loading.svg"
+              blurDataURL={url}
             />
           </a>
         </Link>
