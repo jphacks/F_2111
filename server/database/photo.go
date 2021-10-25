@@ -1,17 +1,26 @@
 package database
 
 import (
+	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
 	"strconv"
 )
 
 type PhotoRepository struct {
-	db *sqlx.DB
+	db    *sqlx.DB
+	creds *credentials.Credentials
 }
 
-func NewPhotoRepository(db *sqlx.DB) *PhotoRepository {
-	return &PhotoRepository{db: db}
+func NewPhotoRepository(db *sqlx.DB, creds *credentials.Credentials) *PhotoRepository {
+	return &PhotoRepository{
+		db:    db,
+		creds: creds,
+	}
 }
 
 func (r *PhotoRepository) Create(photo *entity.Photo) error {
@@ -71,4 +80,23 @@ func (r *PhotoRepository) FindByID(id string) (*entity.Photo, error) {
 		return photo, err
 	}
 	return photo, err
+}
+
+func (r *PhotoRepository) DownloadFromS3(id, region, bucketName string) (*s3.GetObjectOutput, error) {
+	sess := session.Must(session.NewSession(&aws.Config{
+		Credentials: r.creds,
+		Region:      aws.String(region),
+	}))
+
+	svc := s3.New(sess)
+
+	obj, err := svc.GetObject(&s3.GetObjectInput{
+		Bucket: aws.String(bucketName),
+		Key:    aws.String(id),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("download photo id: %s, err: %w", id, err)
+	}
+
+	return obj, nil
 }

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
@@ -17,7 +18,16 @@ func NewPhotoUseCase(photoRepository repository.Photo) *PhotoUseCase {
 }
 
 func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error) {
-	var err error
+
+	region := os.Getenv("AWS_REGION")
+	bucketName := os.Getenv("AWS_S3_BUCKET_NAME")
+
+	_, err := p.photoRepository.DownloadFromS3(photoDTO.ID, region, bucketName)
+	if err != nil {
+		return nil, fmt.Errorf("download from s3: %w", err)
+	}
+	//TODO: exifを抜き出す
+
 	photo := &entity.Photo{}
 	photo.ConvertFromDTO(photoDTO)
 
