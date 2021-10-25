@@ -1,5 +1,14 @@
-import { useCallback, useState } from 'react';
-import { Box, Button, Input } from '@chakra-ui/react';
+import { useState } from 'react';
+import {
+  Heading,
+  Text,
+  Box,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Button,
+} from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,7 +26,7 @@ const Upload = () => {
   const [uploadImage, setUploadImage] = useState<Array<File>>([]);
 
   // DropBoxにFileDrop時のAction
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = (acceptedFiles: File[]) => {
     console.log('acceptedFiles:', acceptedFiles);
     const tempImage = uploadImage;
     acceptedFiles.forEach((file: File) => {
@@ -27,49 +36,50 @@ const Upload = () => {
     });
     setUploadImage(tempImage);
     console.log('uploadImage:', uploadImage);
-  }, []);
+  };
 
   // Dropzonの設定
   const { getRootProps, getInputProps, open, isDragActive, acceptedFiles } =
     useDropzone({
       onDrop,
       accept: 'image/*',
-      multiple: true,
       noClick: true,
     });
 
   // Drop成功したファイル＆サイズ集
-  const files = uploadImage.map((file: File) => (
-    <li key={file.name}>
-      {file.name} - {file.size} bytes
+  const files = uploadImage.map((file: File, index: number) => (
+    <li key={index}>
+      <Text>
+        {file.name} - {file.size} bytes
+      </Text>
     </li>
   ));
 
-  // 投稿Title
-  const [title, setTitle] = useState<string>('');
-  const handleTitleInsert = (event: any) => {
-    setTitle(event.target.value);
-  };
+  // 投稿内容の変数
+  const [state, setState] = useState<{
+    id: number;
+    title: string;
+    description?: string;
+  }>({
+    id: 0,
+    title: '',
+    description: '',
+  });
 
-  // 投稿Description
-  const [description, setDescription] = useState<string>('');
-  const handleDescriptionInsert = (event: any) => {
-    setDescription(event.target.value);
+  const [insertTitle, setInsertTitle] = useState<Boolean>(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name == 'title') setInsertTitle(true);
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
   // 投稿時のAction
   const handleSubmit = () => {
     const submitData = {
-      res: {
-        title: title,
-        description: description,
-      },
+      title: state.title,
+      description: state.description,
     };
-    if (title === '') window.alert('タイトルを記入してください！');
-    else {
-      uploadFile();
-      console.log('Submitted!', submitData);
-    }
+    uploadFile();
+    console.log('Submitted!', submitData);
   };
 
   // S3にファイルをUpload
@@ -77,12 +87,11 @@ const Upload = () => {
     if (uploadImage === []) return;
 
     const uuid = uuidv4();
-    uploadImage.forEach((image, index) => {
-      let fileType = image.type.split('/', 2)[1];
+    uploadImage.forEach((image: File) => {
       const params = {
         Body: image,
         Bucket: AWS_S3_BUCKET,
-        Key: `${uuid}_${index}.${fileType}`,
+        Key: `${uuid}-${image.name}`,
         ACL: 'public-read',
       };
       console.log(params);
@@ -95,27 +104,59 @@ const Upload = () => {
   // TODO: UI設計
   return (
     <>
-      <h1>投稿ページ</h1>
-      <h4>Title</h4>
-      <Input type="text" value={title} onChange={handleTitleInsert} />
-      <h4>Description</h4>
-      <Input
-        type="text"
-        value={description}
-        onChange={handleDescriptionInsert}
-      />
-      <Box {...getRootProps()} height="100px" border="1px">
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here</p>
-        )}
-        <Button onClick={open}>Select files</Button>
-      </Box>
-      <h4>Added Images</h4>
-      <ul>{files}</ul>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Heading>投稿ページ</Heading>
+      <FormControl id="post">
+        <FormControl
+          id="title"
+          isRequired
+          isInvalid={insertTitle && state.title === ''}
+        >
+          <FormLabel>Title</FormLabel>
+          <Input
+            type="text"
+            name="title"
+            placeholder="かっこいいタイトル"
+            value={state.title}
+            onChange={handleChange}
+          />
+          <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
+        </FormControl>
+        <FormControl id="description">
+          <FormLabel>Description</FormLabel>
+          <Input
+            type="text"
+            name="description"
+            placeholder="分かりやすい説明"
+            value={state.description}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl id="images" isRequired>
+          <FormLabel>Upload Images</FormLabel>
+          <Box {...getRootProps()} height="100px" border="1px">
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag 'n' drop some files here</p>
+            )}
+            <Button type="submit" onClick={open}>
+              Select files
+            </Button>
+          </Box>
+          <Text>Added Images</Text>
+          <ul>{files}</ul>
+        </FormControl>
+        <FormControl id="submit">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            isDisabled={state.title === '' || uploadImage.length === 0}
+          >
+            Submit
+          </Button>
+        </FormControl>
+      </FormControl>
     </>
   );
 };
