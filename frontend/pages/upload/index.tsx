@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
 
 const AWS_S3_BUCKET = 'baetoru-public';
 const AWS_REGION = 'ap-northeast-1';
@@ -86,7 +85,7 @@ const Upload = () => {
   const uploadFile = () => {
     if (uploadImage === []) return;
 
-    const uuid = uuidv4();
+    const uuid = crypto.randomUUID();
     uploadImage.forEach((image: File) => {
       const params = {
         Body: image,
