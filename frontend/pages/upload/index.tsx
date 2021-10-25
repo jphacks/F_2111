@@ -11,6 +11,10 @@ import {
   Input,
   Textarea,
   Button,
+  useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import AWS from 'aws-sdk';
@@ -29,9 +33,37 @@ const Style = {
 
 const Upload = (): JSX.Element => {
 
-  // Dropzonの設定
-  const { getRootProps, getInputProps, open, isDragActive, acceptedFiles } =
+  const toast = useToast()
+  const pop = (Body: string, Status: "success" | "error") => {
+    toast({
+      title: Body,
+      status: Status,
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  const message = (Body: string, Status: "success" | "error") => (
+    <Alert status={Status} size="small">
+      <AlertIcon />
+      <AlertTitle mr={2}>{Body}</AlertTitle>
+    </Alert>
+  );
+
+  const [file, setFile] = useState<File>();
+  const onDropAccepted = (acceptedFile: File[]) => {
+    setFile(acceptedFile[0]);
+    if (file === undefined) pop("画像をアップロードしました", "success");
+    else pop("画像を更新しました", "success");
+  };
+  const onDropRejected = () => {
+    pop("このファイルはアップロードできません", "error");
+  };
+  // Dropzoneの設定
+  const { getRootProps, getInputProps, open, isDragActive } =
     useDropzone({
+      onDropAccepted,
+      onDropRejected,
       accept: 'image/*',
       noClick: true,
     });
@@ -53,27 +85,46 @@ const Upload = (): JSX.Element => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
+  const [clickSubmit, setClickSubmit] = useState<boolean>(false);
+  const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
+
   // S3にファイルをUpload
   const uploadFile = () => {
 
     const uuid = String(crypto.randomUUID());
     const params = {
-      Body: acceptedFiles[0],
+      Body: file,
       Bucket: AWS_S3_BUCKET,
-      Key: `${uuid}-${acceptedFiles[0].name}`,
+      Key: `${uuid}-${file.name}`,
       ACL: 'public-read',
     };
-    myBucket.putObject(params).send();
+    myBucket.putObject(params).send((err) => {
+      if (err) {
+        setErrorSubmit(true);
+        setClickSubmit(false);
+      }
+    });
+
+    return uuid;
   };
 
   // 投稿時のAction
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const uuid = uploadFile();
     const submitData = {
-      id: state.id,
+      id: uuid,
       title: state.title,
       description: state.description,
     };
-    uploadFile();
+    const path = "http://localhost:3000/api/mock_photos";
+    await fetch(path, {
+      method: 'POST',
+      body: JSON.stringify(submitData),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+
+    setClickSubmit(true);
   };
 
   // TODO: UI設計
@@ -130,11 +181,11 @@ const Upload = (): JSX.Element => {
           </Box>
           <Box style={Style.Box}>
             <Heading size="sm">Added Image</Heading>
-            {acceptedFiles.length !== 0 && (
+            {file !== undefined && (
               <>
-                <Image src={URL.createObjectURL(acceptedFiles[0])} width={200} quality={100} />
+                <Image src={URL.createObjectURL(file)} width={200} quality={100} />
                 <Text>
-                  {acceptedFiles[0].name} - {acceptedFiles[0].size} bytes
+                  {file.name} - {file.size} bytes
                 </Text>
               </>
             )}
@@ -145,13 +196,15 @@ const Upload = (): JSX.Element => {
             <Button
               type="submit"
               onClick={handleSubmit}
-              isDisabled={state.title === '' || acceptedFiles.length === 0}
+              isLoading={clickSubmit}
+              isDisabled={state.title === '' || file === undefined}
             >
               Submit
             </Button>
           </Box>
         </FormControl>
       </FormControl>
+      {errorSubmit && message("予期せぬエラーが起こりました", "error")}
     </>
   );
 };
