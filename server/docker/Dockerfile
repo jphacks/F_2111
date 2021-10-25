@@ -7,10 +7,11 @@ ENV GO111MODULE=on
 
 WORKDIR /workdir
 
-COPY go.mod  ./
-RUN go mod download
-
 COPY . .
+
+
+# 本来なら依存のダウンロードは「COPY . .」より先に行うべきだが，ホストの方で上書きするとうまく動かない場合があるようなのでこの順番にしている
+RUN go mod tidy -v
 RUN go build -o baetoru .
 
 FROM gcr.io/distroless/static-debian10:latest
