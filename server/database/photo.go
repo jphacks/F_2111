@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
 	"strconv"
