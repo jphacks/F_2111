@@ -15,7 +15,7 @@ import {
   useToast,
   Alert,
   AlertIcon,
-  AlertTitle,
+  AlertTitle
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import { useUploadForm } from '../../src/hooks/useUploadForm';
@@ -145,14 +145,14 @@ const Upload = (): JSX.Element => {
             </Button>
             </Box>
             <Box style={Style.Box}>
-              <Heading size="sm">Added Image</Heading>
+              <Heading size="sm">[Added Image]</Heading>
               {file !== undefined && (
-                <>
+                <Box style={Style.Box}>
                   <Image src={URL.createObjectURL(file)} width={200} quality={100} />
                   <Text>
                     {file.name} - {file.size} bytes
-                </Text>
-                </>
+                  </Text>
+                </Box>
               )}
             </Box>
           </FormControl>
