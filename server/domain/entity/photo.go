@@ -65,28 +65,30 @@ func NewPhoto(id string, url string, title string, description string, make stri
 
 func (p *Photo) ConvertToDTO() *dto.PhotoDTO {
 	return &dto.PhotoDTO{
-		ID:                      p.ID,
-		URL:                     p.URL,
-		Title:                   p.Title,
-		Description:             p.Description,
-		Make:                    p.Make,
-		Model:                   p.Model,
-		LensModel:               p.LensModel,
-		FNumber:                 p.FNumber,
-		Flash:                   p.Flash,
-		FocalLength:             p.FocalLength,
-		PhotoGraphicSensitivity: p.PhotoGraphicSensitivity,
-		ExposureBiasValue:       p.ExposureBiasValue,
-		ShutterSpeedValue:       p.ShutterSpeedValue,
-		WhiteBalance:            p.WhiteBalance,
-		GPSLatitude:             p.GPSLatitude,
-		GPSLongitude:            p.GPSLongitude,
-		GPSAltitude:             p.GPSAltitude,
-		GPSImgDirectionRef:      p.GPSImgDirectionRef,
-		GPSImgDirection:         p.GPSImgDirection,
-		DatetimeOriginal:        p.DatetimeOriginal,
-		CreatedAt:               p.CreatedAt,
-		UpdatedAt:               p.UpdatedAt,
+		ID:          p.ID,
+		URL:         p.URL,
+		Title:       p.Title,
+		Description: p.Description,
+		Exif: dto.Exif{
+			Make:                    p.Make,
+			Model:                   p.Model,
+			LensModel:               p.LensModel,
+			FNumber:                 p.FNumber,
+			Flash:                   p.Flash,
+			FocalLength:             p.FocalLength,
+			PhotoGraphicSensitivity: p.PhotoGraphicSensitivity,
+			ExposureBiasValue:       p.ExposureBiasValue,
+			ShutterSpeedValue:       p.ShutterSpeedValue,
+			WhiteBalance:            p.WhiteBalance,
+			GPSLatitude:             p.GPSLatitude,
+			GPSLongitude:            p.GPSLongitude,
+			GPSAltitude:             p.GPSAltitude,
+			GPSImgDirectionRef:      p.GPSImgDirectionRef,
+			GPSImgDirection:         p.GPSImgDirection,
+			DatetimeOriginal:        p.DatetimeOriginal,
+		},
+		CreatedAt: p.CreatedAt,
+		UpdatedAt: p.UpdatedAt,
 	}
 }
 
@@ -95,22 +97,22 @@ func (p *Photo) ConvertFromDTO(photoDTO *dto.PhotoDTO) {
 	p.URL = photoDTO.URL
 	p.Title = photoDTO.Title
 	p.Description = photoDTO.Description
-	p.Make = photoDTO.Make
-	p.Model = photoDTO.Model
-	p.LensModel = photoDTO.LensModel
-	p.FNumber = photoDTO.FNumber
-	p.Flash = photoDTO.Flash
-	p.FocalLength = photoDTO.FocalLength
-	p.PhotoGraphicSensitivity = photoDTO.PhotoGraphicSensitivity
-	p.ExposureBiasValue = photoDTO.ExposureBiasValue
-	p.ShutterSpeedValue = photoDTO.ShutterSpeedValue
-	p.WhiteBalance = photoDTO.WhiteBalance
-	p.GPSLatitude = photoDTO.GPSLatitude
-	p.GPSLongitude = photoDTO.GPSLongitude
-	p.GPSAltitude = photoDTO.GPSAltitude
-	p.GPSImgDirectionRef = photoDTO.GPSImgDirectionRef
-	p.GPSImgDirection = photoDTO.GPSImgDirection
-	p.DatetimeOriginal = photoDTO.DatetimeOriginal
+	p.Make = photoDTO.Exif.Make
+	p.Model = photoDTO.Exif.Model
+	p.LensModel = photoDTO.Exif.LensModel
+	p.FNumber = photoDTO.Exif.FNumber
+	p.Flash = photoDTO.Exif.Flash
+	p.FocalLength = photoDTO.Exif.FocalLength
+	p.PhotoGraphicSensitivity = photoDTO.Exif.PhotoGraphicSensitivity
+	p.ExposureBiasValue = photoDTO.Exif.ExposureBiasValue
+	p.ShutterSpeedValue = photoDTO.Exif.ShutterSpeedValue
+	p.WhiteBalance = photoDTO.Exif.WhiteBalance
+	p.GPSLatitude = photoDTO.Exif.GPSLatitude
+	p.GPSLongitude = photoDTO.Exif.GPSLongitude
+	p.GPSAltitude = photoDTO.Exif.GPSAltitude
+	p.GPSImgDirectionRef = photoDTO.Exif.GPSImgDirectionRef
+	p.GPSImgDirection = photoDTO.Exif.GPSImgDirection
+	p.DatetimeOriginal = photoDTO.Exif.DatetimeOriginal
 	p.CreatedAt = photoDTO.CreatedAt
 	p.UpdatedAt = photoDTO.UpdatedAt
 }

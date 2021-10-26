@@ -3,10 +3,16 @@ package dto
 import "time"
 
 type PhotoDTO struct {
-	ID                      string     `json:"id"`
-	URL                     string     `json:"url"`
-	Title                   string     `json:"title"`
-	Description             string     `json:"description"`
+	ID          string    `json:"id"`
+	URL         string    `json:"url"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Exif        Exif      `json:"exif"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+type Exif struct {
 	Make                    *string    `json:"make"`
 	Model                   *string    `json:"model"`
 	LensModel               *string    `json:"lens_model"`
@@ -23,6 +29,4 @@ type PhotoDTO struct {
 	GPSImgDirectionRef      *string    `json:"gps_img_direction_ref"`
 	GPSImgDirection         *float64   `json:"gps_img_direction"`
 	DatetimeOriginal        *time.Time `json:"datetime_original"`
-	CreatedAt               time.Time  `json:"created_at"`
-	UpdatedAt               time.Time  `json:"updated_at"`
 }
