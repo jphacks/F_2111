@@ -15,18 +15,18 @@ type PhotoDTO struct {
 type Exif struct {
 	Make                    *string    `json:"make"`
 	Model                   *string    `json:"model"`
-	LensModel               *string    `json:"lens_model"`
+	LensModel               *string    `json:"lensModel"`
 	FNumber                 *float64   `json:"fnumber"`
 	Flash                   *uint16    `json:"flash"`
-	FocalLength             *float64   `json:"focal_length"`
-	PhotoGraphicSensitivity *uint16    `json:"photo_graphic_sensitivity"`
-	ExposureBiasValue       *float64   `json:"exposure_bias_value"`
-	ShutterSpeedValue       *float64   `json:"shutter_speed_value"`
-	WhiteBalance            *uint16    `json:"white_balance"`
-	GPSLatitude             *float64   `json:"gps_latitude"`
-	GPSLongitude            *float64   `json:"gps_longitude"`
-	GPSAltitude             *float64   `json:"gps_altitude"`
-	GPSImgDirectionRef      *string    `json:"gps_img_direction_ref"`
-	GPSImgDirection         *float64   `json:"gps_img_direction"`
-	DatetimeOriginal        *time.Time `json:"datetime_original"`
+	FocalLength             *float64   `json:"focalLength"`
+	PhotoGraphicSensitivity *uint16    `json:"photoGraphicSensitivity"`
+	ExposureBiasValue       *float64   `json:"exposureBiasValue"`
+	ShutterSpeedValue       *float64   `json:"shutterSpeedValue"`
+	WhiteBalance            *uint16    `json:"whiteBalance"`
+	GPSLatitude             *float64   `json:"gpsLatitude"`
+	GPSLongitude            *float64   `json:"gpsLongitude"`
+	GPSAltitude             *float64   `json:"gpsAltitude"`
+	GPSImgDirectionRef      *string    `json:"gpsImgDirectionRef"`
+	GPSImgDirection         *float64   `json:"gpsImgDirection"`
+	DatetimeOriginal        *time.Time `json:"datetimeOriginal"`
 }
