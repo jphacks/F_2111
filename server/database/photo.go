@@ -64,11 +64,13 @@ func (r *PhotoRepository) FindAll(withDetail bool, pageSize int) ([]*entity.Phot
 	if err != nil {
 		return photos, err
 	}
+
 	return photos, err
 }
 
 func (r *PhotoRepository) FindByID(id string) (*entity.Photo, error) {
 	photo := &entity.Photo{}
+
 	stmt, err := r.db.Preparex("SELECT id, url, title, description, make, model, lens_model, fnumber, flash, focal_length, photo_graphic_sensitivity, exposure_bias_value, shutter_speed_value, white_balance, gps_latitude, gps_longitude, gps_altitude, gps_img_direction_ref, gps_img_direction, datetime_original, created_at, updated_at FROM photos WHERE id = ? ")
 	if err != nil {
 		return photo, err
@@ -78,6 +80,7 @@ func (r *PhotoRepository) FindByID(id string) (*entity.Photo, error) {
 	if err != nil {
 		return photo, err
 	}
+
 	return photo, err
 }
 
