@@ -5,7 +5,7 @@ ALTER TABLE photos ADD `model` TEXT;
 -- レンズのモデル
 ALTER TABLE photos ADD `lens_model` TEXT;
 -- F値
-ALTER TABLE photos ADD `fnumber` FLOAT;
+ALTER TABLE photos ADD `fnumber` DECIMAL(10, 7);
 -- フラッシュ
 ALTER TABLE photos ADD `flash` INT UNSIGNED;
 
@@ -22,7 +22,7 @@ ALTER TABLE photos ADD `exposure_bias_value` DECIMAL(10, 7);
 ALTER TABLE photos ADD `shutter_speed_value`   DECIMAL(21, 15);
 
 -- 0=自動 1=マニュアル その他=予約
-ALTER TABLE photos ADD `white_balance` INT;
+ALTER TABLE photos ADD `white_balance` INT UNSIGNED;
 
 -- 緯度
 ALTER TABLE photos ADD `gps_latitude`   DECIMAL(10, 7);
