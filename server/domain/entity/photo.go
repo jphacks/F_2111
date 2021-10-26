@@ -284,6 +284,5 @@ func (p *Photo) FillExif(ifd *exif.Ifd) error {
 	p.GPSLongitude = &longitudeVal
 	altitudeVal := float64(gpsInfo.Altitude)
 	p.GPSAltitude = &altitudeVal
-	fmt.Println(p)
 	return nil
 }
