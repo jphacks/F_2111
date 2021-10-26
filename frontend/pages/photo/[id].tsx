@@ -21,11 +21,15 @@ const Photo = (props: PhotoProps): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box textAlign="center" margin="auto">
-        <Box padding="40px 0" background="#333333">
+        <Box 
+          padding="40px 0" 
+          background="#333333" 
+          width="100vmax"
+        >
           <Box 
             boxShadow="8px 8px 8px rgba(0,0,0,0.7)" 
             height={400} 
-            width={600} 
+            width={600}
             margin="0 auto 20px" 
             borderRadius="5px" 
             overflow="hidden"

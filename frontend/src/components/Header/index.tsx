@@ -10,6 +10,10 @@ const Links = [{
     text: 'About', 
     path: '/about',
   },
+  {
+    text: '投稿',
+    path: '/upload',
+  }
 //   {
 //     text: 'Hoge', 
 //     path: '/hoge',
