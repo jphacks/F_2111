@@ -30,7 +30,7 @@ const Photo = (props: PhotoProps): JSX.Element => {
             borderRadius="5px" 
             overflow="hidden"
           >
-            <Image src={res.url} height={400} width={600} quality={80}/>
+            <Image src={res.url} height={400} width={600} quality={80} priority/>
           </Box>
           <chakra.h1 fontSize="2rem" textColor="white" fontWeight="800">{res.title}</chakra.h1>
         </Box>
