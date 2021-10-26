@@ -1,13 +1,16 @@
 package usecase
 
 import (
+	"bytes"
 	"fmt"
-	"os"
-	"strings"
-
+	"github.com/dsoprea/go-exif/v3"
+	exifcommon "github.com/dsoprea/go-exif/v3/common"
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/domain/repository"
+	"io"
+	"os"
+	"strings"
 )
 
 type PhotoUseCase struct {
@@ -25,14 +28,41 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error
 
 	strs := strings.Split(photoDTO.URL, "/")
 	id := strs[len(strs)-1]
-	_, err := p.photoRepository.DownloadFromS3(id, region, bucketName)
+
+	obj, err := p.photoRepository.DownloadFromS3(id, region, bucketName)
 	if err != nil {
 		return nil, fmt.Errorf("download from s3: %w", err)
 	}
-	//TODO: exifを抜き出す
+
+	buf := new(bytes.Buffer)
+	_, err = io.Copy(buf, obj.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to copy: %w", err)
+	}
+	rawExif, err := exif.SearchAndExtractExif(buf.Bytes())
+	if err != nil {
+		return nil, fmt.Errorf("extract exif: %w", err)
+	}
+	im, err := exifcommon.NewIfdMappingWithStandard()
+	if err != nil {
+		return nil, fmt.Errorf(": %w", err)
+	}
+
+	ti := exif.NewTagIndex()
+
+	_, index, err := exif.Collect(im, ti, rawExif)
+	if err != nil {
+		return nil, fmt.Errorf(": %w", err)
+	}
+
+	ifd := index.RootIfd
 
 	photo := &entity.Photo{}
 	photo.ConvertFromDTO(photoDTO)
+	err = photo.FillExif(ifd)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fill exif: %w", err)
+	}
 
 	err = p.photoRepository.Create(photo)
 	if err != nil {
