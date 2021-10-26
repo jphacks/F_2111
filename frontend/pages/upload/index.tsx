@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   Box,
+  Container,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -26,7 +27,7 @@ const Style = {
 
 const Upload = (): JSX.Element => {
   const {
-    state, 
+    state,
     handleChange,
     handleSubmit
   } = useUploadForm();
@@ -65,18 +66,19 @@ const Upload = (): JSX.Element => {
       accept: 'image/*',
       noClick: true,
     });
-    
-  const { 
-    type, 
-    style, 
-    onChange, 
+
+  const {
+    type,
+    style,
+    onChange,
     onClick,
-    autoComplete, 
+    autoComplete,
     ref,
   } = getInputProps();
 
-  const [insertTitle, setInsertTitle] = useState<boolean>(false);
+  const [noTitle, setNoTitle] = useState<boolean>(false);
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (event.target.name === "title" && state.title === "") setNoTitle(true);
     handleChange(event);
   };
 
@@ -95,78 +97,80 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Heading>投稿ページ</Heading>
-      <FormControl id="post">
-        <FormControl
-          id="title"
-          isRequired
-          isInvalid={insertTitle && state.title === ''}
-        >
-          <Box style={Style.Box}>
-            <FormLabel>Title</FormLabel>
-            <Input
-              type="text"
-              name="title"
-              placeholder="かっこいいタイトル"
-              value={state.title}
-              onChange={onChangeForm}
-            />
-            <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
-          </Box>
-        </FormControl>
-        <FormControl id="description">
-          <Box style={Style.Box}>
-            <FormLabel>Description</FormLabel>
-            <Textarea
-              name="description"
-              placeholder="分かりやすい説明..."
-              value={state.description}
-              onChange={onChangeForm}
-              height="100px"
-            />
-          </Box>
-        </FormControl>
-        <FormControl id="images" isRequired>
-          <FormLabel>Upload Images</FormLabel>
-          <Box {...getRootProps()} style={Style.Box} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
-            <Input type={type} multiple={false} onChange={onChange} onClick={onClick} autoComplete={autoComplete} tabIndex={-1} ref={ref} style={style} />
-            <Box marginBottom="10px">
-              {isDragActive ? (
-                <Text>画像ファイルを追加する</Text>
-              ) : (
-                <Text>画像ファイルをドロップしてください</Text>
+      <Container>
+        <Heading>投稿ページ</Heading>
+        <FormControl id="post">
+          <FormControl
+            id="title"
+            isRequired
+            isInvalid={noTitle && state.title === ''}
+          >
+            <Box style={Style.Box}>
+              <FormLabel>Title</FormLabel>
+              <Input
+                type="text"
+                name="title"
+                placeholder="かっこいいタイトル"
+                value={state.title}
+                onChange={onChangeForm}
+              />
+              <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
+            </Box>
+          </FormControl>
+          <FormControl id="description">
+            <Box style={Style.Box}>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                name="description"
+                placeholder="分かりやすい説明..."
+                value={state.description}
+                onChange={onChangeForm}
+                height="100px"
+              />
+            </Box>
+          </FormControl>
+          <FormControl id="images" isRequired>
+            <FormLabel>Upload Images</FormLabel>
+            <Box {...getRootProps()} style={Style.Box} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
+              <Input type={type} multiple={false} onChange={onChange} onClick={onClick} autoComplete={autoComplete} tabIndex={-1} ref={ref} style={style} />
+              <Box marginBottom="10px">
+                {isDragActive ? (
+                  <Text>画像ファイルを追加する</Text>
+                ) : (
+                  <Text>画像ファイルをドロップしてください</Text>
+                )}
+              </Box>
+              <Button type="submit" onClick={open} size="sm">
+                Select files
+            </Button>
+            </Box>
+            <Box style={Style.Box}>
+              <Heading size="sm">Added Image</Heading>
+              {file !== undefined && (
+                <>
+                  <Image src={URL.createObjectURL(file)} width={200} quality={100} />
+                  <Text>
+                    {file.name} - {file.size} bytes
+                </Text>
+                </>
               )}
             </Box>
-            <Button type="submit" onClick={open} size="sm">
-              Select files
+          </FormControl>
+          <FormControl id="submit">
+            <Box style={Style.Box}>
+              <Button
+                type="submit"
+                onClick={onSubmitForm}
+                isLoading={clickSubmit}
+                isDisabled={state.title === '' || file === undefined}
+              >
+                Submit
             </Button>
-          </Box>
-          <Box style={Style.Box}>
-            <Heading size="sm">Added Image</Heading>
-            {file !== undefined && (
-              <>
-                <Image src={URL.createObjectURL(file)} width={200} quality={100} />
-                <Text>
-                  {file.name} - {file.size} bytes
-                </Text>
-              </>
-            )}
-          </Box>
+            </Box>
+          </FormControl>
         </FormControl>
-        <FormControl id="submit">
-          <Box style={Style.Box}>
-            <Button
-              type="submit"
-              onClick={onSubmitForm}
-              isLoading={clickSubmit}
-              isDisabled={state.title === '' || file === undefined}
-            >
-              Submit
-            </Button>
-          </Box>
-        </FormControl>
-      </FormControl>
-      {errorSubmit && message("予期せぬエラーが起こりました", "error")}
+        {errorSubmit && message("予期せぬエラーが起こりました", "error")}
+      </Container>
     </>
   );
 };
