@@ -1,11 +1,4 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-} from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { PhotoType } from '../../../types';
 
 export const InfoTable = (res: PhotoType): JSX.Element => (
@@ -22,7 +15,7 @@ export const InfoTable = (res: PhotoType): JSX.Element => (
     <Tbody>
       <Tr>
         <Th>撮影日時</Th>
-        <Td>{res.exif?.datetime ?? ''}</Td>
+        <Td>{res.exif?.datetimeOriginal ?? ''}</Td>
       </Tr>
       <Tr>
         <Th>コメント</Th>
@@ -30,15 +23,15 @@ export const InfoTable = (res: PhotoType): JSX.Element => (
       </Tr>
       <Tr>
         <Th>カメラメーカー</Th>
-        <Td>{res.exif?.maker ?? ''}</Td>
+        <Td>{res.exif?.make ?? ''}</Td>
       </Tr>
       <Tr>
         <Th>カメラ情報</Th>
-        <Td>{res.exif?.camera ?? ''}</Td>
+        <Td>{res.exif?.model ?? ''}</Td>
       </Tr>
       <Tr>
         <Th>レンズ情報</Th>
-        <Td>{res.exif?.lens ?? ''}</Td>
+        <Td>{res.exif?.lensModel ?? ''}</Td>
       </Tr>
       <Tr>
         <Th>フラッシュ</Th>
@@ -54,16 +47,20 @@ export const InfoTable = (res: PhotoType): JSX.Element => (
       </Tr>
       <Tr>
         <Th>F値</Th>
-        <Td>{res.exif?.fvalue ?? ''}</Td>
+        <Td>{res.exif?.fnumber ?? ''}</Td>
       </Tr>
       <Tr>
         <Th>ISO</Th>
-        <Td>{res.exif?.iso ?? ''}</Td>
+        <Td>{res.exif?.photoGraphicSensitivity ?? ''}</Td>
       </Tr>
       <Tr>
         <Th>シャッタースピード</Th>
-        <Td>{res.exif?.speed ?? ''}</Td>
+        <Td>{res.exif?.shutterSpeedValue ?? ''}</Td>
+      </Tr>
+      <Tr>
+        <Th>ホワイトバランス</Th>
+        <Td>{res.exif?.whiteBalance ?? ''}</Td>
       </Tr>
     </Tbody>
   </Table>
-  )
+);

@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['baetoru-public.s3-website-ap-northeast-1.amazonaws.com'],
+    domains: ['baetoru-public.s3.ap-northeast-1.amazonaws.com'],
   },
-}
+};
