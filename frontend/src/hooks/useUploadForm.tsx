@@ -25,8 +25,7 @@ export const useUploadForm = () => {
     file,
     state,
   }: {
-    file: File;
-    setErrorSubmitState: (v: boolean) => void;
+    file: File | undefined;
     state: State;
   }) => {
     const { uuid, url, submitError } = await uploadFile(file);
