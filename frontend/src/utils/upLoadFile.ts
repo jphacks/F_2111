@@ -14,8 +14,9 @@ const myBucket = new AWS.S3({
 
 export const uploadFile = (file: File) => {
   // @ts-ignore
+  const fileName = file.name.replaceAll(' ', '');
   const uuid = String(crypto.randomUUID());
-  const key = `${uuid}-${file?.name}`;
+  const key = `${uuid}-${fileName}`;
   const url = `https://${process.env.NEXT_PUBLIC_S3URL}/${key.replace(
     /[^\w\d_\-.]+/gi,
     '',
