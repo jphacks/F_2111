@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   Heading,
@@ -15,25 +16,21 @@ import {
   useToast,
   Alert,
   AlertIcon,
-  AlertTitle
+  AlertTitle,
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import { useUploadForm } from '../../src/hooks/useUploadForm';
 
-
 const Style = {
-  Box: { marginTop: "10px", marginBottom: "10px" }
+  Box: { marginTop: '10px', marginBottom: '10px' },
 };
 
 const Upload = (): JSX.Element => {
-  const {
-    state,
-    handleChange,
-    handleSubmit
-  } = useUploadForm();
+  const { state, handleChange, handleSubmit } = useUploadForm();
+  const router = useRouter();
 
-  const toast = useToast()
-  const pop = (Body: string, Status: "success" | "error") => {
+  const toast = useToast();
+  const pop = (Body: string, Status: 'success' | 'error') => {
     toast({
       title: Body,
       status: Status,
@@ -42,7 +39,7 @@ const Upload = (): JSX.Element => {
     });
   };
 
-  const message = (Body: string, Status: "success" | "error") => (
+  const message = (Body: string, Status: 'success' | 'error') => (
     <Alert status={Status} size="small">
       <AlertIcon />
       <AlertTitle mr={2}>{Body}</AlertTitle>
@@ -52,33 +49,27 @@ const Upload = (): JSX.Element => {
   const [file, setFile] = useState<File>();
   const onDropAccepted = (acceptedFile: File[]) => {
     setFile(acceptedFile[0]);
-    if (file === undefined) pop("画像をアップロードしました", "success");
-    else pop("画像を更新しました", "success");
+    if (file === undefined) pop('画像をアップロードしました', 'success');
+    else pop('画像を更新しました', 'success');
   };
   const onDropRejected = () => {
-    pop("このファイルはアップロードできません", "error");
+    pop('このファイルはアップロードできません', 'error');
   };
   // Dropzoneの設定
-  const { getRootProps, getInputProps, open, isDragActive } =
-    useDropzone({
-      onDropAccepted,
-      onDropRejected,
-      accept: 'image/*',
-      noClick: true,
-    });
+  const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
+    onDropAccepted,
+    onDropRejected,
+    accept: 'image/*',
+    noClick: true,
+  });
 
-  const {
-    type,
-    style,
-    onChange,
-    onClick,
-    autoComplete,
-    ref,
-  } = getInputProps();
+  const { type, style, onChange, onClick, autoComplete, ref } = getInputProps();
 
   const [noTitle, setNoTitle] = useState<boolean>(false);
-  const onChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (event.target.name === "title" && state.title === "") setNoTitle(true);
+  const onChangeForm = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    if (event.target.name === 'title' && state.title === '') setNoTitle(true);
     handleChange(event);
   };
 
@@ -86,9 +77,11 @@ const Upload = (): JSX.Element => {
   const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
 
   const onSubmitForm = async () => {
-    const submitError = handleSubmit({ file, state })
+    const { uuid, submitError } = handleSubmit({ file, state });
     setClickSubmit(true);
     setErrorSubmit(submitError);
+
+    router.push(`/photo/${uuid}`);
   };
 
   // TODO: UI設計
@@ -131,8 +124,25 @@ const Upload = (): JSX.Element => {
           </FormControl>
           <FormControl id="images" isRequired>
             <FormLabel>Upload Images</FormLabel>
-            <Box {...getRootProps()} style={Style.Box} padding="20px" borderWidth="1px" borderRadius="lg" border="1px" textAlign="center">
-              <Input type={type} multiple={false} onChange={onChange} onClick={onClick} autoComplete={autoComplete} tabIndex={-1} ref={ref} style={style} />
+            <Box
+              {...getRootProps()}
+              style={Style.Box}
+              padding="20px"
+              borderWidth="1px"
+              borderRadius="lg"
+              border="1px"
+              textAlign="center"
+            >
+              <Input
+                type={type}
+                multiple={false}
+                onChange={onChange}
+                onClick={onClick}
+                autoComplete={autoComplete}
+                tabIndex={-1}
+                ref={ref}
+                style={style}
+              />
               <Box marginBottom="10px">
                 {isDragActive ? (
                   <Text>画像ファイルを追加する</Text>
@@ -142,13 +152,17 @@ const Upload = (): JSX.Element => {
               </Box>
               <Button type="submit" onClick={open} size="sm">
                 Select files
-            </Button>
+              </Button>
             </Box>
             <Box style={Style.Box}>
               <Heading size="sm">[Added Image]</Heading>
               {file !== undefined && (
                 <Box style={Style.Box}>
-                  <Image src={URL.createObjectURL(file)} width={200} quality={100} />
+                  <Image
+                    src={URL.createObjectURL(file)}
+                    width={200}
+                    quality={100}
+                  />
                   <Text>
                     {file.name} - {file.size} bytes
                   </Text>
@@ -165,11 +179,11 @@ const Upload = (): JSX.Element => {
                 isDisabled={state.title === '' || file === undefined}
               >
                 Submit
-            </Button>
+              </Button>
             </Box>
           </FormControl>
         </FormControl>
-        {errorSubmit && message("予期せぬエラーが起こりました", "error")}
+        {errorSubmit && message('予期せぬエラーが起こりました', 'error')}
       </Container>
     </>
   );
