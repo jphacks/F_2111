@@ -25,7 +25,7 @@ export const useUploadForm = () => {
     file,
     state,
   }: {
-    file: File;
+    file: File | undefined;
     setErrorSubmitState: (v: boolean) => void;
     state: State;
   }) => {

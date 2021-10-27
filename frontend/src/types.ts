@@ -28,6 +28,8 @@ export type ExifType = {
   gpsImgDirectionRef?: string;
   gpsImgDirection?: number;
   datetimeOriginal?: string;
+  place?: string;
+  compass?: string;
 }
 
 export type PhotosProps = {
