@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"os"
 	"time"
 
 	"github.com/jphacks/F_2111/database"
@@ -19,7 +21,12 @@ func main() {
 		logger.Fatal(err)
 	}
 	defer db.Close()
-	photoRepository := database.NewPhotoRepository(db)
+
+	accessKey := os.Getenv("AWS_ACCESS_KEY")
+	secretKey := os.Getenv("AWS_SECRET_KEY")
+	creds := credentials.NewStaticCredentials(accessKey, secretKey, "")
+
+	photoRepository := database.NewPhotoRepository(db, creds)
 	photoUC := usecase.NewPhotoUseCase(photoRepository)
 
 	e := web.NewServer(photoUC)
