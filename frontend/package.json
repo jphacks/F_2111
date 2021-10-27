@@ -7,7 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint './**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx}'"
+    "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx}'",
+    "format": "prettier --write .",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.10",

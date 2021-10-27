@@ -1,18 +1,8 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-} from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { PhotoType } from '../../../types';
 
 export const InfoTable = (res: PhotoType): JSX.Element => (
-    <Table 
-      variant="simple" 
-      width="100vmax"
-      margin="40px auto 0">
+  <Table variant="simple" width="100vmax" margin="40px auto 0">
     <Thead>
       <Tr>
         <Th>項目</Th>
@@ -66,4 +56,4 @@ export const InfoTable = (res: PhotoType): JSX.Element => (
       </Tr>
     </Tbody>
   </Table>
-  )
+);
