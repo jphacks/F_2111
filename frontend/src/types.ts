@@ -1,7 +1,7 @@
 export type HogeProps = {
   hoge: string;
   piyo: number;
-}
+};
 
 export type PhotoType = {
   id: number;
@@ -9,12 +9,12 @@ export type PhotoType = {
   exif?: any;
   title: string;
   description?: string;
-}
+};
 
 export type PhotosProps = {
-  photos: PhotoType[]
-}
+  photos: PhotoType[];
+};
 
 export type PhotoProps = {
-  photo: PhotoType
-}
+  photo: PhotoType;
+};

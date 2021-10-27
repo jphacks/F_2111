@@ -1,0 +1,16 @@
+ {
+   "scripts": {
+    "prepare": "husky install",
+    "precommit-ui": "npm run precommit --prefix ./frontend"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": [
+        "npm run precommit-ui"
+      ]
+    }
+  },
+  "devDependencies": {
+    "husky": "^4.3.7"
+  }
+ }
