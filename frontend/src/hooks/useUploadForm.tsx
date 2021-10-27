@@ -21,7 +21,7 @@ export const useUploadForm = () => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = ({
+  const handleSubmit = async ({
     file,
     state,
   }: {
@@ -29,10 +29,9 @@ export const useUploadForm = () => {
     setErrorSubmitState: (v: boolean) => void;
     state: State;
   }) => {
-    const { uuid, url, submitError } = uploadFile(file);
+    const { uuid, url, submitError } = await uploadFile(file);
     const data = { ...state, id: uuid, url: url };
-    postData(data).then((res) => res.json());
-
+    await postData(data).then((res) => res.json());
     return {
       uuid,
       submitError,

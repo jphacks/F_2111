@@ -8,7 +8,6 @@ import { PhotoProps, PhotoType } from '../../src/types';
 
 const Photo = (props: PhotoProps): JSX.Element => {
   const { photo } = props;
-
   return (
     <Box>
       <Head>
