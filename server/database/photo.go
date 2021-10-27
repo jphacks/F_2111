@@ -85,10 +85,13 @@ func (r *PhotoRepository) FindByID(id string) (*entity.Photo, error) {
 }
 
 func (r *PhotoRepository) DownloadFromS3(id, region, bucketName string) (*s3.GetObjectOutput, error) {
-	sess := session.Must(session.NewSession(&aws.Config{
+	sess, err := session.NewSession(&aws.Config{
 		Credentials: r.creds,
 		Region:      aws.String(region),
-	}))
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to create session: %w", err)
+	}
 
 	svc := s3.New(sess)
 
