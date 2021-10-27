@@ -1,14 +1,12 @@
 package usecase
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/dsoprea/go-exif/v3"
 	exifcommon "github.com/dsoprea/go-exif/v3/common"
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/domain/repository"
-	"io"
 	"os"
 	"strings"
 )
@@ -34,12 +32,7 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error
 		return nil, fmt.Errorf("download from s3: %w", err)
 	}
 
-	buf := new(bytes.Buffer)
-	_, err = io.Copy(buf, obj.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to copy: %w", err)
-	}
-	rawExif, err := exif.SearchAndExtractExif(buf.Bytes())
+	rawExif, err := exif.SearchAndExtractExifWithReader(obj.Body)
 	if err != nil {
 		return nil, fmt.Errorf("extract exif: %w", err)
 	}
