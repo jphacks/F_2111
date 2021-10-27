@@ -5,7 +5,7 @@ type Props = {
 }
 
 export const postData = async (data: Props) => {
-  return await fetch('http://app:8080/api/v1/photos', {
+  return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/photos`, {
     method: 'POST', 
     body: JSON.stringify(data), 
     headers: { 'Content-Type': 'application/json' },
