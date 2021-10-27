@@ -12,7 +12,7 @@ const myBucket = new AWS.S3({
   region: AWS_REGION,
 });
 
-export const uploadFile = (file: File) => {
+export const uploadFile = (file: File | undefined) => {
   // @ts-ignore
   const uuid = String(crypto.randomUUID());
   const key = `${uuid}-${file?.name}`;
