@@ -28,14 +28,21 @@ export const uploadFile = (file: File) => {
   };
 
   let submitError = false;
-  myBucket.putObject(params).send((err) => {
-    if (err) {
+  const promise = myBucket.putObject(params).promise();
+  return promise
+    .then(() => {
+      return {
+        uuid,
+        url,
+        submitError,
+      };
+    })
+    .catch(() => {
       submitError = true;
-    }
-  });
-  return {
-    uuid,
-    url,
-    submitError,
-  };
+      return {
+        uuid,
+        url,
+        submitError,
+      };
+    });
 };
