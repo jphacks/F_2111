@@ -12,9 +12,9 @@ export type PhotoType = {
 }
 
 export type PhotosProps = {
-  res: PhotoType[]
+  photos: PhotoType[]
 }
 
 export type PhotoProps = {
-  res: PhotoType
+  photo: PhotoType
 }

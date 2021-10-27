@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react';
 import { uploadFile } from '../utils/upLoadFile';
 import { postData } from '../utils/postData';
 
@@ -6,7 +6,7 @@ type State = {
   id: string;
   title: string;
   description?: string;
-}
+};
 
 export const useUploadForm = () => {
   const [state, setState] = useState<State>({
@@ -14,29 +14,34 @@ export const useUploadForm = () => {
     title: '',
     description: '',
   });
-  
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setState({ ...state, [event.target.name]: event.target.value })
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setState({ ...state, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = ({
-    file, 
-    state
+    file,
+    state,
   }: {
-    file: File,
-    setErrorSubmitState: (v: boolean) => void, 
-    state: State,
+    file: File;
+    setErrorSubmitState: (v: boolean) => void;
+    state: State;
   }) => {
-    const { uuid, submitError } = uploadFile(file);
-    const data = { ...state, id: uuid };
-    postData(data).then(res => res.json());
+    const { uuid, url, submitError } = uploadFile(file);
+    const data = { ...state, id: uuid, url: url };
+    postData(data).then((res) => res.json());
 
-    return submitError;
+    return {
+      uuid,
+      submitError,
+    };
   };
 
   return {
-    state, 
-    handleChange, 
+    state,
+    handleChange,
     handleSubmit,
-  }
-}
+  };
+};
