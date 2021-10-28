@@ -1,17 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
-import { ReactElement } from 'react';
-import { Wrapper, Status } from '@googlemaps/react-wrapper';
+import { getShutterSpeed } from '../../../utils/getShutterSpeed';
 import { PhotoType } from '../../../types';
 
-const render = (status: Status): ReactElement => {
-  if (status === Status.LOADING) return <>{status}...</>;
-  if (status === Status.FAILURE) return <>{status}...</>;
-
-  return <></>;
-};
-
-const TableComponent = (res: PhotoType): JSX.Element => {
+export const InfoTable = (res: PhotoType): JSX.Element => {
   const [flashStr, setFlashStr] = useState('');
   const [whiteStr, setWhiteStr] = useState('');
   const [placeStr, setPlaceStr] = useState('');
@@ -96,7 +88,7 @@ const TableComponent = (res: PhotoType): JSX.Element => {
           </Tr>
           <Tr>
             <Th>シャッタースピード</Th>
-            <Td>{res.exif?.shutterSpeedValue ?? ''}</Td>
+            <Td>{getShutterSpeed(res.exif?.shutterSpeedValue)}</Td>
           </Tr>
           <Tr>
             <Th>ホワイトバランス</Th>
@@ -104,17 +96,5 @@ const TableComponent = (res: PhotoType): JSX.Element => {
           </Tr>
         </Tbody>
       </Table>
-  )
-}
-
-export const InfoTable = (res: PhotoType): JSX.Element => {
-
-  return (
-    <Wrapper
-      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
-      render={render}
-    >
-      <TableComponent {...res} />
-    </Wrapper>
   );
 };

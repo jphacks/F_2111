@@ -1,19 +1,10 @@
 import { useEffect, useRef, ReactElement } from 'react';
-import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { Box } from '@chakra-ui/layout';
-
-const render = (status: Status): ReactElement => {
-  if (status === Status.LOADING) return <>{status}...</>;
-  if (status === Status.FAILURE) return <>{status}...</>;
-
-  return null as any;
-};
 
 const MapComponent = ({
   center,
   zoom,
   rotation,
-  title,
   lat,
   lng,
 }: {
@@ -58,7 +49,6 @@ const MapComponent = ({
 export const Map = ({
   lat,
   lng,
-  directionRef,
   direction,
   title,
 }: {
@@ -68,22 +58,17 @@ export const Map = ({
   direction: number;
   title: string;
 }): JSX.Element => {
-  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? '';
   const center = { lat, lng };
-  const icon = '/pin.png';
-  // TODO: directionRefを考慮して真北に変換する必要がある
   const rotation = direction;
   const zoom = 15;
   return (
-    <Wrapper apiKey={API_KEY} render={render}>
-      <MapComponent
-        center={center}
-        zoom={zoom}
-        rotation={rotation}
-        title={title}
-        lat={lat}
-        lng={lng}
-      />
-    </Wrapper>
+    <MapComponent
+      center={center}
+      zoom={zoom}
+      rotation={rotation}
+      title={title}
+      lat={lat}
+      lng={lng}
+    />
   );
 };
