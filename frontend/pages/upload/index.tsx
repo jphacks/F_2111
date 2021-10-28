@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { PhotoType } from '../../../types';
 import {
   Heading,
   Text,
@@ -77,10 +78,10 @@ const Upload = (): JSX.Element => {
   const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
 
   const onSubmitForm = async () => {
-    const { uuid, submitError } = await handleSubmit({ file, state });
+    const { photo, submitError } = await handleSubmit({ file, state });
     setClickSubmit(true);
     setErrorSubmit(submitError);
-    router.push(`/photo/${uuid}`);
+    router.push(`/photo/${photo.id}`);
   };
 
   // TODO: UI設計
