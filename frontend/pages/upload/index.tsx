@@ -24,7 +24,7 @@ import { useUploadForm } from '../../src/hooks/useUploadForm';
 const Style = {
   Box: { marginTop: '10px', marginBottom: '10px' },
   Container: {
-    backgroundColor: "rgb(255 199 142 / 50%)",
+    backgroundColor: "rgb(255 199 142 / 75%)",
     backdropFilter: "blur(2px)",
     height: "110vh",
   },
@@ -61,6 +61,8 @@ const Style = {
   },
   Image: {
     position: "fixed",
+    height: "100vh",
+    opacity: "40%",
   }
 };
 
@@ -128,7 +130,7 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Image src="/Background.jpg" height={{ sm: "100vh", base: "0vh" }} style={Style.Image} />
+      <Image src="/Background.jpg" display={{base: "none", sm: "fixed"}} style={Style.Image} />
       <Container style={Style.Container}>
         <Heading>投稿ページ</Heading>
         <FormControl id="post">
