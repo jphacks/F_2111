@@ -6,7 +6,7 @@ import { InfoTable } from './InfoTable';
 import { Render } from './Render';
 import {  PhotoType } from '../../../types';
 
-export const PhotoWrapper = (photo: PhotoType) => {
+export const PhotoWrapper = (photo: PhotoType): JSX.Element => {
   return (
     <Wrapper
           apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
