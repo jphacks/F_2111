@@ -28,12 +28,15 @@ export const useUploadForm = () => {
     file: File | undefined;
     state: State;
   }) => {
-    const { uuid, url, submitError } = await uploadFile(file);
-    const data = { ...state, id: uuid, url: url };
-    await postData(data).then((res) => res.json());
+    const formData = new FormData();
+    // const { uuid, url, submitError } = await uploadFile(file);
+    const data = { ...state };
+    formData.append('data', JSON.stringify(data));
+    formData.append('image', file);
+    await postData(formData).then((res) => res.json());
     return {
-      uuid,
-      submitError,
+      uuid: '',
+      submitError: false,
     };
   };
 
