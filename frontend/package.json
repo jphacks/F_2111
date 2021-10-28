@@ -14,7 +14,6 @@
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@googlemaps/react-wrapper": "^1.1.9",
-    "aws-sdk": "^2.1013.0",
     "framer-motion": "^4.1.17",
     "next": "11.1.2",
     "react": "17.0.2",
