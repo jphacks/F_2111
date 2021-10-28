@@ -33,6 +33,7 @@ export const useUploadForm = () => {
   }): Promise<ResType> => {
     const formData = new FormData();
     const data = { ...state };
+    // @ts-ignore
     formData.append('image', file);
     formData.append('data', JSON.stringify(data));
     const { photo } = await postData(formData).then(async (res) => res.json());
