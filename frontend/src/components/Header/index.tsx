@@ -51,7 +51,7 @@ const DeskTopNav = (): JSX.Element => (
           href={`${path}`}
           key={text}
         >
-          <a><Text>{text}</Text></a>
+          <Text><a>{text}</a></Text>
         </Link>
       ))}
     </HStack>
@@ -83,7 +83,7 @@ const MobileNav = (): JSX.Element => {
           href={`${path}`}
           key={text}
         >
-          <a><Text>{text}</Text></a>
+          <Text><a>{text}</a></Text>
         </Link>
       ))}
         </Stack>
