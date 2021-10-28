@@ -43,7 +43,8 @@ const Photo = (props: PhotoProps): JSX.Element => {
         <Map
           lat={photo.exif.gpsLatitude ?? 0}
           lng={photo.exif.gpsLongitude ?? 0}
-          image={photo.url}
+          directionRef={photo.exif.gpsImgDirectionRef ?? ''}
+          direction={photo.exif.gpsImgDirection ?? 0}
           title={photo.title}
         />
       ) : (

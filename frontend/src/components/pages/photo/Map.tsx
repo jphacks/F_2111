@@ -12,14 +12,14 @@ const render = (status: Status): ReactElement => {
 const MapComponent = ({
   center,
   zoom,
-  icon,
+  rotation,
   title,
   lat,
   lng,
 }: {
   center: any;
   zoom: number;
-  icon: string;
+  rotation: number;
   title: string;
   lat: number;
   lng: number;
@@ -28,13 +28,6 @@ const MapComponent = ({
   const panoRef = useRef(null);
   // @ts-ignore
   const place = new google.maps.LatLng(lat, lng);
-  const createCard = () => `
-      <div>
-        <p style="padding-bottom: 5px; font-size: 1rem">${title}</p>
-        <img src="${icon}" style="height: 100px; width: 150px;"/>
-      </div>
-      `;
-
   useEffect(() => {
     // https://developers.google.com/maps/documentation/javascript/examples/marker-simple?hl=ja
     // @ts-ignore
@@ -42,21 +35,14 @@ const MapComponent = ({
       center,
       zoom,
     });
-
     // @ts-ignore
     const pano = new google.maps.StreetViewPanorama(panoRef.current, {
       position: center,
       pov: {
-        heading: 34,
+        heading: rotation,
         pitch: 0,
       },
     });
-
-    // @ts-ignore
-    const card = new google.maps.InfoWindow();
-    card.setContent(createCard());
-    card.setPosition(place);
-    card.open(map);
 
     map.setStreetView(pano);
   }, [center, zoom]);
@@ -72,24 +58,28 @@ const MapComponent = ({
 export const Map = ({
   lat,
   lng,
-  image,
+  directionRef,
+  direction,
   title,
 }: {
   lat: number;
   lng: number;
-  image: string;
+  directionRef: string;
+  direction: number;
   title: string;
 }): JSX.Element => {
-  const API_KEY = process.env.GOOGLE_MAPS_API_KEY ?? '';
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? '';
   const center = { lat, lng };
-  const icon = image;
+  const icon = '/pin.png';
+  // TODO: directionRefを考慮して真北に変換する必要がある
+  const rotation = direction;
   const zoom = 15;
   return (
     <Wrapper apiKey={API_KEY} render={render}>
       <MapComponent
         center={center}
         zoom={zoom}
-        icon={icon}
+        rotation={rotation}
         title={title}
         lat={lat}
         lng={lng}

@@ -1,7 +1,7 @@
 export type HogeProps = {
   hoge: string;
   piyo: number;
-}
+};
 
 export type PhotoType = {
   id: number;
@@ -9,7 +9,7 @@ export type PhotoType = {
   exif?: ExifType;
   title: string;
   description?: string;
-}
+};
 
 export type ExifType = {
   make?: string;
@@ -28,14 +28,12 @@ export type ExifType = {
   gpsImgDirectionRef?: string;
   gpsImgDirection?: number;
   datetimeOriginal?: string;
-  place?: string;
-  compass?: string;
-}
+};
 
 export type PhotosProps = {
-  photos: PhotoType[]
-}
+  photos: PhotoType[];
+};
 
 export type PhotoProps = {
-  photo: PhotoType
-}
+  photo: PhotoType;
+};
