@@ -23,8 +23,17 @@ import { useUploadForm } from '../../src/hooks/useUploadForm';
 
 const Style = {
   Box: { marginTop: '10px', marginBottom: '10px' },
+  Box2: {
+    marginTop: '10px',
+    marginBottom: '10px',
+    padding: "10px",
+    border: "1px",
+    borderColor: "orange",
+    borderRadius: "5px",
+    background: "white"
+  },
   Container: {
-    backgroundColor: "rgb(255 199 142 / 75%)",
+    backgroundColor: "rgb(255 199 142 / 70%)",
     backdropFilter: "blur(2px)",
     height: "110vh",
   },
@@ -54,7 +63,7 @@ const Style = {
     padding: "20px",
     borderWidth: "2px",
     borderRadius: "20px",
-    border: "2px",
+    border: "1px",
     textAlign: "center",
     borderColor: "orange",
     background: "white"
@@ -62,7 +71,7 @@ const Style = {
   Image: {
     position: "fixed",
     height: "100vh",
-    opacity: "40%",
+    opacity: "20%",
   }
 };
 
@@ -130,7 +139,7 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Image src="/Background.jpg" display={{base: "none", sm: "fixed"}} style={Style.Image} />
+      <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
       <Container style={Style.Container}>
         <Heading>投稿ページ</Heading>
         <FormControl id="post">
@@ -166,7 +175,7 @@ const Upload = (): JSX.Element => {
           </FormControl>
           <FormControl id="images" isRequired>
             <FormLabel {...Style.Form}>Upload Images</FormLabel>
-            <Box {...Style.DDBox}>
+            <Box {...Style.DDBox} {...getRootProps()}>
               <Input
                 type={type}
                 multiple={false}
@@ -177,25 +186,27 @@ const Upload = (): JSX.Element => {
                 ref={ref}
                 style={style}
               />
-              <Box marginBottom="10px" {...getRootProps()}>
+              <Box style={Style.Box}>
                 {isDragActive ? (
-                  <Text>画像ファイルを追加する</Text>
+                  <Text display={{ base: "none", sm: "inherit" }}>画像ファイルを追加する</Text>
                 ) : (
-                  <Text>画像ファイルをドロップしてください</Text>
+                  <Text display={{ base: "none", sm: "inherit" }}>画像ファイルをドロップしてください</Text>
                 )}
+                <Button type="submit" colorScheme="orange" variant="solid" Click={open} size="sm">
+                  Select files
+                </Button>
               </Box>
-              <Button type="submit" colorScheme="orange" variant="solid" onClick={open} size="sm">
-                Select files
-              </Button>
             </Box>
             <Box style={Style.Box}>
               <Heading size="sm">[Added Image]</Heading>
               {file !== undefined ? (
-                <Box style={Style.Box}>
+                <Box {...Style.Box2}>
                   <Image
                     src={URL.createObjectURL(file)}
-                    width={200}
+                    width={300}
                     quality={100}
+                    padding="10px"
+                    border="1px"
                   />
                   <Text>
                     {file.name} - {file.size} bytes
@@ -212,7 +223,7 @@ const Upload = (): JSX.Element => {
                 type="submit"
                 onClick={onSubmitForm}
                 variant="solid"
-                colorScheme="orange"
+                colorScheme="pink"
                 isLoading={clickSubmit}
                 isDisabled={state.title === '' || file === undefined}
               >
