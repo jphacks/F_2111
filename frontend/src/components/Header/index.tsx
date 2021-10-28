@@ -3,50 +3,93 @@ import {
   Box,
   Flex,
   HStack,
-  chakra, 
+  Stack,
+  Text,
+  Image,
+  Collapse,
+  Container,
+  useDisclosure
 } from '@chakra-ui/react';
 
-const Links = [{
-    text: 'About', 
+const Links = [
+  {
+    text: 'About',
     path: '/about',
   },
   {
     text: '投稿',
     path: '/upload',
   }
-//   {
-//     text: 'Hoge', 
-//     path: '/hoge',
-//   },
+  //   {
+  //     text: 'Hoge', 
+  //     path: '/hoge',
+  //   },
 ];
 
 const Header = (): JSX.Element => (
-    <>
-      <Box>
-        <Flex padding="20px" alignItems="center">
-          <HStack alignItems="center">
-            <Link href="/">
-              <a><chakra.h1>baetoru.com</chakra.h1></a>
-            </Link>
-            <HStack
-              as="nav"
-              display={{
-                md: 'flex'
-              }}
-              >
-              {Links.map(({ text, path }) => (
-                <Link href={`${path}`} key={text}>
-                  <a>
-                    {text}
-                  </a>
-                </Link>
-              ))}
-            </HStack>
-          </HStack>
-        </Flex>
-      </Box>
-      <hr />
-    </>
+  <>
+    <Box>
+      <Flex padding="10px" alignItems="center" display={{ base: 'none', md: 'flex' }}>
+        <DeskTopNav />
+      </Flex>
+      <Container paddingTop="5px" display={{ base: 'flex', md: 'none' }}>
+        <MobileNav />
+      </Container>
+    </Box>
+    <hr />
+  </>
+)
+
+const DeskTopNav = (): JSX.Element => (
+  <HStack alignItems="center" justifyContent="left">
+    <HStack>
+      <Link href='/' key='Logo'>
+        <Image width="8%" src="/Logo.jpg"/>
+      </Link>
+      {Links.map(({ text, path }) => (
+        <Link
+          href={`${path}`}
+          key={text}
+        >
+          <Text>{text}</Text>
+        </Link>
+      ))}
+    </HStack>
+  </HStack>
+)
+
+const MobileNav = (): JSX.Element => {
+
+  const { isOpen, onToggle } = useDisclosure();
+
+  return (
+    <HStack alignItems="center" justifyContent="center" onClick={onToggle}>
+      <Link
+        href='/'
+        key="Home"
+      >
+        <Image width="37%" src="/Logo.jpg"/>
+      </Link>
+      <Text justifyContent="right">Menu</Text>
+      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
+        <Stack
+          mt={2}
+          pl={4}
+          borderLeft={1}
+          borderStyle={'solid'}
+          align={'start'}>
+        {Links.map(({ text, path }) => (
+        <Link
+          href={`${path}`}
+          key={text}
+        >
+          <Text>{text}</Text>
+        </Link>
+      ))}
+        </Stack>
+      </Collapse>
+    </HStack>
   )
+}
 
 export default Header;
