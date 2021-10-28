@@ -75,7 +75,7 @@ const MobileNav = (): JSX.Element => {
           display={{ md: 'none' }}
           onClick={isOpen ? onClose : onOpen}
         />
-        <HStack spacing={8} alignItems={'center'} justifyContent="center">
+        <HStack spacing={8} alignItems={'center'} justifyContent="center" marginLeft="-5">
           <Link href='/' key='Logo'>
             <a style={{ display: "contents" }}><Image width="40%" src="/Logo.jpg" /></a>
           </Link>
