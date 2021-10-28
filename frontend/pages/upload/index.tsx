@@ -141,7 +141,7 @@ const Upload = (): JSX.Element => {
       </Head>
       <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
       <Container style={Style.Container}>
-        <Heading>投稿ページ</Heading>
+        <Heading marginBottom="10px">投稿ページ</Heading>
         <FormControl id="post">
           <FormControl
             id="title"
