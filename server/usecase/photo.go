@@ -1,16 +1,16 @@
 package usecase
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/dsoprea/go-exif/v3"
 	exifcommon "github.com/dsoprea/go-exif/v3/common"
+	"github.com/google/uuid"
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/domain/repository"
-	"io"
+	"mime/multipart"
+	"net/url"
 	"os"
-	"strings"
 )
 
 type PhotoUseCase struct {
@@ -21,25 +21,22 @@ func NewPhotoUseCase(photoRepository repository.Photo) *PhotoUseCase {
 	return &PhotoUseCase{photoRepository: photoRepository}
 }
 
-func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error) {
+func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File, header *multipart.FileHeader) (*dto.PhotoDTO, error) {
 
 	region := os.Getenv("AWS_REGION")
 	bucketName := os.Getenv("AWS_S3_BUCKET_NAME")
 
-	strs := strings.Split(photoDTO.URL, "/")
-	id := strs[len(strs)-1]
+	photoDTO.ID = uuid.New().String()
+	filename := url.QueryEscape(header.Filename)
 
-	obj, err := p.photoRepository.DownloadFromS3(id, region, bucketName)
+	key := photoDTO.ID + "-" + filename
+	var err error
+	photoDTO.URL, err = p.photoRepository.UploadToS3(image, key, region, bucketName)
 	if err != nil {
-		return nil, fmt.Errorf("download from s3: %w", err)
+		return nil, fmt.Errorf("upload to s3: %w", err)
 	}
 
-	buf := new(bytes.Buffer)
-	_, err = io.Copy(buf, obj.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to copy: %w", err)
-	}
-	rawExif, err := exif.SearchAndExtractExif(buf.Bytes())
+	rawExif, err := exif.SearchAndExtractExifWithReader(image)
 	if err != nil {
 		return nil, fmt.Errorf("extract exif: %w", err)
 	}

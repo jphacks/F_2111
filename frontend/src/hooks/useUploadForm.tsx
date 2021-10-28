@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import { uploadFile } from '../utils/upLoadFile';
+import { PhotoType } from '../types';
 import { postData } from '../utils/postData';
 
 type State = {
-  id: string;
   title: string;
   description?: string;
 };
 
 export const useUploadForm = () => {
   const [state, setState] = useState<State>({
-    id: '',
     title: '',
     description: '',
   });
@@ -21,21 +19,25 @@ export const useUploadForm = () => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
+  interface ResType {
+    photo: PhotoType;
+    submitError: boolean;
+  }
+
   const handleSubmit = async ({
     file,
     state,
   }: {
     file: File | undefined;
     state: State;
-  }) => {
+  }): Promise<ResType> => {
     const formData = new FormData();
-    // const { uuid, url, submitError } = await uploadFile(file);
     const data = { ...state };
-    formData.append('data', JSON.stringify(data));
     formData.append('image', file);
-    await postData(formData).then((res) => res.json());
+    formData.append('data', JSON.stringify(data));
+    const { photo } = await postData(formData).then(async (res) => res.json());
     return {
-      uuid: '',
+      photo,
       submitError: false,
     };
   };
