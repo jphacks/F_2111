@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import { getShutterSpeed } from '../../../utils/getShutterSpeed';
 import { PhotoType } from '../../../types';
 
 export const InfoTable = (res: PhotoType): JSX.Element => {
@@ -87,7 +88,7 @@ export const InfoTable = (res: PhotoType): JSX.Element => {
           </Tr>
           <Tr>
             <Th>シャッタースピード</Th>
-            <Td>{res.exif?.shutterSpeedValue ?? ''}</Td>
+            <Td>{getShutterSpeed(res.exif?.shutterSpeedValue)}</Td>
           </Tr>
           <Tr>
             <Th>ホワイトバランス</Th>
