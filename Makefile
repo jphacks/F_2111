@@ -27,7 +27,7 @@ prod_down:
 
 
 # マイグレーションサービス
-FLYWAY_CONF = -url=jdbc:mysql://$${DB_HOST}:3306/$${MYSQL_DATABASE} -user=$${MYSQL_USER} -password=user-pass
+FLYWAY_CONF = -url=jdbc:mysql://$${DB_HOST}:3306/$${MYSQL_DATABASE} -user=$${MYSQL_USER} -password=$${MYSQL_PASSWORD}
 MIGRATION_SERVICE := migration
 ENV_FILE := ./.env
 DOCKER_COMPOSE_FILE := docker-compose.local.yml
