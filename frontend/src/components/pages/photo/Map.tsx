@@ -35,20 +35,11 @@ const MapComponent = ({
       center,
       zoom,
     });
-    new google.maps.Marker({
-      position: center,
-      map: map,
-      icon: {
-        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        scaledSize: new google.maps.Size(100, 100),
-        rotation: rotation,
-      },
-    });
     // @ts-ignore
     const pano = new google.maps.StreetViewPanorama(panoRef.current, {
       position: center,
       pov: {
-        heading: 34,
+        heading: rotation,
         pitch: 0,
       },
     });
@@ -77,7 +68,7 @@ export const Map = ({
   direction: number;
   title: string;
 }): JSX.Element => {
-  const API_KEY = process.env.GOOGLE_MAPS_API_KEY ?? '';
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? '';
   const center = { lat, lng };
   const icon = '/pin.png';
   // TODO: directionRefを考慮して真北に変換する必要がある
