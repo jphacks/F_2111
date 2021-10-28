@@ -29,7 +29,7 @@ func (p *PhotoHandler) StorePhoto(c *gin.Context) {
 
 	type photoReq struct {
 		Title       string `json:"title" binding:"required"`
-		Description string `json:"description" binding:"required"`
+		Description string `json:"description"`
 	}
 	image, header, err := c.Request.FormFile("image")
 	if err != nil {
