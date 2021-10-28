@@ -45,7 +45,7 @@ const TableComponent = (res: PhotoType): JSX.Element => {
       //   res.exif.gpsLatitude,
       //   res.exif.gpsLongitude,
       // );
-      geocoder.geocode({ location: { lat: res.exif.gpsLatitude, lng: res.exif.gpsLongitude } }, (results, status) => {
+      geocoder.geocode({ location: { lat: res.exif.gpsLatitude, lng: res.exif.gpsLongitude } }, (results: any, status: string) => {
         if (status === google.maps.GeocoderStatus.OK) {
           setPlaceStr(results[0].formatted_address)
         }
