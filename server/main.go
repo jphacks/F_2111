@@ -1,14 +1,16 @@
 package main
 
 import (
-	"github.com/aws/aws-sdk-go/aws/credentials"
 	"os"
 	"time"
 
+	"github.com/jphacks/F_2111/config"
 	"github.com/jphacks/F_2111/database"
 	"github.com/jphacks/F_2111/log"
 	"github.com/jphacks/F_2111/usecase"
 	"github.com/jphacks/F_2111/web"
+
+	"github.com/aws/aws-sdk-go/aws/credentials"
 )
 
 func main() {
@@ -22,9 +24,13 @@ func main() {
 	}
 	defer db.Close()
 
-	accessKey := os.Getenv("AWS_ACCESS_KEY")
-	secretKey := os.Getenv("AWS_SECRET_KEY")
-	creds := credentials.NewStaticCredentials(accessKey, secretKey, "")
+	// 本番環境ではIAMロールを使用するので credsはnilで良い
+	var creds *credentials.Credentials
+	if config.IsLocal() {
+		accessKey := os.Getenv("AWS_ACCESS_KEY")
+		secretKey := os.Getenv("AWS_SECRET_KEY")
+		creds = credentials.NewStaticCredentials(accessKey, secretKey, "")
+	}
 
 	photoRepository := database.NewPhotoRepository(db, creds)
 	photoUC := usecase.NewPhotoUseCase(photoRepository)

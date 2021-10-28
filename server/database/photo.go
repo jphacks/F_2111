@@ -6,8 +6,10 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
+	"mime/multipart"
 	"strconv"
 )
 
@@ -104,4 +106,27 @@ func (r *PhotoRepository) DownloadFromS3(id, region, bucketName string) (*s3.Get
 	}
 
 	return obj, nil
+}
+
+func (r *PhotoRepository) UploadToS3(file multipart.File, key, region, bucketName string) (string, error) {
+	sess, err := session.NewSession(&aws.Config{
+		Credentials: r.creds,
+		Region:      aws.String(region),
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to create session: %w", err)
+	}
+
+	uploader := s3manager.NewUploader(sess)
+
+	output, err := uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String(bucketName),
+		Key:    aws.String(key),
+		Body:   file,
+	})
+	if err != nil {
+		return "", fmt.Errorf("upload photo id: %s, err: %w", key, err)
+	}
+
+	return output.Location, nil
 }

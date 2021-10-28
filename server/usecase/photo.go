@@ -1,16 +1,19 @@
 package usecase
 
 import (
-	"bytes"
 	"fmt"
+	"mime/multipart"
+	"net/url"
+
 	"github.com/dsoprea/go-exif/v3"
 	exifcommon "github.com/dsoprea/go-exif/v3/common"
+	"github.com/google/uuid"
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/domain/repository"
-	"io"
+	"github.com/jphacks/F_2111/log"
+
 	"os"
-	"strings"
 )
 
 type PhotoUseCase struct {
@@ -21,38 +24,35 @@ func NewPhotoUseCase(photoRepository repository.Photo) *PhotoUseCase {
 	return &PhotoUseCase{photoRepository: photoRepository}
 }
 
-func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error) {
-
+func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File, header *multipart.FileHeader) (*dto.PhotoDTO, error) {
+	logger := log.GetLogger()
 	region := os.Getenv("AWS_REGION")
 	bucketName := os.Getenv("AWS_S3_BUCKET_NAME")
 
-	strs := strings.Split(photoDTO.URL, "/")
-	id := strs[len(strs)-1]
+	photoDTO.ID = uuid.New().String()
+	filename := url.QueryEscape(header.Filename)
 
-	obj, err := p.photoRepository.DownloadFromS3(id, region, bucketName)
+	key := photoDTO.ID + "-" + filename
+	var err error
+	photoDTO.URL, err = p.photoRepository.UploadToS3(image, key, region, bucketName)
 	if err != nil {
-		return nil, fmt.Errorf("download from s3: %w", err)
+		return nil, fmt.Errorf("upload to s3: %w", err)
 	}
 
-	buf := new(bytes.Buffer)
-	_, err = io.Copy(buf, obj.Body)
+	rawExif, err := exif.SearchAndExtractExifWithReader(image)
 	if err != nil {
-		return nil, fmt.Errorf("failed to copy: %w", err)
-	}
-	rawExif, err := exif.SearchAndExtractExif(buf.Bytes())
-	if err != nil {
-		return nil, fmt.Errorf("extract exif: %w", err)
+		logger.Infof("failed to search and extract exif: %v", err)
 	}
 	im, err := exifcommon.NewIfdMappingWithStandard()
 	if err != nil {
-		return nil, fmt.Errorf(": %w", err)
+		logger.Infof("failed to get ifd mapping with standard: %v", err)
 	}
 
 	ti := exif.NewTagIndex()
 
 	_, index, err := exif.Collect(im, ti, rawExif)
 	if err != nil {
-		return nil, fmt.Errorf(": %w", err)
+		logger.Infof("failed to collect exif: %v", err)
 	}
 
 	ifd := index.RootIfd
@@ -61,7 +61,7 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO) (*dto.PhotoDTO, error
 	photo.ConvertFromDTO(photoDTO)
 	err = photo.FillExif(ifd)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fill exif: %w", err)
+		logger.Infof("failed to fill exif: %v", err)
 	}
 
 	err = p.photoRepository.Create(photo)
