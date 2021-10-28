@@ -35,7 +35,7 @@ const Style = {
   Container: {
     backgroundColor: "rgb(255 199 142 / 70%)",
     backdropFilter: "blur(2px)",
-    height: "110vh",
+    paddingBottom: "10px"
   },
   Form: {
     paddingBottom: "2px",
@@ -55,7 +55,6 @@ const Style = {
     focusBorderColor: "Orange",
     borderColor: "orange",
     background: "white"
-
   },
   DDBox: {
     marginTop: '10px',
@@ -140,7 +139,7 @@ const Upload = (): JSX.Element => {
         <title>投稿ページ</title>
       </Head>
       <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
-      <Container style={Style.Container}>
+      <Container style={Style.Container} height={file===undefined?"100vh":"100%"}>
         <Heading marginBottom="10px">投稿ページ</Heading>
         <FormControl id="post">
           <FormControl
