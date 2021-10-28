@@ -6,8 +6,7 @@ import { InfoTable } from './InfoTable';
 import { Render } from './Render';
 import {  PhotoType } from '../../../types';
 
-export const PhotoWrapper = (photo: PhotoType) => {
-  return (
+export const PhotoWrapper = (photo: PhotoType) => (
     <Wrapper
           apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
           render={Render}
@@ -52,5 +51,4 @@ export const PhotoWrapper = (photo: PhotoType) => {
       )}
       <InfoTable {...photo} />
     </Wrapper>
-  );
-}
+  )
