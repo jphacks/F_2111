@@ -10,6 +10,7 @@ import (
 	"github.com/jphacks/F_2111/domain/repository"
 	"mime/multipart"
 	"net/url"
+	"github.com/jphacks/F_2111/log"
 	"os"
 )
 
@@ -22,7 +23,7 @@ func NewPhotoUseCase(photoRepository repository.Photo) *PhotoUseCase {
 }
 
 func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File, header *multipart.FileHeader) (*dto.PhotoDTO, error) {
-
+	logger := log.GetLogger()
 	region := os.Getenv("AWS_REGION")
 	bucketName := os.Getenv("AWS_S3_BUCKET_NAME")
 
@@ -38,18 +39,18 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File,
 
 	rawExif, err := exif.SearchAndExtractExifWithReader(image)
 	if err != nil {
-		return nil, fmt.Errorf("extract exif: %w", err)
+		logger.Infof("failed to search and extract exif: %v", err)
 	}
 	im, err := exifcommon.NewIfdMappingWithStandard()
 	if err != nil {
-		return nil, fmt.Errorf(": %w", err)
+		logger.Infof("failed to get ifd mapping with standard: %v", err)
 	}
 
 	ti := exif.NewTagIndex()
 
 	_, index, err := exif.Collect(im, ti, rawExif)
 	if err != nil {
-		return nil, fmt.Errorf(": %w", err)
+		logger.Infof("failed to collect exif: %v", err)
 	}
 
 	ifd := index.RootIfd
@@ -58,7 +59,7 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File,
 	photo.ConvertFromDTO(photoDTO)
 	err = photo.FillExif(ifd)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fill exif: %w", err)
+		logger.Infof("failed to fill exif: %v", err)
 	}
 
 	err = p.photoRepository.Create(photo)
