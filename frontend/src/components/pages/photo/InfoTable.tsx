@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { ReactElement } from 'react';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
@@ -7,51 +8,54 @@ const render = (status: Status): ReactElement => {
   if (status === Status.LOADING) return <>{status}...</>;
   if (status === Status.FAILURE) return <>{status}...</>;
 
-  return null as any;
+  return <></>;
 };
 
-export const InfoTable = (res: PhotoType): JSX.Element => {
-  let flashStr = '';
-  if (res.exif?.flash !== undefined && res.exif.flash !== null) {
-    {
-      /* TODO: より多くの情報に対応する 赤目発光ありとか */
-    }
-    flashStr = res.exif?.flash & 1 ? 'ストロボ発光あり' : 'ストロボ発光なし';
-  }
+const TableComponent = (res: PhotoType): JSX.Element => {
+  const [flashStr, setFlashStr] = useState('');
+  const [whiteStr, setWhiteStr] = useState('');
+  const [placeStr, setPlaceStr] = useState('');
 
-  let whiteStr = '';
-  if (res.exif?.whiteBalance !== undefined && res.exif.whiteBalance !== null) {
-    whiteStr =
-      res.exif?.whiteBalance & 1
-        ? 'ホワイトバランス自動'
-        : 'ホワイトバランスマニュアル';
-  }
-
-  let placeStr = '';
-  if (
-    res.exif?.gpsLatitude !== undefined &&
-    res.exif.gpsLatitude !== null &&
-    res.exif?.gpsLongitude !== undefined &&
-    res.exif.gpsLongitude !== null
-  ) {
-    const geocoder = new google.maps.Geocoder();
-    const latlng = new google.maps.LatLng(
-      res.exif.gpsLatitude,
-      res.exif.gpsLongitude,
-    );
-    geocoder.geocode({ latLng: latlng }, (results, status) => {
-      if (status === google.maps.GeocoderStatus.OK) {
-        placeStr = results[0].formatted_address;
+  const init = async () => {
+    if (res.exif?.flash !== undefined && res.exif.flash !== null) {
+      {
+        /* TODO: より多くの情報に対応する 赤目発光ありとか */
       }
-    });
-  }
-
+      const f = res.exif?.flash & 1 ? 'ストロボ発光あり' : 'ストロボ発光なし';
+      setFlashStr(f);
+    }
+  
+    let whiteStr = '';
+    if (res.exif?.whiteBalance !== undefined && res.exif.whiteBalance !== null) {
+      const w =
+        res.exif?.whiteBalance & 1
+          ? 'ホワイトバランス自動'
+          : 'ホワイトバランスマニュアル';
+      setWhiteStr(w);
+    }
+  
+    if (
+      res.exif?.gpsLatitude !== undefined &&
+      res.exif.gpsLatitude !== null &&
+      res.exif?.gpsLongitude !== undefined &&
+      res.exif.gpsLongitude !== null
+    ) {
+      const geocoder = new google.maps.Geocoder();
+      // const latlng = new google.maps.LatLng(
+      //   res.exif.gpsLatitude,
+      //   res.exif.gpsLongitude,
+      // );
+      geocoder.geocode({ location: { lat: res.exif.gpsLatitude, lng: res.exif.gpsLongitude } }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          setPlaceStr(results[0].formatted_address)
+        }
+      });
+  }}
+  useEffect(() => {
+    init();
+  }, []);
   return (
-    <Wrapper
-      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
-      render={render}
-    >
-      <Table variant="simple" width="100vmax" margin="40px auto 0">
+    <Table variant="simple" width="100vmax" margin="40px auto 0">
         <Thead>
           <Tr>
             <Th>項目</Th>
@@ -105,6 +109,17 @@ export const InfoTable = (res: PhotoType): JSX.Element => {
           </Tr>
         </Tbody>
       </Table>
+  )
+}
+
+export const InfoTable = (res: PhotoType): JSX.Element => {
+
+  return (
+    <Wrapper
+      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
+      render={render}
+    >
+      <TableComponent {...res} />
     </Wrapper>
   );
 };
