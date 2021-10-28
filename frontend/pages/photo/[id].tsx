@@ -2,8 +2,10 @@ import { Box, chakra } from '@chakra-ui/react';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
+import { Wrapper } from '@googlemaps/react-wrapper';
 import { Map } from '../../src/components/pages/photo/Map';
 import { InfoTable } from '../../src/components/pages/photo/InfoTable';
+import { Render } from '../../src/components/pages/photo/Render';
 import { PhotoProps, PhotoType } from '../../src/types';
 
 const Photo = (props: PhotoProps): JSX.Element => {
@@ -15,6 +17,10 @@ const Photo = (props: PhotoProps): JSX.Element => {
         <meta name="description" content={`${photo.title} | baetoru.com`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Wrapper
+          apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
+          render={Render}
+        >
       <Box textAlign="center" margin="auto">
         <Box padding="40px 0" background="#333333" width="100vmax">
           <Box
@@ -54,6 +60,7 @@ const Photo = (props: PhotoProps): JSX.Element => {
           </chakra.h1>
         </Box>
       )}
+      </Wrapper>
     </Box>
   );
 };
