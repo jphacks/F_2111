@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"strconv"
 
 	"errors"
@@ -27,26 +28,24 @@ func (p *PhotoHandler) StorePhoto(c *gin.Context) {
 	logger := log.GetLogger()
 
 	type photoReq struct {
-		ID          string `json:"id" binding:"required"`
-		URL         string `json:"url" binding:"required"`
 		Title       string `json:"title" binding:"required"`
-		Description string `json:"description" binding:"required"`
+		Description string `json:"description"`
 	}
-	var req photoReq
-	if err := c.ShouldBindJSON(&req); err != nil {
-		logger.Errorf("failed to bind: %v", err)
+	image, header, err := c.Request.FormFile("image")
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
 	}
+	defer image.Close()
+	jsonStr := c.Request.FormValue("data")
+	var req photoReq
+	json.Unmarshal([]byte(jsonStr), &req)
 
 	photoDTO := &dto.PhotoDTO{
-		ID:          req.ID,
-		URL:         req.URL,
 		Title:       req.Title,
 		Description: req.Description,
 	}
 
-	photo, err := p.photoUC.CreatePhoto(photoDTO)
+	photo, err := p.photoUC.CreatePhoto(photoDTO, image, header)
 	if err != nil {
 		logger.Errorf("store photo: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})
