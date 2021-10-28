@@ -29,7 +29,7 @@ const Links = [
 const Header = (): JSX.Element => (
   <>
     <Box>
-      <Flex padding="10px" alignItems="center" display={{ base: 'none', md: 'flex' }}>
+      <Flex padding="10px" paddingLeft="30px" alignItems="center" display={{ base: 'none', md: 'flex' }}>
         <DeskTopNav />
       </Flex>
       <Container paddingTop="5px" display={{ base: 'flex', md: 'none' }}>
@@ -44,7 +44,7 @@ const DeskTopNav = (): JSX.Element => (
   <HStack alignItems="center" justifyContent="left">
     <HStack>
       <Link href='/' key='Logo'>
-        <Image width="8%" src="/Logo.jpg"/>
+        <Image width="10%" src="/Logo.jpg"/>
       </Link>
       {Links.map(({ text, path }) => (
         <Link
