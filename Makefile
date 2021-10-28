@@ -1,14 +1,14 @@
 .PHONY: up
 up:
-	docker compose -f docker-compose.local.yml up -d --build
+	docker-compose -f docker-compose.local.yml up -d --build
 
 .PHONY: down
 down:
-	docker compose -f docker-compose.local.yml down
+	docker-compose -f docker-compose.local.yml down
 
 .PHONY: logs
 logs:
-	docker compose -f docker-compose.local.yml logs  ${T}
+	docker-compose -f docker-compose.local.yml logs  ${T}
 
 .PHONY: deploy
 deploy: prod_down prod_update prod_up
@@ -19,11 +19,11 @@ prod_update:
 
 .PHONY: prod_up
 prod_up:
-	docker compose -f docker-compose.prod.yml up -d --build
+	docker-compose -f docker-compose.prod.yml up -d --build
 
 .PHONY: prod_down
 prod_down:
-	docker compose -f docker-compose.prod.yml down
+	docker-compose -f docker-compose.prod.yml down
 
 
 # マイグレーションサービス
