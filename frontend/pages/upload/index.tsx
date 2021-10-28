@@ -23,6 +23,45 @@ import { useUploadForm } from '../../src/hooks/useUploadForm';
 
 const Style = {
   Box: { marginTop: '10px', marginBottom: '10px' },
+  Container: {
+    backgroundColor: "rgb(255 199 142 / 50%)",
+    backdropFilter: "blur(2px)",
+    height: "110vh",
+  },
+  Form: {
+    paddingBottom: "2px",
+    borderBottom: "1px",
+    borderBottomWidth: "2px",
+    width: "45%",
+    borderColor: "orange",
+    fontSize: "100%"
+  },
+  FormInput: {
+    focusBorderColor: "Orange",
+    borderColor: "orange",
+    background: "white"
+  },
+  FormTextArea: {
+    height: "100px",
+    focusBorderColor: "Orange",
+    borderColor: "orange",
+    background: "white"
+
+  },
+  DDBox: {
+    marginTop: '10px',
+    marginBottom: '10px',
+    padding: "20px",
+    borderWidth: "2px",
+    borderRadius: "20px",
+    border: "2px",
+    textAlign: "center",
+    borderColor: "orange",
+    background: "white"
+  },
+  Image: {
+    position: "fixed",
+  }
 };
 
 const Upload = (): JSX.Element => {
@@ -89,7 +128,8 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Container>
+      <Image src="/Background.jpg" height={{ sm: "100vh", base: "0vh" }} style={Style.Image} />
+      <Container style={Style.Container}>
         <Heading>投稿ページ</Heading>
         <FormControl id="post">
           <FormControl
@@ -98,40 +138,33 @@ const Upload = (): JSX.Element => {
             isInvalid={noTitle && state.title === ''}
           >
             <Box style={Style.Box}>
-              <FormLabel>Title</FormLabel>
+              <FormLabel {...Style.Form}>Title</FormLabel>
               <Input
                 type="text"
                 name="title"
                 placeholder="かっこいいタイトル"
                 value={state.title}
                 onChange={onChangeForm}
+                {...Style.FormInput}
               />
               <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
             </Box>
           </FormControl>
           <FormControl id="description">
             <Box style={Style.Box}>
-              <FormLabel>Description</FormLabel>
+              <FormLabel {...Style.Form}>Description</FormLabel>
               <Textarea
                 name="description"
                 placeholder="分かりやすい説明..."
                 value={state.description}
                 onChange={onChangeForm}
-                height="100px"
+                {...Style.FormTextArea}
               />
             </Box>
           </FormControl>
           <FormControl id="images" isRequired>
-            <FormLabel>Upload Images</FormLabel>
-            <Box
-              {...getRootProps()}
-              style={Style.Box}
-              padding="20px"
-              borderWidth="1px"
-              borderRadius="lg"
-              border="1px"
-              textAlign="center"
-            >
+            <FormLabel {...Style.Form}>Upload Images</FormLabel>
+            <Box {...Style.DDBox}>
               <Input
                 type={type}
                 multiple={false}
@@ -142,20 +175,20 @@ const Upload = (): JSX.Element => {
                 ref={ref}
                 style={style}
               />
-              <Box marginBottom="10px">
+              <Box marginBottom="10px" {...getRootProps()}>
                 {isDragActive ? (
                   <Text>画像ファイルを追加する</Text>
                 ) : (
                   <Text>画像ファイルをドロップしてください</Text>
                 )}
               </Box>
-              <Button type="submit" onClick={open} size="sm">
+              <Button type="submit" colorScheme="orange" variant="solid" onClick={open} size="sm">
                 Select files
               </Button>
             </Box>
             <Box style={Style.Box}>
               <Heading size="sm">[Added Image]</Heading>
-              {file !== undefined && (
+              {file !== undefined ? (
                 <Box style={Style.Box}>
                   <Image
                     src={URL.createObjectURL(file)}
@@ -166,6 +199,8 @@ const Upload = (): JSX.Element => {
                     {file.name} - {file.size} bytes
                   </Text>
                 </Box>
+              ) : (
+                <Text>まだ画像がありません</Text>
               )}
             </Box>
           </FormControl>
@@ -174,6 +209,8 @@ const Upload = (): JSX.Element => {
               <Button
                 type="submit"
                 onClick={onSubmitForm}
+                variant="solid"
+                colorScheme="orange"
                 isLoading={clickSubmit}
                 isDisabled={state.title === '' || file === undefined}
               >
