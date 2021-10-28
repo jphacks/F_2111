@@ -49,7 +49,7 @@ const About: NextPage = (): JSX.Element => (
       </Head>
       <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
       <Container style={Style.Container}>
-        <Heading marginBottom="10px">About</Heading>
+        <Heading marginBottom="10px" textAlign="center">About</Heading>
         <Image padding="10px" src="/OfficialLogo.jpg"/>
         <Box style={Style.Box}>
           <Text {...Style.Heading}>「映えとる」とは</Text>
