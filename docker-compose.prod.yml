@@ -8,7 +8,7 @@ services:
       - 443:443
     volumes:
       # Nginxの設定ファイルを上書きする
-      - ./build/nginx/baetoru.ssl.conf.erb:/var/lib/nginx-conf/baetoru.ssl.conf.erb:ro
+      - ./build/nginx/baetoru.ssl.conf.erb:/var/lib/nginx-conf/baetoru.tetsuzawa.com.ssl.conf.erb:ro
       - https-portal-data:/var/lib/https-portal
     environment:
       STAGE: "production"
