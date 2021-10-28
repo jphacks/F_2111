@@ -25,7 +25,6 @@ const TableComponent = (res: PhotoType): JSX.Element => {
       setFlashStr(f);
     }
   
-    let whiteStr = '';
     if (res.exif?.whiteBalance !== undefined && res.exif.whiteBalance !== null) {
       const w =
         res.exif?.whiteBalance & 1
@@ -41,10 +40,6 @@ const TableComponent = (res: PhotoType): JSX.Element => {
       res.exif.gpsLongitude !== null
     ) {
       const geocoder = new google.maps.Geocoder();
-      // const latlng = new google.maps.LatLng(
-      //   res.exif.gpsLatitude,
-      //   res.exif.gpsLongitude,
-      // );
       geocoder.geocode({ location: { lat: res.exif.gpsLatitude, lng: res.exif.gpsLongitude } }, (results: any, status: string) => {
         if (status === google.maps.GeocoderStatus.OK) {
           setPlaceStr(results[0].formatted_address)
