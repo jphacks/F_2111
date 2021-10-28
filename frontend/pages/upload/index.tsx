@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { PhotoType } from '../../../types';
 import {
   Heading,
   Text,
