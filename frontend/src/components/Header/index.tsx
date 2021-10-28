@@ -51,7 +51,7 @@ const DeskTopNav = (): JSX.Element => (
           href={`${path}`}
           key={text}
         >
-          <Text>{text}</Text>
+          <a><Text>{text}</Text></a>
         </Link>
       ))}
     </HStack>
@@ -68,7 +68,7 @@ const MobileNav = (): JSX.Element => {
         href='/'
         key="Home"
       >
-        <Image width="37%" src="/Logo.jpg"/>
+        <a><Image width="37%" src="/Logo.jpg"/></a>
       </Link>
       <Text justifyContent="right">Menu</Text>
       <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
@@ -83,7 +83,7 @@ const MobileNav = (): JSX.Element => {
           href={`${path}`}
           key={text}
         >
-          <Text>{text}</Text>
+          <a><Text>{text}</Text></a>
         </Link>
       ))}
         </Stack>
