@@ -39,8 +39,14 @@ const Photo = (props: PhotoProps): JSX.Element => {
         </Box>
         <InfoTable {...photo} />
       </Box>
-      {photo.exif ? (
-        <Map {...photo.exif} image={photo.url} title={photo.title} />
+      {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
+        <Map
+          lat={photo.exif.gpsLatitude ?? 0}
+          lng={photo.exif.gpsLongitude ?? 0}
+          directionRef={photo.exif.gpsImgDirectionRef ?? ''}
+          direction={photo.exif.gpsImgDirection ?? 0}
+          title={photo.title}
+        />
       ) : (
         <Box textAlign="center" margin="50px 0">
           <chakra.h1 fontSize="1.2rem">
