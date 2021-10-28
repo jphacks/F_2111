@@ -13,7 +13,8 @@ const Style = {
   Container: {
     backgroundColor: "rgb(255 199 142 / 70%)",
     backdropFilter: "blur(2px)",
-    height: "110vh",
+    height: "100%",
+    paddingBottom: "10px",
   },
   Heading: {
     fontSize: "200%",
