@@ -6,10 +6,16 @@ import {
   Stack,
   Text,
   Image,
-  Collapse,
   Container,
+  Collapse,
+  IconButton,
   useDisclosure
 } from '@chakra-ui/react';
+
+import {
+  HamburgerIcon,
+  CloseIcon,
+} from '@chakra-ui/icons';
 
 const Links = [
   {
@@ -32,7 +38,7 @@ const Header = (): JSX.Element => (
       <Flex padding="10px" paddingLeft="30px" alignItems="center" display={{ base: 'none', md: 'flex' }}>
         <DeskTopNav />
       </Flex>
-      <Container paddingTop="5px" display={{ base: 'flex', md: 'none' }}>
+      <Container paddingTop="5px" display={{ base: 'fixed', md: 'none' }}>
         <MobileNav />
       </Container>
     </Box>
@@ -41,17 +47,14 @@ const Header = (): JSX.Element => (
 )
 
 const DeskTopNav = (): JSX.Element => (
-  <HStack alignItems="center" justifyContent="left">
+  <HStack alignItems="center">
     <HStack>
       <Link href='/' key='Logo'>
-        <Image width="10%" src="/Logo.jpg"/>
+        <a style={{ display: "contents" }}><Image width="12%" src="/Logo.jpg" /></a>
       </Link>
       {Links.map(({ text, path }) => (
-        <Link
-          href={`${path}`}
-          key={text}
-        >
-          <Text><a>{text}</a></Text>
+        <Link href={`${path}`} key={text}>
+          <a><Text>{text}</Text></a>
         </Link>
       ))}
     </HStack>
@@ -60,35 +63,34 @@ const DeskTopNav = (): JSX.Element => (
 
 const MobileNav = (): JSX.Element => {
 
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <HStack alignItems="center" justifyContent="center" onClick={onToggle}>
-      <Link
-        href='/'
-        key="Home"
-      >
-        <a><Image width="37%" src="/Logo.jpg"/></a>
-      </Link>
-      <Text justifyContent="right">Menu</Text>
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          align={'start'}>
-        {Links.map(({ text, path }) => (
-        <Link
-          href={`${path}`}
-          key={text}
-        >
-          <Text><a>{text}</a></Text>
-        </Link>
-      ))}
+    <Box>
+      <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <IconButton
+          size={'sm'}
+          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          aria-label={'Open Menu'}
+          display={{ md: 'none' }}
+          onClick={isOpen ? onClose : onOpen}
+        />
+        <HStack spacing={8} alignItems={'center'} justifyContent="center">
+          <Link href='/' key='Logo'>
+            <a style={{ display: "contents" }}><Image width="40%" src="/Logo.jpg" /></a>
+          </Link>
+        </HStack>
+      </Flex>
+      <Collapse in={isOpen} animateOpacity>
+        <Stack as={'nav'} spacing={4} paddingBottom="5px">
+          {Links.map(({ text, path }) => (
+            <Link href={`${path}`} key={text}>
+              <a><Text>{text}</Text></a>
+            </Link>
+          ))}
         </Stack>
       </Collapse>
-    </HStack>
+    </Box>
   )
 }
 
