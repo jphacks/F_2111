@@ -34,7 +34,6 @@ export const PhotoWrapper = (photo: PhotoType) => {
             {photo.title}
           </chakra.h1>
         </Box>
-        <InfoTable {...photo} />
       </Box>
       {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
         <Map
@@ -51,6 +50,7 @@ export const PhotoWrapper = (photo: PhotoType) => {
           </chakra.h1>
         </Box>
       )}
+      <InfoTable {...photo} />
     </Wrapper>
   );
 }
