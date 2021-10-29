@@ -23,6 +23,56 @@ import { useUploadForm } from '../../src/hooks/useUploadForm';
 
 const Style = {
   Box: { marginTop: '10px', marginBottom: '10px' },
+  Box2: {
+    marginTop: '10px',
+    marginBottom: '10px',
+    padding: "10px",
+    border: "1px",
+    borderColor: "orange",
+    borderRadius: "5px",
+    background: "white"
+  },
+  Container: {
+    backgroundColor: "rgb(255 199 142 / 70%)",
+    backdropFilter: "blur(2px)",
+    paddingTop: "20px",
+    paddingBottom: "10px"
+  },
+  Form: {
+    paddingBottom: "2px",
+    borderBottom: "1px",
+    borderBottomWidth: "2px",
+    width: "45%",
+    borderColor: "orange",
+    fontSize: "100%"
+  },
+  FormInput: {
+    focusBorderColor: "Orange",
+    borderColor: "orange",
+    background: "white"
+  },
+  FormTextArea: {
+    height: "100px",
+    focusBorderColor: "Orange",
+    borderColor: "orange",
+    background: "white"
+  },
+  DDBox: {
+    marginTop: '10px',
+    marginBottom: '10px',
+    padding: "20px",
+    borderWidth: "2px",
+    borderRadius: "20px",
+    border: "1px",
+    textAlign: "center",
+    borderColor: "orange",
+    background: "white"
+  },
+  Image: {
+    position: "fixed",
+    height: "100vh",
+    opacity: "20%",
+  }
 };
 
 const Upload = (): JSX.Element => {
@@ -77,10 +127,10 @@ const Upload = (): JSX.Element => {
   const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
 
   const onSubmitForm = async () => {
-    const { uuid, submitError } = await handleSubmit({ file, state });
+    const { photo, submitError } = await handleSubmit({ file, state });
     setClickSubmit(true);
     setErrorSubmit(submitError);
-    router.push(`/photo/${uuid}`);
+    router.push(`/photo/${photo.id}`);
   };
 
   // TODO: UI設計
@@ -89,8 +139,9 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Container>
-        <Heading>投稿ページ</Heading>
+      <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
+      <Container style={Style.Container} height={file===undefined?"100vh":"100%"}>
+        <Heading marginBottom="10px">投稿ページ</Heading>
         <FormControl id="post">
           <FormControl
             id="title"
@@ -98,40 +149,33 @@ const Upload = (): JSX.Element => {
             isInvalid={noTitle && state.title === ''}
           >
             <Box style={Style.Box}>
-              <FormLabel>Title</FormLabel>
+              <FormLabel {...Style.Form}>Title</FormLabel>
               <Input
                 type="text"
                 name="title"
                 placeholder="かっこいいタイトル"
                 value={state.title}
                 onChange={onChangeForm}
+                {...Style.FormInput}
               />
               <FormErrorMessage>タイトルを書いてください</FormErrorMessage>
             </Box>
           </FormControl>
           <FormControl id="description">
             <Box style={Style.Box}>
-              <FormLabel>Description</FormLabel>
+              <FormLabel {...Style.Form}>Description</FormLabel>
               <Textarea
                 name="description"
                 placeholder="分かりやすい説明..."
                 value={state.description}
                 onChange={onChangeForm}
-                height="100px"
+                {...Style.FormTextArea}
               />
             </Box>
           </FormControl>
           <FormControl id="images" isRequired>
-            <FormLabel>Upload Images</FormLabel>
-            <Box
-              {...getRootProps()}
-              style={Style.Box}
-              padding="20px"
-              borderWidth="1px"
-              borderRadius="lg"
-              border="1px"
-              textAlign="center"
-            >
+            <FormLabel {...Style.Form}>Upload Images</FormLabel>
+            <Box {...Style.DDBox} {...getRootProps()}>
               <Input
                 type={type}
                 multiple={false}
@@ -142,30 +186,34 @@ const Upload = (): JSX.Element => {
                 ref={ref}
                 style={style}
               />
-              <Box marginBottom="10px">
+              <Box style={Style.Box}>
                 {isDragActive ? (
-                  <Text>画像ファイルを追加する</Text>
+                  <Text display={{ base: "none", sm: "inherit" }}>画像ファイルを追加する</Text>
                 ) : (
-                  <Text>画像ファイルをドロップしてください</Text>
+                  <Text display={{ base: "none", sm: "inherit" }}>画像ファイルをドロップしてください</Text>
                 )}
+                <Button type="submit" colorScheme="orange" variant="solid" onClick={open} size="sm">
+                  Select files
+                </Button>
               </Box>
-              <Button type="submit" onClick={open} size="sm">
-                Select files
-              </Button>
             </Box>
             <Box style={Style.Box}>
               <Heading size="sm">[Added Image]</Heading>
-              {file !== undefined && (
-                <Box style={Style.Box}>
+              {file !== undefined ? (
+                <Box {...Style.Box2}>
                   <Image
                     src={URL.createObjectURL(file)}
-                    width={200}
+                    width={300}
                     quality={100}
+                    padding="10px"
+                    border="1px"
                   />
                   <Text>
                     {file.name} - {file.size} bytes
                   </Text>
                 </Box>
+              ) : (
+                <Text>まだ画像がありません</Text>
               )}
             </Box>
           </FormControl>
@@ -174,6 +222,8 @@ const Upload = (): JSX.Element => {
               <Button
                 type="submit"
                 onClick={onSubmitForm}
+                variant="solid"
+                colorScheme="pink"
                 isLoading={clickSubmit}
                 isDisabled={state.title === '' || file === undefined}
               >
