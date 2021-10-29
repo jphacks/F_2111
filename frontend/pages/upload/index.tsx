@@ -127,10 +127,10 @@ const Upload = (): JSX.Element => {
   const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
 
   const onSubmitForm = async () => {
-    const { photo, submitError } = await handleSubmit({ file, state });
+    const { id, error } = await handleSubmit({ file, state });
     setClickSubmit(true);
-    setErrorSubmit(submitError);
-    submitError ? setClickSubmit(false) : router.push(`/photo/${photo.id}`);
+    setErrorSubmit(error);
+    (error) ? setClickSubmit(false) : router.push(`/photo/${id}`);
   };
 
   // TODO: UI設計
@@ -140,7 +140,7 @@ const Upload = (): JSX.Element => {
         <title>投稿ページ</title>
       </Head>
       <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
-      <Container style={Style.Container} height={file===undefined?"100vh":"100%"}>
+      <Container style={Style.Container} height={file === undefined ? "100vh" : "100%"}>
         <Heading marginBottom="10px">投稿ページ</Heading>
         <FormControl id="post">
           <FormControl
@@ -232,7 +232,7 @@ const Upload = (): JSX.Element => {
             </Box>
           </FormControl>
         </FormControl>
-        {errorSubmit && message('予期せぬエラーが起こりました', 'error')}
+        {errorSubmit && message('Exif情報がありません。別の画像を選択して下さい！', 'error')}
       </Container>
     </>
   );
