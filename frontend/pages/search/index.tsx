@@ -29,11 +29,15 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
   const [fnumberRangeId, setFNumberRangeId] = useState('');
   const [focalLengthRangeId, setFocalLengthRangeId] = useState('');
-  const [photoSearchParams, setPhotoSearchParams] = useState<PhotoSearchParams | null>(null);
-  const [searchResult, setSearchResult] = useState<PhotoType[] | null>(null);
   const [page, setPage] = useState(0);
+  const [photoSearchParams, setPhotoSearchParams] = useState<PhotoSearchParams>({
+    fnumberRangeId,
+    focalLengthRangeId,
+    page,
+    perPage: PHOTO_COUNTS_PER_PAGE,
+  });
+  const [searchResult, setSearchResult] = useState<PhotoType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
-
   const ref = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
   const intersection = useIntersection();
   const [intersected, setIntersected] = useState<boolean>(true);
@@ -41,15 +45,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
   const handleSearch = () => {
     setFetching(true);
-    const params: PhotoSearchParams = {
-      fnumberRangeId,
-      focalLengthRangeId,
-      page,
-      perPage: PHOTO_COUNTS_PER_PAGE,
-    };
-    setPhotoSearchParams(params);
-
-    searchPhoto(params)
+    searchPhoto(photoSearchParams)
       .then(result => {
         if (result.photos === null) setIsEnd(true);
         const r = searchResult ?? [] as PhotoType[];
@@ -66,14 +62,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   }, [intersection]);
 
   useEffect(() => {
-    const params: PhotoSearchParams = {
-      fnumberRangeId,
-      focalLengthRangeId,
-      page: 0,
-      perPage: PHOTO_COUNTS_PER_PAGE,
-    };
-
-    searchPhoto(params)
+    searchPhoto(photoSearchParams)
     .then(result => {
       setSearchResult(result.photos);
       setFetching(false);
@@ -83,7 +72,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
     if (intersected && !fetching) {
       handleSearch();
     }
-  }, []);
+  }, [photoSearchParams]);
 
   return (
     <Box>
@@ -109,7 +98,15 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
           />
 
           <Button
-            onClick={handleSearch}
+            onClick={() => {
+              const params: PhotoSearchParams = {
+                fnumberRangeId,
+                focalLengthRangeId,
+                page: 0,
+                perPage: PHOTO_COUNTS_PER_PAGE,
+              };
+              setPhotoSearchParams(params);
+            }}
           >
             Search
           </Button>
@@ -123,37 +120,14 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               {searchResult ? (
                 <>
                   {
-                    searchResult.map((photo, idx) => (
-                      <Photo key={idx} {...photo} />
-                    ))
+                    searchResult.map((photo, idx) => {
+                      return <Photo key={idx} {...photo} />
+                    })
                   }
                 </>
               ) : (
                 <CircularProgress/>
               )}
-              {/* {!fetching && ( */}
-                <div ref={ref} hidden={true}>
-                  <Button onClick={
-                    (e) => {
-                      if (!photoSearchParams) return;
-                      const params = {...photoSearchParams, page: page};
-                      setPhotoSearchParams(params);
-                      setSearchResult(null);
-                      const urlSearchParams = new URLSearchParams();
-                      for (const [key, value] of Object.entries(params)) {
-                        urlSearchParams.append(key, value.toString());
-                      }
-                      searchPhoto(params)
-                        .then(result => {
-                          setSearchResult(result.photos);
-                          setPage(page + 1);
-                        })
-                        .catch(console.error);
-                    }
-                  }
-                  >もっともっと</Button>
-                </div>
-              {/* )} */}
             </Flex>
           </Box>
         </Box>
