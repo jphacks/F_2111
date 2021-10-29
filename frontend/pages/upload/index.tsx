@@ -232,7 +232,7 @@ const Upload = (): JSX.Element => {
             </Box>
           </FormControl>
         </FormControl>
-        {errorSubmit && message('Exif情報がありません。別の画像を選択して下さい！', 'error')}
+        {errorSubmit && message('予期せぬエラーが起こりました', 'error')}
       </Container>
     </>
   );
