@@ -152,7 +152,27 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		searchConditionRangeID.FNumber = &focalLengthRangeID
+		searchConditionRangeID.FocalLength = &focalLengthRangeID
+	}
+
+	if c.Query("photoGraphicSensitivity") != "" {
+		photoGraphicSensitivity, err := strconv.Atoi(c.Query("photoGraphicSensitivity"))
+		if err != nil {
+			logger.Errorf("photoGraphicSensitivity invalid, %v : %v", c.Query("photoGraphicSensitivity"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		searchConditionRangeID.PhotoGraphicSensitivity = &photoGraphicSensitivity
+	}
+
+	if c.Query("shutterSpeedValue") != "" {
+		shutterSpeedValue, err := strconv.Atoi(c.Query("shutterSpeedValue"))
+		if err != nil {
+			logger.Errorf("shutterSpeedValue invalid, %v : %v", c.Query("shutterSpeedValue"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		searchConditionRangeID.ShutterSpeedValue = &shutterSpeedValue
 	}
 
 	photos, err := p.photoUC.SearchPhotos(withDetail, pageSize, page, searchConditionRangeID)

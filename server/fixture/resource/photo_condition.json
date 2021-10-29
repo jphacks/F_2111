@@ -60,5 +60,57 @@
         "max": -1
       }
     ]
+  },
+  "photo_graphic_sensitivity": {
+    "prefix": "",
+    "suffix": "",
+    "ranges": [
+      {
+        "id": 0,
+        "min": -1,
+        "max": 100
+      },
+      {
+        "id": 1,
+        "min": 100,
+        "max": 1000
+      },
+      {
+        "id": 2,
+        "min": 1000,
+        "max": 3000
+      },
+      {
+        "id": 3,
+        "min": 3000,
+        "max": -1
+      }
+    ]
+  },
+  "shutter_speed_value": {
+    "prefix": "",
+    "suffix": "",
+    "ranges": [
+      {
+        "id": 0,
+        "min": -1,
+        "max": 100
+      },
+      {
+        "id": 1,
+        "min": 100,
+        "max": 1000
+      },
+      {
+        "id": 2,
+        "min": 1000,
+        "max": 3000
+      },
+      {
+        "id": 3,
+        "min": 3000,
+        "max": -1
+      }
+    ]
   }
 }
