@@ -11,6 +11,7 @@ import (
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/fixture"
 	"log"
+	"math"
 	"mime/multipart"
 	"strconv"
 	"strings"
@@ -110,6 +111,38 @@ func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page
 		if focalLength.Max != -1 {
 			conditions = append(conditions, "focal_length < ?")
 			params = append(params, focalLength.Max)
+		}
+	}
+
+	if rangeID.PhotoGraphicSensitivity != nil {
+		photoGraphicSensitivity, err := fixture.GetRange(r.searchCondition.PhotoGraphicSensitivity, *rangeID.PhotoGraphicSensitivity)
+		if err != nil {
+			return nil, fmt.Errorf("photoGraphicSensitivityRangeID invalid, %v : %v", rangeID.PhotoGraphicSensitivity, err)
+		}
+
+		if photoGraphicSensitivity.Min != -1 {
+			conditions = append(conditions, "photo_graphic_sensitivity >= ?")
+			params = append(params, photoGraphicSensitivity.Min)
+		}
+		if photoGraphicSensitivity.Max != -1 {
+			conditions = append(conditions, "photo_graphic_sensitivity < ?")
+			params = append(params, photoGraphicSensitivity.Max)
+		}
+	}
+
+	if rangeID.ShutterSpeedValue != nil {
+		shutterSpeedValue, err := fixture.GetRange(r.searchCondition.ShutterSpeedValue, *rangeID.ShutterSpeedValue)
+		if err != nil {
+			return nil, fmt.Errorf("shutterSpeedValueRangeID invalid, %v : %v", rangeID.ShutterSpeedValue, err)
+		}
+
+		if shutterSpeedValue.Min != -1 {
+			conditions = append(conditions, "shutter_speed_value >= ?")
+			params = append(params, -math.Log2(float64(shutterSpeedValue.Min)))
+		}
+		if shutterSpeedValue.Max != -1 {
+			conditions = append(conditions, "shutter_speed_value < ?")
+			params = append(params, -math.Log2(float64(shutterSpeedValue.Max)))
 		}
 	}
 
