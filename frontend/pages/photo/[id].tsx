@@ -11,6 +11,15 @@ const Photo = (props: PhotoProps): JSX.Element => {
       <Head>
         <title>{photo.title} | baetoru.com</title>
         <meta name="description" content={`${photo.title} | baetoru.com`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:url" content={`https://baetoru.tetsuzawa.com/photo/${photo.id}`}/>
+        <meta property="og:title" content={`${photo.title} | baetoru.com`} />
+        <meta property="og:description" content={`${photo.description}`} />
+        <meta property="og:image" content={`${photo.url}`} />
+        <meta property="twitter:url" content={`https://baetoru.tetsuzawa.com/photo/${photo.id}`} />
+        <meta property="twitter:title" content={`${photo.title} | baetoru.com`} />
+        <meta property="twitter:description" content={`${photo.description}`} />
+        <meta property="twitter:image" content={`${photo.url}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PhotoWrapper {...photo}></PhotoWrapper>

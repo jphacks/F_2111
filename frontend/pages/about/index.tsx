@@ -46,7 +46,15 @@ const About: NextPage = (): JSX.Element => (
   <Box>
     <Head>
       <title>About | baetoru.com</title>
-      <meta name="description" content="About | baetoru.com" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="og:url" content="https://baetoru.tetsuzawa.com/about" />
+      <meta property="og:title" content="About | baetoru.com" />
+      <meta property="og:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
+      <meta property="og:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
+      <meta property="twitter:url" content="https://baetoru.tetsuzawa.com/about" />
+      <meta property="twitter:title" content="About | baetoru.com" />
+      <meta property="twitter:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
+      <meta property="twitter:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} position="fixed" style={Style.Image} />
