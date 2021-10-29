@@ -50,8 +50,8 @@ const About: NextPage = (): JSX.Element => (
         <Heading marginBottom="10px" textAlign="center">About</Heading>
         <Image padding="10px" src="/OfficialLogo.jpg"/>
         <Box style={Style.Box}>
-          <Text fontWeight="700" textAlign="center" {...Style.Heading}>「映えとる」とは</Text>
-          <Box {...Style.ContentsBox}>
+          <Text fontWeight="700" textAlign="center" style={Style.Heading}>「映えとる」とは</Text>
+          <Box style={Style.ContentsBox}>
             <Text lineHeight="8" textAlign="center">
             「映え写真の撮り方を共有するサービス」<br/>
             いつ・どこで・どんな機材で・どんな画角で<br/>
@@ -60,8 +60,8 @@ const About: NextPage = (): JSX.Element => (
           </Box>
         </Box>
         <Box style={Style.Box}>
-          <Text fontWeight="700" textAlign="center" {...Style.Heading}>今後の展望</Text>
-          <Box {...Style.ContentsBox}>
+          <Text fontWeight="700" textAlign="center" style={Style.Heading}>今後の展望</Text>
+          <Box style={Style.ContentsBox}>
             <Text lineHeight="8" textAlign="left">
             - 既に有名なSNSサービスと連携して撮り方を見れるようにする<br/>
             - 画像編集の前後を比べたり，手法を共有できる機能<br/>
