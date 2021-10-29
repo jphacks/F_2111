@@ -1,0 +1,64 @@
+{
+  "fnumber": {
+    "prefix": "",
+    "suffix": "",
+    "ranges": [
+      {
+        "id": 0,
+        "min": -1,
+        "max": 2
+      },
+      {
+        "id": 1,
+        "min": 2,
+        "max": 4
+      },
+      {
+        "id": 2,
+        "min": 4,
+        "max": 8
+      },
+      {
+        "id": 3,
+        "min": 8,
+        "max": -1
+      }
+    ]
+  },
+  "focal_length": {
+    "prefix": "",
+    "suffix": "mm",
+    "ranges": [
+      {
+        "id": 0,
+        "min": -1,
+        "max": 24
+      },
+      {
+        "id": 1,
+        "min": 24,
+        "max": 35
+      },
+      {
+        "id": 2,
+        "min": 35,
+        "max": 50
+      },
+      {
+        "id": 3,
+        "min": 50,
+        "max": 100
+      },
+      {
+        "id": 4,
+        "min": 100,
+        "max": 200
+      },
+      {
+        "id": 5,
+        "min": 200,
+        "max": -1
+      }
+    ]
+  }
+}

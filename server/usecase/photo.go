@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+	"github.com/jphacks/F_2111/fixture"
 	"mime/multipart"
 	"net/url"
 
@@ -87,6 +88,21 @@ func (p *PhotoUseCase) GetPhotos(withDetail bool, pageSize int) (photoDTOs []*dt
 	return
 }
 
+func (p *PhotoUseCase) SearchPhotos(withDetail bool, pageSize int, page int, rangeID *fixture.PhotoSearchConditionRangeID) (photoDTOs []*dto.PhotoDTO, err error) {
+	var photos []*entity.Photo
+	photos, err = p.photoRepository.FindAllByCondition(withDetail, pageSize, page, rangeID)
+	if err != nil {
+		err = fmt.Errorf("get photos: %w", err)
+		return
+	}
+
+	for _, photo := range photos {
+		photoDTOs = append(photoDTOs, photo.ConvertToDTO())
+	}
+
+	return
+}
+
 func (p *PhotoUseCase) GetPhoto(id string) (photoDTO *dto.PhotoDTO, err error) {
 	var photo *entity.Photo
 	photo, err = p.photoRepository.FindByID(id)
@@ -96,4 +112,8 @@ func (p *PhotoUseCase) GetPhoto(id string) (photoDTO *dto.PhotoDTO, err error) {
 	}
 	photoDTO = photo.ConvertToDTO()
 	return
+}
+
+func (p *PhotoUseCase) GetPhotoSearchCondition() *fixture.PhotoSearchCondition {
+	return p.photoRepository.GetSearchCondition()
 }

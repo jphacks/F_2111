@@ -2,10 +2,10 @@ package handler
 
 import (
 	"encoding/json"
-	"strconv"
-
 	"errors"
+	"github.com/jphacks/F_2111/fixture"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/F_2111/domain/dto"
@@ -92,6 +92,77 @@ func (p *PhotoHandler) GetPhotos(c *gin.Context) {
 		"photos": photos,
 	})
 }
+
+func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
+	logger := log.GetLogger()
+
+	var withDetail bool
+
+	if c.Query("detail") != "" {
+		var err error
+		withDetail, err = strconv.ParseBool(c.Query("detail"))
+		if err != nil {
+			logger.Errorf("detail flag is invalid, %v : %v", c.Query("detail"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	var pageSize int
+	if c.Query("page-size") != "" {
+		var err error
+		pageSize, err = strconv.Atoi(c.Query("page-size"))
+		if err != nil {
+			logger.Errorf("page-size invalid, %v : %v", c.Query("page-size"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	var page int
+	if c.Query("page") != "" {
+		var err error
+		page, err = strconv.Atoi(c.Query("page"))
+		if err != nil {
+			logger.Errorf("page invalid, %v : %v", c.Query("page"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	// conditions
+	searchConditionRangeID := &fixture.PhotoSearchConditionRangeID{}
+	if c.Query("fnumberRangeID") != "" {
+		fnumberRangeID, err := strconv.Atoi(c.Query("fnumberRangeID"))
+		if err != nil {
+			logger.Errorf("fnumberRangeID invalid, %v : %v",c.Query("fnumberRangeID"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		searchConditionRangeID.FNumber = &fnumberRangeID
+	}
+
+	if c.Query("focalLengthRangeID") != "" {
+		focalLengthRangeID, err := strconv.Atoi(c.Query("focalLengthRangeID"))
+		if err != nil {
+			logger.Errorf("focalLengthRangeID invalid, %v : %v",c.Query("focalLengthRangeID"), err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		searchConditionRangeID.FNumber = &focalLengthRangeID
+	}
+
+	photos, err := p.photoUC.SearchPhotos(withDetail, pageSize, page, searchConditionRangeID)
+	if err != nil {
+		logger.Errorf("get photos: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"photos": photos,
+	})
+}
+
 func (p *PhotoHandler) GetPhoto(c *gin.Context) {
 	logger := log.GetLogger()
 	id := c.Param("id")
@@ -111,4 +182,8 @@ func (p *PhotoHandler) GetPhoto(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"photo": photo,
 	})
+}
+
+func (p *PhotoHandler) GetPhotoSearchCondition(c *gin.Context) {
+	c.JSON(http.StatusOK, p.photoUC.GetPhotoSearchCondition())
 }
