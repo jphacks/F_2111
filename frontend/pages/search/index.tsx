@@ -12,7 +12,6 @@ interface PhotoSearchProps {
   photo_search_condition: PhotoSearchCondition
 }
 
-
 const searchPhoto = async (params: PhotoSearchParams) => {
   const urlSearchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
@@ -34,7 +33,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   const [page, setPage] = useState<number>(0);
 
   const ref = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
-  const intersection = useIntersection(ref);
+  const intersection = useIntersection();
   const [intersected, setIntersected] = useState<boolean>(true);
   const [fetching, setFetching] = useState<boolean>(true);
 

@@ -1,13 +1,9 @@
 import {useEffect, useState} from 'react';
 
-export const useIntersection = (ref: React.MutableRefObject<HTMLDivElement>) => {
+export const useIntersection = () => {
   const [intersecting, setIntersecting] = useState(false);
 
   useEffect(() => {
-    if (ref === undefined || ref === null) {
-      return;
-    }
-
     if (process.browser) {
       const scroll = 0.9;
       const options = {
@@ -19,16 +15,16 @@ export const useIntersection = (ref: React.MutableRefObject<HTMLDivElement>) => 
       const observer = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) {
           console.log('90% here');
-          setIntersecting(entry.isIntersecting);
+          setIntersecting(true);
         } else {
-          console.log('no');
+          setIntersecting(false);
         }
       }, options);
 
       observer.observe(document.body);
       return () => observer.unobserve(document.body);
     }
-  }, []);
+  }, [intersecting]);
 
   return intersecting;
 };
