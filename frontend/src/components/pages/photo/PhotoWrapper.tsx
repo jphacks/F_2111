@@ -1,4 +1,4 @@
-import { Box, Container, Text, Heading } from '@chakra-ui/react';
+import { Box, Container, Text, Heading, Image as Img } from '@chakra-ui/react';
 import Image from 'next/image';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import { Map } from './Map';
@@ -9,10 +9,12 @@ import { PhotoType } from '../../../types';
 const Style = {
   Box: { marginTop: '10px', marginBottom: '25px' },
   Container: {
+    paddingTop: "20px",
     backgroundColor: "rgb(255 199 142 / 70%)",
     backdropFilter: "blur(2px)",
     height: "100%",
     paddingBottom: "10px",
+    textAlign: "-webkit-center"
   },
   Heading: {
     fontSize: "200%",
@@ -24,12 +26,15 @@ const Style = {
     borderColor: "orange",
     textAlign: "center"
   },
-  ContentsBox: {
-    focusBorderColor: "Orange",
-    borderColor: "orange",
+  ImageBox: {
     background: "white",
-    padding: "30px",
+    width: "90%",
+    padding: "10px",
+    borderWidth: "2px",
+    borderColor: "orange",
     borderRadius: "5px",
+    textAlign: "center",
+    marginBottom: "10px",
   },
   Image: {
     position: "fixed",
@@ -44,8 +49,8 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
     render={Render}
   >
     <Container maxWidth={{ base: "110vh" }} style={Style.Container}>
-      <Heading>写真詳細ページ</Heading>
-      <Box textAlign="center">
+      <Heading style={Style.Heading}>写真詳細ページ</Heading>
+      <Box style={Style.ImageBox}>
         <Image
           src={photo.url}
           height={400}
@@ -53,9 +58,7 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           quality={100}
           priority
         />
-        <Box style={Style.Box}>
-          <Text>{photo.title}</Text>
-        </Box>
+        <Text>タイトル：　{photo.title}</Text>
       </Box>
       <Box style={Style.Box}>
         {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
