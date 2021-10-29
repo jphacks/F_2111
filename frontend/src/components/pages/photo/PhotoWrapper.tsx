@@ -96,7 +96,6 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           paddingBottom: "2px",
           marginBottom: "10px",
           borderBottom: "1px",
-          borderBottomWidth: "2px",
           borderColor: "orange",
           textAlign: "center"
         }}>写真詳細ページ</Heading>
@@ -110,8 +109,7 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           textAlign: "left",
           paddingBottom: "2px",
           marginBottom: "15px",
-          borderBottom: "1px",
-          borderBottomWidth: "4px",
+          borderBottom: "solid orange 4px",
           borderColor: "orange",
           fontSize: "200%"
         }}>写真</Text>
@@ -124,7 +122,7 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           borderColor: "orange",
           borderRadius: "5px",
           textAlign: "center",
-          marginBottom: "10px",
+          margin: "0 auto 10px",
         }}>
         <Image
           src={photo.url}
@@ -146,7 +144,7 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           paddingBottom: "2px",
           marginBottom: "15px",
           borderBottom: "1px",
-          borderBottomWidth: "4px",
+          borderBottom: "solid orange 4px",
           borderColor: "orange",
           fontSize: "200%"
         }}>位置情報</Text>
@@ -178,7 +176,7 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           paddingBottom: "2px",
           marginBottom: "15px",
           borderBottom: "1px",
-          borderBottomWidth: "4px",
+          borderBottom: "solid orange 4px",
           borderColor: "orange",
           fontSize: "200%"
         }}>詳細</Text>
