@@ -69,11 +69,66 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
     apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
     render={Render}
   >
-    <Img src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
-    <Container maxWidth={{ base: "110vh" }} style={Style.Container}>
-      <Heading style={Style.Heading}>写真詳細ページ</Heading>
-      <Text {...Style.Sub}>写真</Text>
-      <Box style={Style.ImageBox}>
+    <Img 
+      src="/Background.jpg" 
+      display={{ base: "none", sm: "fixed" }} 
+      style={{
+        paddingTop: "20px",
+        backgroundColor: "rgb(255 199 142 / 70%)",
+        backdropFilter: "blur(2px)",
+        height: "100%",
+        paddingBottom: "10px",
+        textAlign: "center"
+      }} 
+    />
+    <Container 
+      maxWidth={{ base: "110vh" }} 
+      style={{
+        paddingTop: "20px",
+        backgroundColor: "rgb(255 199 142 / 70%)",
+        backdropFilter: "blur(2px)",
+        height: "100%",
+        paddingBottom: "10px",
+        textAlign: "center"
+      }}
+      >
+      <Heading 
+        style={{
+          fontSize: "200%",
+          fontWeight: 700,
+          paddingBottom: "2px",
+          marginBottom: "10px",
+          borderBottom: "1px",
+          borderBottomWidth: "2px",
+          borderColor: "orange",
+          textAlign: "center"
+        }}>写真詳細ページ</Heading>
+      <Text 
+        width={{
+          sm: "20%",
+          base: "45%",
+        }}
+        style={{
+          marginRight: "auto",
+          textAlign: "left",
+          paddingBottom: "2px",
+          marginBottom: "15px",
+          borderBottom: "1px",
+          borderBottomWidth: "4px",
+          borderColor: "orange",
+          fontSize: "200%"
+        }}>写真</Text>
+      <Box 
+        style={{
+          background: "white",
+          width: "70%",
+          padding: "15px",
+          borderWidth: "2px",
+          borderColor: "orange",
+          borderRadius: "5px",
+          textAlign: "center",
+          marginBottom: "10px",
+        }}>
         <Image
           src={photo.url}
           height={400}
@@ -83,7 +138,21 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
         />
         <Text>タイトル：　{photo.title}</Text>
       </Box>
-      <Text {...Style.Sub}>位置情報</Text>
+      <Text 
+        width={{
+          sm: "20%",
+          base: "45%",
+        }}
+        style={{
+          marginRight: "auto",
+          textAlign: "left",
+          paddingBottom: "2px",
+          marginBottom: "15px",
+          borderBottom: "1px",
+          borderBottomWidth: "4px",
+          borderColor: "orange",
+          fontSize: "200%"
+        }}>位置情報</Text>
       <Box style={Style.MapBox}>
         {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
           <Map
@@ -101,7 +170,21 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           </Box >
         )}
       </Box>
-      <Text {...Style.Sub}>詳細</Text>
+      <Text 
+        width={{
+          sm: "20%",
+          base: "45%",
+        }}
+        style={{
+          marginRight: "auto",
+          textAlign: "left",
+          paddingBottom: "2px",
+          marginBottom: "15px",
+          borderBottom: "1px",
+          borderBottomWidth: "4px",
+          borderColor: "orange",
+          fontSize: "200%"
+        }}>詳細</Text>
       <Box style={Style.TableBox}>
         <InfoTable {...photo} />
       </Box>
