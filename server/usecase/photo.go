@@ -6,8 +6,6 @@ import (
 	"mime/multipart"
 	"net/url"
 
-	"github.com/dsoprea/go-exif/v3"
-	exifcommon "github.com/dsoprea/go-exif/v3/common"
 	"github.com/google/uuid"
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
@@ -40,27 +38,9 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File,
 		return nil, fmt.Errorf("upload to s3: %w", err)
 	}
 
-	rawExif, err := exif.SearchAndExtractExifWithReader(image)
-	if err != nil {
-		logger.Infof("failed to search and extract exif: %v", err)
-	}
-	im, err := exifcommon.NewIfdMappingWithStandard()
-	if err != nil {
-		logger.Infof("failed to get ifd mapping with standard: %v", err)
-	}
-
-	ti := exif.NewTagIndex()
-
-	_, index, err := exif.Collect(im, ti, rawExif)
-	if err != nil {
-		logger.Infof("failed to collect exif: %v", err)
-	}
-
-	ifd := index.RootIfd
-
 	photo := &entity.Photo{}
 	photo.ConvertFromDTO(photoDTO)
-	err = photo.FillExif(ifd)
+	err = photo.FillExif(image)
 	if err != nil {
 		logger.Infof("failed to fill exif: %v", err)
 	}
