@@ -64,6 +64,21 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   }, [intersection]);
 
   useEffect(() => {
+    const params: PhotoSearchParams = {
+      fnumberRangeId,
+      focalLengthRangeId,
+      page: 0,
+      perPage: PHOTO_COUNTS_PER_PAGE,
+    };
+
+    searchPhoto(params)
+    .then(result => {
+      setSearchResult(result);
+      setPage(0);
+      setFetching(false);
+    })
+    .catch(console.error);
+
     if (intersected && !fetching) {
       onSearch();
     }
@@ -83,26 +98,18 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
             name='F値'
             value={fnumberRangeId}
             rangeCondition={photoSearchCondition.fnumber}
-            onChange={(value) => {
-              setFNumberRangeId(value);
-            }}
+            onChange={setFNumberRangeId}
           />
 
           <RangeForm
             name='焦点距離'
             value={focalLengthRangeId}
             rangeCondition={photoSearchCondition.focal_length}
-            onChange={(value) => {
-              setFocalLengthRangeId(value);
-            }}
+            onChange={setFocalLengthRangeId}
           />
 
           <Button
             onClick={onSearch}
-            disabled={
-              fnumberRangeId === '' &&
-              focalLengthRangeId === ''
-            }
           >
             Search
           </Button>
