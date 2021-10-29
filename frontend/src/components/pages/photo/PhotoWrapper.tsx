@@ -73,12 +73,9 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
       src="/Background.jpg" 
       display={{ base: "none", sm: "fixed" }} 
       style={{
-        paddingTop: "20px",
-        backgroundColor: "rgb(255 199 142 / 70%)",
-        backdropFilter: "blur(2px)",
-        height: "100%",
-        paddingBottom: "10px",
-        textAlign: "center"
+        position: "fixed",
+        height: "100vh",
+        opacity: "20%",
       }} 
     />
     <Container 
