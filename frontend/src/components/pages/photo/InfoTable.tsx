@@ -49,6 +49,7 @@ export const InfoTable = (res: PhotoType): JSX.Element => {
   const getDate = () => {
     if (res.exif?.datetimeOriginal === undefined) return;
     let tempDate = res.exif?.datetimeOriginal?.split("T").join(",").split("+").join(",").split(",")
+    if(tempDate === undefined) return;
     setDate({ date: tempDate[0], time: tempDate[1], utc: tempDate[2] })
   }
   const init = async () => {
