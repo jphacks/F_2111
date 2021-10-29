@@ -120,9 +120,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               {searchResult ? (
                 <>
                   {
-                    searchResult.map((photo, idx) => {
-                      return <Photo key={idx} {...photo} />
-                    })
+                    searchResult.map((photo, idx) => <Photo key={idx} {...photo} />)
                   }
                 </>
               ) : (
