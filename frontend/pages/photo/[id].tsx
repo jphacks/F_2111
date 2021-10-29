@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react';
 import { NextApiRequest } from 'next';
 import Head from 'next/head';
 import { PhotoWrapper } from '../../src/components/pages/photo/PhotoWrapper';
@@ -8,14 +7,14 @@ import { PhotoProps, PhotoType } from '../../src/types';
 const Photo = (props: PhotoProps): JSX.Element => {
   const { photo } = props;
   return (
-    <Box>
+    <>
       <Head>
         <title>{photo.title} | baetoru.com</title>
         <meta name="description" content={`${photo.title} | baetoru.com`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PhotoWrapper {...photo}></PhotoWrapper>
-    </Box>
+    </>
   );
 };
 
