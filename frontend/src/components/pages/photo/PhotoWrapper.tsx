@@ -69,11 +69,11 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
     apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
     render={Render}
   >
-    <Img 
+    <Img
       src="/Background.jpg" 
-      display={{ base: "none", sm: "fixed" }} 
+      display={{ base: "none", sm: "fixed" }}
+      position="fixed"
       style={{
-        position: "fixed",
         height: "100vh",
         opacity: "20%",
       }} 
