@@ -6,12 +6,44 @@ import { InfoTable } from './InfoTable';
 import { Render } from './Render';
 import { PhotoType } from '../../../types';
 
+const Style = {
+  Box: { marginTop: '10px', marginBottom: '25px' },
+  Container: {
+    backgroundColor: "rgb(255 199 142 / 70%)",
+    backdropFilter: "blur(2px)",
+    height: "100%",
+    paddingBottom: "10px",
+  },
+  Heading: {
+    fontSize: "200%",
+    fontWeight: "700",
+    paddingBottom: "2px",
+    marginBottom: "10px",
+    borderBottom: "1px",
+    borderBottomWidth: "2px",
+    borderColor: "orange",
+    textAlign: "center"
+  },
+  ContentsBox: {
+    focusBorderColor: "Orange",
+    borderColor: "orange",
+    background: "white",
+    padding: "30px",
+    borderRadius: "5px",
+  },
+  Image: {
+    position: "fixed",
+    height: "100vh",
+    opacity: "20%",
+  }
+};
+
 export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
   <Wrapper
     apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
     render={Render}
   >
-    <Container maxWidth={{ base: "110vh" }}>
+    <Container maxWidth={{ base: "110vh" }} style={Style.Container}>
       <Heading>写真詳細ページ</Heading>
       <Box textAlign="center">
         <Image
@@ -21,11 +53,11 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           quality={100}
           priority
         />
-        <Box padding="10px" marginBottom="10px">
+        <Box style={Style.Box}>
           <Text>{photo.title}</Text>
         </Box>
       </Box>
-      <Box>
+      <Box style={Style.Box}>
         {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
           <Map
             lat={photo.exif?.gpsLatitude ?? 0}
@@ -42,7 +74,7 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           </Box >
         )}
       </Box>
-      <Box>
+      <Box style={Style.Box}>
         <InfoTable {...photo} />
       </Box>
     </Container >
