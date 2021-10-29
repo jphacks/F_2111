@@ -92,17 +92,22 @@ const About: NextPage = (): JSX.Element => (
             </OrderedList>
           </Text>
         </Box>
-
       </Box>
-      <Box style={Style.Box} textAlign="center">
-        <Link href='/upload' key="upload">
-          <a>
-            <Button type="submit" variant="solid" size="lg" colorScheme="orange">
-              投稿してみる 
-              <ChevronRightIcon/>
-            </Button>
-          </a>
-        </Link>
+      <Box textAlign="center">
+        <Box style={Style.Box} textAlign="center">
+          <Text>位置情報をオンにして写真を取ると良いかも！</Text>
+          <Text>↓試しに撮って、投稿して見よう↓</Text>
+        </Box>
+        <Box style={Style.Box} textAlign="center">
+          <Link href='/upload' key="upload">
+            <a>
+              <Button type="submit" variant="solid" size="lg" colorScheme="orange">
+                投稿してみる
+              <ChevronRightIcon />
+              </Button>
+            </a>
+          </Link>
+        </Box>
       </Box>
       <Box style={Style.Box}>
         <Text {...Style.Heading}>今後の展望</Text>
