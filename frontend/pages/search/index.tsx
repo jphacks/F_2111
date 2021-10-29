@@ -38,24 +38,22 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   const [intersected, setIntersected] = useState<boolean>(true);
   const [fetching, setFetching] = useState<boolean>(true);
 
-  const onSearch = () => {
+  const handleSearch = () => {
     setFetching(true);
-
+    console.log(page)
     const params: PhotoSearchParams = {
       fnumberRangeId,
       focalLengthRangeId,
-      page: 0,
+      page,
       perPage: PHOTO_COUNTS_PER_PAGE,
     };
     setPhotoSearchParams(params);
-    setSearchResult(null);
 
     searchPhoto(params)
       .then(result => {
         const r = searchResult ?? [] as PhotoType[];
-        console.log([...r, ...result.photos])
         setSearchResult([...r, ...result.photos]);
-        setPage(0);
+        setPage(page + 1);
         setFetching(false);
       })
       .catch(console.error);
@@ -63,6 +61,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
   useEffect(() => {
     setIntersected(intersection);
+    if (intersection) handleSearch();
   }, [intersection]);
 
   useEffect(() => {
@@ -76,16 +75,14 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
     searchPhoto(params)
     .then(result => {
       setSearchResult(result.photos);
-      setPage(0);
       setFetching(false);
     })
     .catch(console.error);
 
     if (intersected && !fetching) {
-      onSearch();
+      handleSearch();
     }
-  }, [intersected, fetching]);
-
+  }, []);
 
   return (
     <Box>
@@ -111,7 +108,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
           />
 
           <Button
-            onClick={onSearch}
+            onClick={handleSearch}
           >
             Search
           </Button>
@@ -125,8 +122,8 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               {searchResult ? (
                 <>
                   {
-                    searchResult.map((photo) => (
-                      <Photo key={photo.id} {...photo} />
+                    searchResult.map((photo, idx) => (
+                      <Photo key={idx} {...photo} />
                     ))
                   }
                 </>
@@ -169,7 +166,7 @@ export const getServerSideProps = async (): Promise<{
   props: PhotoSearchProps;
 }> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SSR_HOST}/api/v1/photos/search/condition`);
-  const data = (await res.json()) as PhotoSearchProps;
+  const data = await res.json() as PhotoSearchProps;
 
   return {
     props: data,

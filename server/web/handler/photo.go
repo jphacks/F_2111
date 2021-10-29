@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -174,6 +175,7 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	}
 
 	photos, err := p.photoUC.SearchPhotos(withDetail, pageSize, page, searchConditionRangeID)
+	fmt.Println(photos)
 	if err != nil {
 		logger.Errorf("get photos: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})
