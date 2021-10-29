@@ -38,14 +38,19 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   });
   const [searchResult, setSearchResult] = useState<PhotoType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
-  const ref = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
   const intersection = useIntersection();
   const [intersected, setIntersected] = useState<boolean>(true);
   const [fetching, setFetching] = useState<boolean>(true);
 
   const handleSearch = () => {
     setFetching(true);
-    searchPhoto(photoSearchParams)
+    const params: PhotoSearchParams = {
+      fnumberRangeId,
+      focalLengthRangeId,
+      page,
+      perPage: PHOTO_COUNTS_PER_PAGE,
+    };
+    searchPhoto(params)
       .then(result => {
         if (result.photos === null) setIsEnd(true);
         const r = searchResult ?? [] as PhotoType[];
