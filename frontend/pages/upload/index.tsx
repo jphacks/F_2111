@@ -137,7 +137,9 @@ const Upload = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>投稿ページ</title>
+        <title>投稿 | baetoru.com</title>
+        <meta name="description" content="投稿 | baetoru.com" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Image 
         src="/Background.jpg" 
