@@ -27,6 +27,10 @@ SNS を利用する人が増え，いわゆる「映え写真」が多く投稿�
 
 ![image-map](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/image-map.jpg)
 
+#### 3. F 値・焦点距離 で写真を絞り込むことができる
+
+![image-search](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/image-search.jpg)
+
 ### 解決出来ること
 
 映え写真を撮りたい人が撮り方を**詳しく**知ることができる．
@@ -34,6 +38,8 @@ SNS を利用する人が増え，いわゆる「映え写真」が多く投稿�
 
 ### 今後の展望
 
+- カメラやレンズで写真を絞り込めるようにする
+- 現在地に近い写真を表示できるようにする
 - SNS 機能をつけてユーザーが交流できるようにする
 - 既に有名な SNS サービスと連携して撮り方を表示できるようにする
 - 画像編集の前後を比べたり，手法を共有できる機能をつける
@@ -84,7 +90,7 @@ SNS を利用する人が増え，いわゆる「映え写真」が多く投稿�
 #### ハッカソンで開発した独自機能・技術
 
 - exif 情報の表示 - [b06343a](https://github.com/jphacks/F_2111/commit/b06343aa07419cf7574f5bdcf6baa49338de93fe)
--
+- 絞り込み機能 - [ebb885c](https://github.com/jphacks/F_2111/commit/ebb885cc7687e5d423e7fb750a722725e9dd995b)
 
 ##### 全体構成図
 
