@@ -1,10 +1,11 @@
 import {Box, Button, CircularProgress, Flex} from '@chakra-ui/react';
 import Head from 'next/head';
 import {Photo} from '../../src/components/pages/home/Photo';
-import {PhotoSearchCondition, PhotoSearchParams, PhotoSearchResponse} from '../../src/types';
+import {PhotoSearchCondition, PhotoSearchParams, PhotoSearchResponse, PhotoType} from '../../src/types';
 import {FC, useEffect, useRef, useState} from 'react';
 import {RangeForm} from '../../src/components/pages/home/search/RangeForm';
 import {useIntersection} from '../../src/hooks/useIntersection';
+import { collectProjectingAncestors } from 'framer-motion/types/render/dom/projection/utils';
 
 const PHOTO_COUNTS_PER_PAGE = 4;
 
@@ -29,7 +30,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   const [fnumberRangeId, setFNumberRangeId] = useState('');
   const [focalLengthRangeId, setFocalLengthRangeId] = useState('');
   const [photoSearchParams, setPhotoSearchParams] = useState<PhotoSearchParams | null>(null);
-  const [searchResult, setSearchResult] = useState<PhotoSearchResponse | null>(null);
+  const [searchResult, setSearchResult] = useState<PhotoType[] | null>(null);
   const [page, setPage] = useState<number>(0);
 
   const ref = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
@@ -51,7 +52,9 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
     searchPhoto(params)
       .then(result => {
-        setSearchResult(result);
+        const r = searchResult ?? [] as PhotoType[];
+        console.log([...r, ...result.photos])
+        setSearchResult([...r, ...result.photos]);
         setPage(0);
         setFetching(false);
       })
@@ -72,7 +75,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
     searchPhoto(params)
     .then(result => {
-      setSearchResult(result);
+      setSearchResult(result.photos);
       setPage(0);
       setFetching(false);
     })
@@ -122,7 +125,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               {searchResult ? (
                 <>
                   {
-                    searchResult.photos.map((photo) => (
+                    searchResult.map((photo) => (
                       <Photo key={photo.id} {...photo} />
                     ))
                   }
@@ -144,7 +147,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
                       }
                       searchPhoto(params)
                         .then(result => {
-                          setSearchResult(result);
+                          setSearchResult(result.photos);
                           setPage(page + 1);
                         })
                         .catch(console.error);
