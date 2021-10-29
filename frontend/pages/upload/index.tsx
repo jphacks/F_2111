@@ -129,7 +129,7 @@ const Upload = (): JSX.Element => {
   const onSubmitForm = async () => {
     const { photo, submitError } = await handleSubmit({ file, state });
     setClickSubmit(true);
-    setErrorSubmit(true);
+    setErrorSubmit(submitError);
     submitError ? setClickSubmit(false) : router.push(`/photo/${photo.id}`);
   };
 
