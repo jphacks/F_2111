@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/jphacks/F_2111/fixture"
 	"os"
 	"time"
 
@@ -31,8 +32,12 @@ func main() {
 		secretKey := os.Getenv("AWS_SECRET_KEY")
 		creds = credentials.NewStaticCredentials(accessKey, secretKey, "")
 	}
+	photoSearchCondition, err := fixture.NewPhotoSearchCondition("./fixture/resource/photo_condition.json")
+	if err != nil {
+		logger.Fatal(err)
+	}
+	photoRepository := database.NewPhotoRepository(db, creds, photoSearchCondition)
 
-	photoRepository := database.NewPhotoRepository(db, creds)
 	photoUC := usecase.NewPhotoUseCase(photoRepository)
 
 	e := web.NewServer(photoUC)
