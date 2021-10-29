@@ -35,6 +35,7 @@ const Style = {
   Container: {
     backgroundColor: "rgb(255 199 142 / 70%)",
     backdropFilter: "blur(2px)",
+    paddingTop: "20px",
     paddingBottom: "10px"
   },
   Form: {
