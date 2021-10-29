@@ -14,7 +14,6 @@ export const useIntersection = () => {
 
       const observer = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) {
-          console.log('90% here');
           setIntersecting(true);
         } else {
           setIntersecting(false);
