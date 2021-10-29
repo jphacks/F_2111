@@ -19,12 +19,13 @@ SNS を利用する人が増え，いわゆる「映え写真」が多く投稿�
 
 ### 特長
 
-#### 1. 特長 1
-写真をアップロードすると自動で Exif 情報が読み取られ, カメラ・レンズの設定が表示される（Exif 情報がない場合は写真のみ表示される.
+#### 1. 写真をアップロードすると自動で Exif 情報が読み取られ, カメラ・レンズの設定が表示される（Exif 情報がない場合は写真のみ表示される.
 
-#### 2. 特長 2
+![image-detail](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/image-detail.jpg)
 
-Google Map・ストリートビューに写真を撮った場所・向きが表示される．（Exif 情報がない場合は表示されない).
+#### 2. Google Map・ストリートビューに写真を撮った場所・向きが表示される．（Exif 情報がない場合は表示されない).
+
+![image-map](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/image-map.jpg)
 
 ### 解決出来ること
 
