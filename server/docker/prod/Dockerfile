@@ -19,5 +19,6 @@ FROM gcr.io/distroless/static-debian10:latest
 ENV TZ=Asia/Tokyo
 
 COPY --from=build /workdir/baetoru /baetoru
+COPY --from=build /workdir/fixture/resource/photo_condition.json /fixture/resource/photo_condition.json
 
 ENTRYPOINT ["/baetoru"]
