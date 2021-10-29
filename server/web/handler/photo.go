@@ -207,6 +207,6 @@ func (p *PhotoHandler) GetPhoto(c *gin.Context) {
 
 func (p *PhotoHandler) GetPhotoSearchCondition(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"photo_search_condition": p.photoUC.GetPhotoSearchCondition(),
+		"photoSearchCondition": p.photoUC.GetPhotoSearchCondition(),
 	})
 }

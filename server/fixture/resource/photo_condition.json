@@ -25,7 +25,7 @@
       }
     ]
   },
-  "focal_length": {
+  "focalLength": {
     "prefix": "",
     "suffix": "mm",
     "ranges": [
@@ -61,7 +61,7 @@
       }
     ]
   },
-  "photo_graphic_sensitivity": {
+  "photoGraphicSensitivity": {
     "prefix": "",
     "suffix": "",
     "ranges": [
@@ -87,7 +87,7 @@
       }
     ]
   },
-  "shutter_speed_value": {
+  "shutterSpeedValue": {
     "prefix": "",
     "suffix": "",
     "ranges": [
