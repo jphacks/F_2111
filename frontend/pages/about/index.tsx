@@ -19,13 +19,11 @@ const Style = {
   },
   Heading: {
     fontSize: "200%",
-    fontWeight: "700",
     paddingBottom: "2px",
     marginBottom: "10px",
     borderBottom: "1px",
     borderBottomWidth: "2px",
     borderColor: "orange",
-    textAlign: "center"
   },
   ContentsBox: {
     focusBorderColor: "Orange",
@@ -35,7 +33,6 @@ const Style = {
     borderRadius: "5px",
   },
   Image: {
-    position: "fixed",
     height: "100vh",
     opacity: "20%",
   }
@@ -48,12 +45,12 @@ const About: NextPage = (): JSX.Element => (
         <meta name="description" content="About | baetoru.com" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
+      <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} position="fixed" style={Style.Image} />
       <Container style={Style.Container}>
         <Heading marginBottom="10px" textAlign="center">About</Heading>
         <Image padding="10px" src="/OfficialLogo.jpg"/>
         <Box style={Style.Box}>
-          <Text {...Style.Heading}>「映えとる」とは</Text>
+          <Text style={Style.Heading}>「映えとる」とは</Text>
           <Box {...Style.ContentsBox}>
             <Text lineHeight="8" textAlign="center">
             「映え写真の撮り方を共有するサービス」<br/>
@@ -63,7 +60,7 @@ const About: NextPage = (): JSX.Element => (
           </Box>
         </Box>
         <Box style={Style.Box}>
-          <Text {...Style.Heading}>今後の展望</Text>
+          <Text fontWeight="700" textAlign="center" {...Style.Heading}>今後の展望</Text>
           <Box {...Style.ContentsBox}>
             <Text lineHeight="8" textAlign="left">
             - 既に有名なSNSサービスと連携して撮り方を見れるようにする<br/>
