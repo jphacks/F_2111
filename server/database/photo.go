@@ -10,21 +10,22 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/fixture"
+	"log"
 	"mime/multipart"
 	"strconv"
 	"strings"
 )
 
 type PhotoRepository struct {
-	db                   *sqlx.DB
-	creds                *credentials.Credentials
+	db              *sqlx.DB
+	creds           *credentials.Credentials
 	searchCondition *fixture.PhotoSearchCondition
 }
 
 func NewPhotoRepository(db *sqlx.DB, creds *credentials.Credentials, searchCondition *fixture.PhotoSearchCondition) *PhotoRepository {
 	return &PhotoRepository{
-		db:    db,
-		creds: creds,
+		db:              db,
+		creds:           creds,
 		searchCondition: searchCondition,
 	}
 }
@@ -80,7 +81,6 @@ func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page
 	var conditions []string
 	var params []interface{}
 
-
 	if rangeID.FNumber != nil {
 		fNumber, err := fixture.GetRange(r.searchCondition.FNumber, *rangeID.FNumber)
 		if err != nil {
@@ -114,9 +114,13 @@ func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page
 	}
 
 	if withDetail {
-		query = "SELECT id, url, title, description, make, model, lens_model, fnumber, flash, focal_length, photo_graphic_sensitivity, exposure_bias_value, shutter_speed_value, white_balance, gps_latitude, gps_longitude, gps_altitude, gps_img_direction_ref, gps_img_direction, datetime_original, created_at, updated_at FROM photos WHERE "
+		query = "SELECT id, url, title, description, make, model, lens_model, fnumber, flash, focal_length, photo_graphic_sensitivity, exposure_bias_value, shutter_speed_value, white_balance, gps_latitude, gps_longitude, gps_altitude, gps_img_direction_ref, gps_img_direction, datetime_original, created_at, updated_at FROM photos "
 	} else {
-		query = "SELECT id, url FROM photos WHERE "
+		query = "SELECT id, url FROM photos "
+	}
+
+	if len(conditions) != 0 {
+		query += " WHERE "
 	}
 
 	searchCondition := strings.Join(conditions, " AND ")
@@ -126,6 +130,7 @@ func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page
 		params = append(params, strconv.Itoa(pageSize), strconv.Itoa(pageSize*page))
 	}
 
+	log.Println(query + searchCondition)
 	stmt, err := r.db.Preparex(query + searchCondition)
 	if err != nil {
 		return photos, err

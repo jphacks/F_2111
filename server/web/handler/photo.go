@@ -135,7 +135,7 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	if c.Query("fnumberRangeID") != "" {
 		fnumberRangeID, err := strconv.Atoi(c.Query("fnumberRangeID"))
 		if err != nil {
-			logger.Errorf("fnumberRangeID invalid, %v : %v",c.Query("fnumberRangeID"), err)
+			logger.Errorf("fnumberRangeID invalid, %v : %v", c.Query("fnumberRangeID"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
@@ -145,7 +145,7 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	if c.Query("focalLengthRangeID") != "" {
 		focalLengthRangeID, err := strconv.Atoi(c.Query("focalLengthRangeID"))
 		if err != nil {
-			logger.Errorf("focalLengthRangeID invalid, %v : %v",c.Query("focalLengthRangeID"), err)
+			logger.Errorf("focalLengthRangeID invalid, %v : %v", c.Query("focalLengthRangeID"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
@@ -185,5 +185,7 @@ func (p *PhotoHandler) GetPhoto(c *gin.Context) {
 }
 
 func (p *PhotoHandler) GetPhotoSearchCondition(c *gin.Context) {
-	c.JSON(http.StatusOK, p.photoUC.GetPhotoSearchCondition())
+	c.JSON(http.StatusOK, gin.H{
+		"photo_search_condition": p.photoUC.GetPhotoSearchCondition(),
+	})
 }
