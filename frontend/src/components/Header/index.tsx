@@ -50,7 +50,7 @@ const DeskTopNav = (): JSX.Element => (
   <HStack alignItems="center">
     <HStack>
       <Link href='/' key='Logo'>
-        <a style={{ display: "contents" }}><Image width="15%" src="/Logo.jpg" /></a>
+        <a style={{ display: "contents" }}><Image width="5%" src="/Logo.jpg" /></a>
       </Link>
       {Links.map(({ text, path }) => (
         <Link href={`${path}`} key={text}>
