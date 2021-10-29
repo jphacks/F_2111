@@ -7,12 +7,12 @@ import { Render } from './Render';
 import { PhotoType } from '../../../types';
 
 export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
-  <Container maxWidth={{ base: "110vh" }}>
-    <Heading>写真詳細ページ</Heading>
-    <Wrapper
-      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
-      render={Render}
-    >
+  <Wrapper
+    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
+    render={Render}
+  >
+    <Container maxWidth={{ base: "110vh" }}>
+      <Heading>写真詳細ページ</Heading>
       <Box textAlign="center">
         <Image
           src={photo.url}
@@ -21,6 +21,9 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           quality={100}
           priority
         />
+        <Box padding="10px" marginBottom="10px">
+          <Text>{photo.title}</Text>
+        </Box>
       </Box>
       <Box>
         {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
@@ -42,6 +45,6 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
       <Box>
         <InfoTable {...photo} />
       </Box>
-    </Wrapper>
-  </Container >
+    </Container >
+  </Wrapper>
 )
