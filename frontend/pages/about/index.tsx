@@ -27,12 +27,8 @@ const Style = {
     paddingBottom: "10px",
   },
   Heading: {
-    fontSize: "200%",
     paddingBottom: "2px",
     marginBottom: "10px",
-    borderBottom: "1px",
-    borderBottomWidth: "2px",
-    borderColor: "orange",
   },
   ContentsBox: {
     focusBorderColor: "Orange",
@@ -53,12 +49,12 @@ const About: NextPage = (): JSX.Element => (
       <meta name="description" content="About | baetoru.com" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
+    <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} position="fixed" style={Style.Image} />
     <Container style={Style.Container}>
       <Heading marginBottom="10px" textAlign="center">About</Heading>
       <Image padding="10px" src="/OfficialLogo.jpg" />
       <Box style={Style.Box}>
-        <Text style={Style.Heading}>「映えとる」とは</Text>
+        <Text style={Style.Heading} borderBottom="1px" borderBottomWidth="2px" borderColor="orange" fontSize="200%" textAlign="center">「映えとる」とは</Text>
         <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
             <UnorderedList>
@@ -76,7 +72,7 @@ const About: NextPage = (): JSX.Element => (
         </Box>
       </Box>
       <Box style={Style.Box}>
-        <Text style={Style.Heading}>映えとるの特徴</Text>
+        <Text style={Style.Heading} borderBottom="1px" borderBottomWidth="2px" borderColor="orange" fontSize="200%" textAlign="center">映えとるの特徴</Text>
         <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
             <OrderedList>
@@ -107,7 +103,7 @@ const About: NextPage = (): JSX.Element => (
         </Box>
       </Box>
       <Box style={Style.Box}>
-        <Text style={Style.Heading}>今後の展望</Text>
+        <Text style={Style.Heading} borderBottom="1px" borderBottomWidth="2px" borderColor="orange" fontSize="200%" textAlign="center">今後の展望</Text>
         <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
             <UnorderedList>
