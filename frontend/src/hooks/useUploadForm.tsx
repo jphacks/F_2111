@@ -37,8 +37,9 @@ export const useUploadForm = () => {
     formData.append('image', file);
     formData.append('data', JSON.stringify(data));
     const { photo, _ } = await postData(formData).then(async (res: Response) => res.ok ? res.json() : { key: undefined, body: undefined });
-    const id = (photo === undefined) ? "" : photo.id;
-    const error = (photo === undefined) ? true : false;
+    const id: string = (photo === undefined) ? "" : photo.id;
+    const error: boolean = (photo === undefined) ? true : false;
+
     return {
       id,
       error,
