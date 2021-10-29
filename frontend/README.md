@@ -8,8 +8,6 @@
 NEXT_PUBLIC_SSR_HOST=http://app:8080
 NEXT_PUBLIC_HOST=https://localhost
 NEXT_PUBLIC_S3URL=baetoru-public.s3.ap-northeast-1.amazonaws.com
-NEXT_PUBLIC_AWS_ACCESS_KEY=共有されたアクセスキー
-NEXT_PUBLIC_AWS_SECRET_KEY=共有されたシークレットキー
 NEXT_PUBLIC_GOOGLE_MAP_API_KEY=共有されたグーグルAPIKey
 ```
 
