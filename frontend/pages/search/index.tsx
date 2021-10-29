@@ -1,11 +1,11 @@
-import { 
+import {
   Heading,
-  Box, 
-  Button, 
-  CircularProgress, 
-  Flex, 
-  Container, 
-  Image as Img 
+  Box,
+  Button,
+  CircularProgress,
+  Flex,
+  Container,
+  Image as Img
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { Photo } from '../../src/components/pages/home/Photo';
@@ -96,7 +96,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
     <>
       <Head>
         <title>検索 | baetoru.com</title>
-        <meta name="description" content="映える写真や撮り方を共有できるサービス、baetoruです。"/>
+        <meta name="description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:url" content="https://baetoru.tetsuzawa.com/search" />
         <meta property="og:title" content="Search | baetoru.com" />
@@ -106,7 +106,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
         <meta property="twitter:title" content="Search | baetoru.com" />
         <meta property="twitter:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
         <meta property="twitter:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
-        <link rel="icon" href="/favicon.ico"/>
+        <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="検索 | baetoru.com" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

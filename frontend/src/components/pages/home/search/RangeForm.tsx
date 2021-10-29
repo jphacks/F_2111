@@ -1,8 +1,8 @@
-import {FormControl, FormLabel, Radio, RadioGroup} from '@chakra-ui/react';
+import { FormControl, FormLabel, Radio, RadioGroup } from '@chakra-ui/react';
 
-import type {FC} from 'react';
-import type {RangeCondition} from '../../../../types';
-import {getShutterSpeed} from '../../../../utils/getShutterSpeed';
+import type { FC } from 'react';
+import type { RangeCondition } from '../../../../types';
+import { getShutterSpeed } from '../../../../utils/getShutterSpeed';
 
 interface Props {
   name: string
@@ -49,7 +49,7 @@ const Style = {
   },
 };
 
-export const RangeForm: FC<Props> = ({name, value, rangeCondition: {prefix, suffix, ranges}, onChange}) => {
+export const RangeForm: FC<Props> = ({ name, value, rangeCondition: { prefix, suffix, ranges }, onChange }) => {
   // const {getRootProps, getRadioProps} = useRadioGroup({
   //   name: name,
   //   defaultValue: value,
@@ -62,10 +62,10 @@ export const RangeForm: FC<Props> = ({name, value, rangeCondition: {prefix, suff
   return (
     <FormControl as='fieldset'>
       <FormLabel {...Style.Form}>{name}</FormLabel>
-      <RadioGroup display={{base:"grid", sm:"inherit"}} onChange={onChange} value={value}>
+      <RadioGroup display={{ base: "grid", sm: "inherit" }} onChange={onChange} value={value}>
         {/*<HStack {...group}>*/}
         {
-          ranges.map(({id, min, max}) => {
+          ranges.map(({ id, min, max }) => {
             if (name === 'シャッタースピード') {
               const minLabel = min > -100 ? `${prefix}${getShutterSpeed(min)}${suffix} ` : '';
               const maxLabel = max < 100 ? ` ${prefix}${getShutterSpeed(max)}${suffix}` : '';
