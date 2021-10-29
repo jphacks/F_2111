@@ -103,6 +103,23 @@ const About: NextPage = (): JSX.Element => (
         </Box>
       </Box>
       <Box style={Style.Box}>
+        <Text style={Style.Heading} borderBottom="1px" borderBottomWidth="2px" borderColor="orange" fontSize="200%" textAlign="center">技術スタック</Text>
+        <Box style={Style.ContentsBox}>
+        <Text lineHeight="8" textAlign="left">
+          <UnorderedList>
+            <ListItem>exif</ListItem>
+            <ListItem>AWS(EC2, S3)</ListItem>
+          </UnorderedList>
+          <UnorderedList>
+            <ListItem>Next.js</ListItem>
+            <ListItem>chakra-ui</ListItem>
+            <ListItem>gin-gonic/gin</ListItem>
+            <ListItem>dsoprea/go-exif/v3</ListItem>
+          </UnorderedList>
+        </Text>
+        </Box>
+      </Box>
+      <Box style={Style.Box}>
         <Text style={Style.Heading} borderBottom="1px" borderBottomWidth="2px" borderColor="orange" fontSize="200%" textAlign="center">今後の展望</Text>
         <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
