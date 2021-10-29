@@ -25,11 +25,11 @@ const Links = [
   {
     text: '投稿',
     path: '/upload',
-  }
-  //   {
-  //     text: 'Hoge', 
-  //     path: '/hoge',
-  //   },
+  },
+  {
+    text: '検索', 
+    path: '/search',
+  },
 ];
 
 const Header = (): JSX.Element => (
