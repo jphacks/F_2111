@@ -14,6 +14,7 @@ const Style = {
     backgroundColor: "rgb(255 199 142 / 70%)",
     backdropFilter: "blur(2px)",
     height: "100%",
+    paddingTop: "20px",
     paddingBottom: "10px",
   },
   Heading: {
