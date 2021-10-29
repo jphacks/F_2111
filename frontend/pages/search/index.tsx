@@ -41,7 +41,6 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
   const handleSearch = () => {
     setFetching(true);
-    console.log(page)
     const params: PhotoSearchParams = {
       fnumberRangeId,
       focalLengthRangeId,
