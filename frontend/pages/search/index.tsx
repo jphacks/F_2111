@@ -73,7 +73,6 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
     searchPhoto(params)
     .then(result => {
-      console.log(result.photos.length);
       setSearchResult(result);
       setPage(0);
       setFetching(false);
@@ -132,7 +131,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               ) : (
                 <CircularProgress/>
               )}
-              {!fetching && (
+              {/* {!fetching && ( */}
                 <div ref={ref} hidden={true}>
                   <Button onClick={
                     (e) => {
@@ -151,11 +150,10 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
                         })
                         .catch(console.error);
                     }
-
                   }
                   >もっともっと</Button>
                 </div>
-              )}
+              {/* )} */}
             </Flex>
           </Box>
         </Box>

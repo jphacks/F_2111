@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -97,7 +96,6 @@ func (p *PhotoHandler) GetPhotos(c *gin.Context) {
 
 func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	logger := log.GetLogger()
-	fmt.Println("takurinton")
 
 	var withDetail bool
 
@@ -114,9 +112,9 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	var pageSize int
 	if c.Query("perPage") != "" {
 		var err error
-		pageSize, err = strconv.Atoi(c.Query("page-size"))
+		pageSize, err = strconv.Atoi(c.Query("perPage"))
 		if err != nil {
-			logger.Errorf("page-size invalid, %v : %v", c.Query("page-size"), err)
+			logger.Errorf("page-size invalid, %v : %v", c.Query("perPage"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
