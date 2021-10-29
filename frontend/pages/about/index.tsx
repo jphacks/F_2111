@@ -50,7 +50,7 @@ const About: NextPage = (): JSX.Element => (
         <Heading marginBottom="10px" textAlign="center">About</Heading>
         <Image padding="10px" src="/OfficialLogo.jpg"/>
         <Box style={Style.Box}>
-          <Text style={Style.Heading}>「映えとる」とは</Text>
+          <Text fontWeight="700" textAlign="center" {...Style.Heading}>「映えとる」とは</Text>
           <Box {...Style.ContentsBox}>
             <Text lineHeight="8" textAlign="center">
             「映え写真の撮り方を共有するサービス」<br/>
