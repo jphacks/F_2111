@@ -131,7 +131,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               ) : (
                 <CircularProgress/>
               )}
-              {/*{!fetching && (*/}
+              {!fetching && (
                 <div ref={ref} hidden={true}>
                   <Button onClick={
                     (e) => {
@@ -154,7 +154,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
                   }
                   >もっともっと</Button>
                 </div>
-              {/*)}*/}
+              )}
             </Flex>
           </Box>
         </Box>
