@@ -139,7 +139,15 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
+      <Image 
+        src="/Background.jpg" 
+        display={{ base: "none", sm: "fixed" }} 
+        style={{
+          position: "fixed",
+          height: "100vh",
+          opacity: "20%",
+        }} 
+      />
       <Container style={Style.Container} height={file === undefined ? "100vh" : "100%"}>
         <Heading marginBottom="10px">投稿ページ</Heading>
         <FormControl id="post">
@@ -175,7 +183,19 @@ const Upload = (): JSX.Element => {
           </FormControl>
           <FormControl id="images" isRequired>
             <FormLabel {...Style.Form}>Upload Images</FormLabel>
-            <Box {...Style.DDBox} {...getRootProps()}>
+            <Box 
+              style={{
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: "20px",
+                borderWidth: "2px",
+                borderRadius: "20px",
+                border: "1px",
+                textAlign: "center",
+                borderColor: "orange",
+                background: "white"
+              }} {...getRootProps()}
+            >
               <Input
                 type={type}
                 multiple={false}
