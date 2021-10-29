@@ -7,9 +7,9 @@ import (
 
 type PhotoSearchCondition struct {
 	FNumber                 RangeCondition `json:"fnumber"`
-	FocalLength             RangeCondition `json:"focal_length"`
-	PhotoGraphicSensitivity RangeCondition `json:"photo_graphic_sensitivity"`
-	ShutterSpeedValue       RangeCondition `json:"shutter_speed_value"`
+	FocalLength             RangeCondition `json:"focalLength"`
+	PhotoGraphicSensitivity RangeCondition `json:"photoGraphicSensitivity"`
+	ShutterSpeedValue       RangeCondition `json:"shutterSpeedValue"`
 }
 
 func NewPhotoSearchCondition(photoConditionJsonPath string) (*PhotoSearchCondition, error) {

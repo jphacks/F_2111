@@ -10,7 +10,7 @@ import { collectProjectingAncestors } from 'framer-motion/types/render/dom/proje
 const PHOTO_COUNTS_PER_PAGE = 16;
 
 interface PhotoSearchProps {
-  photo_search_condition: PhotoSearchCondition
+  photoSearchCondition: PhotoSearchCondition
 }
 
 const searchPhoto = async (params: PhotoSearchParams) => {
@@ -24,15 +24,19 @@ const searchPhoto = async (params: PhotoSearchParams) => {
 };
 
 const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
-  const photoSearchCondition = props.photo_search_condition;
+  const photoSearchCondition = props.photoSearchCondition;
   // const classes = usePhotoSearchStyles()
 
   const [fnumberRangeId, setFNumberRangeId] = useState('');
   const [focalLengthRangeId, setFocalLengthRangeId] = useState('');
+  const [photoGraphicSensitivityRangeId, setPhotoGraphicSensitivityRangeId] = useState('');
+  const [shutterSpeedValueRangeId, setShutterSpeedValueRangeId] = useState('');
   const [page, setPage] = useState(0);
   const [photoSearchParams, setPhotoSearchParams] = useState<PhotoSearchParams>({
     fnumberRangeId,
     focalLengthRangeId,
+    photoGraphicSensitivityRangeId,
+    shutterSpeedValueRangeId,
     page,
     perPage: PHOTO_COUNTS_PER_PAGE,
   });
@@ -47,6 +51,8 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
     const params: PhotoSearchParams = {
       fnumberRangeId,
       focalLengthRangeId,
+      photoGraphicSensitivityRangeId,
+      shutterSpeedValueRangeId,
       page,
       perPage: PHOTO_COUNTS_PER_PAGE,
     };
@@ -98,8 +104,22 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
           <RangeForm
             name='焦点距離'
             value={focalLengthRangeId}
-            rangeCondition={photoSearchCondition.focal_length}
+            rangeCondition={photoSearchCondition.focalLength}
             onChange={setFocalLengthRangeId}
+          />
+
+          <RangeForm
+            name='ISO感度'
+            value={photoGraphicSensitivityRangeId}
+            rangeCondition={photoSearchCondition.photoGraphicSensitivityRangeId}
+            onChange={setPhotoGraphicSensitivityRangeId}
+          />
+
+          <RangeForm
+            name='シャッタースピード'
+            value={shutterSpeedValueRangeId}
+            rangeCondition={photoSearchCondition.shutterSpeedValueRangeId}
+            onChange={setShutterSpeedValueRangeId}
           />
 
           <Button
@@ -107,6 +127,8 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
               const params: PhotoSearchParams = {
                 fnumberRangeId,
                 focalLengthRangeId,
+                photoGraphicSensitivityRangeId,
+                shutterSpeedValueRangeId,
                 page: 0,
                 perPage: PHOTO_COUNTS_PER_PAGE,
               };

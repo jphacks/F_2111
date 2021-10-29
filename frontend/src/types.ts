@@ -53,12 +53,16 @@ export type RangeCondition = {
 
 export type PhotoSearchCondition = {
   fnumber: RangeCondition
-  focal_length: RangeCondition
+  focalLength: RangeCondition
+  photoGraphicSensitivityRangeId: RangeCondition
+  shutterSpeedValueRangeId: RangeCondition
 }
 
 export type PhotoSearchParams = {
   fnumberRangeId: string
   focalLengthRangeId: string
+  photoGraphicSensitivityRangeId: string
+  shutterSpeedValueRangeId: string
   page: number
   perPage: number
 }
