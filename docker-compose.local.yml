@@ -47,7 +47,7 @@ services:
   app:
     build:
       context: ./server/
-      dockerfile: docker/Dockerfile.dev
+      dockerfile: docker/dev/Dockerfile
     command: reflex -r '\.go$$' -s -- sh -c 'go build -o /baetoru . && /baetoru'
     volumes:
     - ./server:/workdir

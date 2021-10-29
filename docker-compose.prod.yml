@@ -47,7 +47,7 @@ services:
   app:
     build:
       context: ./server/
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/prod/Dockerfile
     command: /baetoru
     depends_on:
       - db
