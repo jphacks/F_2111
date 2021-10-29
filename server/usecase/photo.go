@@ -2,11 +2,10 @@ package usecase
 
 import (
 	"fmt"
+	"github.com/jphacks/F_2111/fixture"
 	"mime/multipart"
 	"net/url"
 
-	"github.com/dsoprea/go-exif/v3"
-	exifcommon "github.com/dsoprea/go-exif/v3/common"
 	"github.com/google/uuid"
 	"github.com/jphacks/F_2111/domain/dto"
 	"github.com/jphacks/F_2111/domain/entity"
@@ -39,27 +38,9 @@ func (p *PhotoUseCase) CreatePhoto(photoDTO *dto.PhotoDTO, image multipart.File,
 		return nil, fmt.Errorf("upload to s3: %w", err)
 	}
 
-	rawExif, err := exif.SearchAndExtractExifWithReader(image)
-	if err != nil {
-		logger.Infof("failed to search and extract exif: %v", err)
-	}
-	im, err := exifcommon.NewIfdMappingWithStandard()
-	if err != nil {
-		logger.Infof("failed to get ifd mapping with standard: %v", err)
-	}
-
-	ti := exif.NewTagIndex()
-
-	_, index, err := exif.Collect(im, ti, rawExif)
-	if err != nil {
-		logger.Infof("failed to collect exif: %v", err)
-	}
-
-	ifd := index.RootIfd
-
 	photo := &entity.Photo{}
 	photo.ConvertFromDTO(photoDTO)
-	err = photo.FillExif(ifd)
+	err = photo.FillExif(image)
 	if err != nil {
 		logger.Infof("failed to fill exif: %v", err)
 	}
@@ -87,6 +68,21 @@ func (p *PhotoUseCase) GetPhotos(withDetail bool, pageSize int) (photoDTOs []*dt
 	return
 }
 
+func (p *PhotoUseCase) SearchPhotos(withDetail bool, pageSize int, page int, rangeID *fixture.PhotoSearchConditionRangeID) (photoDTOs []*dto.PhotoDTO, err error) {
+	var photos []*entity.Photo
+	photos, err = p.photoRepository.FindAllByCondition(withDetail, pageSize, page, rangeID)
+	if err != nil {
+		err = fmt.Errorf("get photos: %w", err)
+		return
+	}
+
+	for _, photo := range photos {
+		photoDTOs = append(photoDTOs, photo.ConvertToDTO())
+	}
+
+	return
+}
+
 func (p *PhotoUseCase) GetPhoto(id string) (photoDTO *dto.PhotoDTO, err error) {
 	var photo *entity.Photo
 	photo, err = p.photoRepository.FindByID(id)
@@ -96,4 +92,8 @@ func (p *PhotoUseCase) GetPhoto(id string) (photoDTO *dto.PhotoDTO, err error) {
 	}
 	photoDTO = photo.ConvertToDTO()
 	return
+}
+
+func (p *PhotoUseCase) GetPhotoSearchCondition() *fixture.PhotoSearchCondition {
+	return p.photoRepository.GetSearchCondition()
 }

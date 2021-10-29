@@ -9,19 +9,24 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
+	"github.com/jphacks/F_2111/fixture"
+	"math"
 	"mime/multipart"
 	"strconv"
+	"strings"
 )
 
 type PhotoRepository struct {
-	db    *sqlx.DB
-	creds *credentials.Credentials
+	db              *sqlx.DB
+	creds           *credentials.Credentials
+	searchCondition *fixture.PhotoSearchCondition
 }
 
-func NewPhotoRepository(db *sqlx.DB, creds *credentials.Credentials) *PhotoRepository {
+func NewPhotoRepository(db *sqlx.DB, creds *credentials.Credentials, searchCondition *fixture.PhotoSearchCondition) *PhotoRepository {
 	return &PhotoRepository{
-		db:    db,
-		creds: creds,
+		db:              db,
+		creds:           creds,
+		searchCondition: searchCondition,
 	}
 }
 
@@ -59,6 +64,107 @@ func (r *PhotoRepository) FindAll(withDetail bool, pageSize int) ([]*entity.Phot
 	}
 
 	stmt, err := r.db.Preparex(query)
+	if err != nil {
+		return photos, err
+	}
+	err = stmt.Select(&photos, params...)
+	if err != nil {
+		return photos, err
+	}
+
+	return photos, err
+}
+
+func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page int, rangeID *fixture.PhotoSearchConditionRangeID) ([]*entity.Photo, error) {
+	var photos []*entity.Photo
+	var query string
+	var conditions []string
+	var params []interface{}
+
+	if rangeID.FNumber != nil {
+		fNumber, err := fixture.GetRange(r.searchCondition.FNumber, *rangeID.FNumber)
+		if err != nil {
+			return nil, fmt.Errorf("fnumberRangeID invalid, %v : %v", rangeID.FNumber, err)
+		}
+
+		if fNumber.Min != -1 {
+			conditions = append(conditions, "fnumber >= ?")
+			params = append(params, fNumber.Min)
+		}
+		if fNumber.Max != -1 {
+			conditions = append(conditions, "fnumber < ?")
+			params = append(params, fNumber.Max)
+		}
+	}
+
+	if rangeID.FocalLength != nil {
+		focalLength, err := fixture.GetRange(r.searchCondition.FocalLength, *rangeID.FocalLength)
+		if err != nil {
+			return nil, fmt.Errorf("focalLengthRangeID invalid, %v : %v", rangeID.FocalLength, err)
+		}
+
+		if focalLength.Min != -1 {
+			conditions = append(conditions, "focal_length >= ?")
+			params = append(params, focalLength.Min)
+		}
+		if focalLength.Max != -1 {
+			conditions = append(conditions, "focal_length < ?")
+			params = append(params, focalLength.Max)
+		}
+	}
+
+	if rangeID.PhotoGraphicSensitivity != nil {
+		photoGraphicSensitivity, err := fixture.GetRange(r.searchCondition.PhotoGraphicSensitivity, *rangeID.PhotoGraphicSensitivity)
+		if err != nil {
+			return nil, fmt.Errorf("photoGraphicSensitivityRangeID invalid, %v : %v", rangeID.PhotoGraphicSensitivity, err)
+		}
+
+		if photoGraphicSensitivity.Min != -1 {
+			conditions = append(conditions, "photo_graphic_sensitivity >= ?")
+			params = append(params, photoGraphicSensitivity.Min)
+		}
+		if photoGraphicSensitivity.Max != -1 {
+			conditions = append(conditions, "photo_graphic_sensitivity < ?")
+			params = append(params, photoGraphicSensitivity.Max)
+		}
+	}
+
+	if rangeID.ShutterSpeedValue != nil {
+		shutterSpeedValue, err := fixture.GetRange(r.searchCondition.ShutterSpeedValue, *rangeID.ShutterSpeedValue)
+		if err != nil {
+			return nil, fmt.Errorf("shutterSpeedValueRangeID invalid, %v : %v", rangeID.ShutterSpeedValue, err)
+		}
+
+		if shutterSpeedValue.Min != -1 {
+			conditions = append(conditions, "shutter_speed_value >= ?")
+			params = append(params, -math.Log2(float64(shutterSpeedValue.Min)))
+		}
+		if shutterSpeedValue.Max != -1 {
+			conditions = append(conditions, "shutter_speed_value < ?")
+			params = append(params, -math.Log2(float64(shutterSpeedValue.Max)))
+		}
+	}
+
+	if withDetail {
+		query = "SELECT id, url, title, description, make, model, lens_model, fnumber, flash, focal_length, photo_graphic_sensitivity, exposure_bias_value, shutter_speed_value, white_balance, gps_latitude, gps_longitude, gps_altitude, gps_img_direction_ref, gps_img_direction, datetime_original, created_at, updated_at FROM photos "
+	} else {
+		query = "SELECT id, url FROM photos "
+	}
+
+	if len(conditions) != 0 {
+		query += " WHERE "
+	}
+
+	searchCondition := strings.Join(conditions, " AND ")
+
+	var limitOffSet string
+
+	if pageSize != 0 {
+		limitOffSet = " LIMIT ? OFFSET ? "
+		params = append(params, strconv.Itoa(pageSize), strconv.Itoa(pageSize*page))
+	}
+
+	stmt, err := r.db.Preparex(query + searchCondition + limitOffSet)
 	if err != nil {
 		return photos, err
 	}
@@ -129,4 +235,8 @@ func (r *PhotoRepository) UploadToS3(file multipart.File, key, region, bucketNam
 	}
 
 	return output.Location, nil
+}
+
+func (r *PhotoRepository) GetSearchCondition() *fixture.PhotoSearchCondition {
+	return r.searchCondition
 }

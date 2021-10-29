@@ -127,10 +127,10 @@ const Upload = (): JSX.Element => {
   const [errorSubmit, setErrorSubmit] = useState<boolean>(false);
 
   const onSubmitForm = async () => {
-    const { photo, submitError } = await handleSubmit({ file, state });
+    const { id, error } = await handleSubmit({ file, state });
     setClickSubmit(true);
-    setErrorSubmit(submitError);
-    router.push(`/photo/${photo.id}`);
+    setErrorSubmit(error);
+    (error) ? setClickSubmit(false) : router.push(`/photo/${id}`);
   };
 
   // TODO: UI設計
@@ -139,8 +139,16 @@ const Upload = (): JSX.Element => {
       <Head>
         <title>投稿ページ</title>
       </Head>
-      <Image src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
-      <Container style={Style.Container} height={file===undefined?"100vh":"100%"}>
+      <Image 
+        src="/Background.jpg" 
+        display={{ base: "none", sm: "fixed" }} 
+        style={{
+          position: "fixed",
+          height: "100vh",
+          opacity: "20%",
+        }} 
+      />
+      <Container style={Style.Container} height={file === undefined ? "100vh" : "100%"}>
         <Heading marginBottom="10px">投稿ページ</Heading>
         <FormControl id="post">
           <FormControl
@@ -175,7 +183,19 @@ const Upload = (): JSX.Element => {
           </FormControl>
           <FormControl id="images" isRequired>
             <FormLabel {...Style.Form}>Upload Images</FormLabel>
-            <Box {...Style.DDBox} {...getRootProps()}>
+            <Box 
+              style={{
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: "20px",
+                borderWidth: "2px",
+                borderRadius: "20px",
+                border: "1px",
+                textAlign: "center",
+                borderColor: "orange",
+                background: "white"
+              }} {...getRootProps()}
+            >
               <Input
                 type={type}
                 multiple={false}
