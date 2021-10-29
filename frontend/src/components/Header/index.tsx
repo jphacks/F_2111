@@ -50,7 +50,7 @@ const DeskTopNav = (): JSX.Element => (
   <HStack alignItems="center">
     <HStack>
       <Link href='/' key='Logo'>
-        <a style={{ display: "contents" }}><Image width="5%" src="/Logo.jpg" /></a>
+        <a style={{ display: "contents" }}><Image width="15%" src="/Logo.jpg" /></a>
       </Link>
       {Links.map(({ text, path }) => (
         <Link href={`${path}`} key={text}>
@@ -77,7 +77,7 @@ const MobileNav = (): JSX.Element => {
         />
         <HStack spacing={8} alignItems={'center'} justifyContent="center" marginLeft="-5">
           <Link href='/' key='Logo'>
-            <a style={{ display: "contents" }}><Image width="40%" src="/Logo.jpg" /></a>
+            <a style={{ display: "contents" }}><Image width="35%" src="/Logo.jpg" /></a>
           </Link>
         </HStack>
       </Flex>
