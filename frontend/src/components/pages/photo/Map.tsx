@@ -50,7 +50,7 @@ const MapComponent = ({
         ref={mapRef}
         height="100%"
         width={{ sm: "47%" }}
-        marginRight={{ base: "10px" }}
+        marginRight={{ sm: "10px", }}
         marginBottom={{ base: "10px" }}
       />
       <Box
