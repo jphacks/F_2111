@@ -111,14 +111,14 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
           <RangeForm
             name='ISO感度'
             value={photoGraphicSensitivityRangeId}
-            rangeCondition={photoSearchCondition.photoGraphicSensitivityRangeId}
+            rangeCondition={photoSearchCondition.photoGraphicSensitivity}
             onChange={setPhotoGraphicSensitivityRangeId}
           />
 
           <RangeForm
             name='シャッタースピード'
             value={shutterSpeedValueRangeId}
-            rangeCondition={photoSearchCondition.shutterSpeedValueRangeId}
+            rangeCondition={photoSearchCondition.shutterSpeedValue}
             onChange={setShutterSpeedValueRangeId}
           />
 

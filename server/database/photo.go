@@ -10,7 +10,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/fixture"
-	"math"
 	"mime/multipart"
 	"strconv"
 	"strings"
@@ -135,13 +134,15 @@ func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page
 			return nil, fmt.Errorf("shutterSpeedValueRangeID invalid, %v : %v", rangeID.ShutterSpeedValue, err)
 		}
 
-		if shutterSpeedValue.Min != -1 {
+		// fixme
+		if shutterSpeedValue.Min < -100 {
 			conditions = append(conditions, "shutter_speed_value >= ?")
-			params = append(params, -math.Log2(float64(shutterSpeedValue.Min)))
+			params = append(params, shutterSpeedValue.Min)
 		}
-		if shutterSpeedValue.Max != -1 {
+		// fixme
+		if shutterSpeedValue.Max > 100 {
 			conditions = append(conditions, "shutter_speed_value < ?")
-			params = append(params, -math.Log2(float64(shutterSpeedValue.Max)))
+			params = append(params, shutterSpeedValue.Max)
 		}
 	}
 

@@ -153,24 +153,24 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 		searchConditionRangeID.FocalLength = &focalLengthRangeId
 	}
 
-	if c.Query("photoGraphicSensitivity") != "" {
-		photoGraphicSensitivity, err := strconv.Atoi(c.Query("photoGraphicSensitivity"))
+	if c.Query("photoGraphicSensitivityRangeId") != "" {
+		photoGraphicSensitivityRangeId, err := strconv.Atoi(c.Query("photoGraphicSensitivityRangeId"))
 		if err != nil {
 			logger.Errorf("photoGraphicSensitivity invalid, %v : %v", c.Query("photoGraphicSensitivity"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		searchConditionRangeID.PhotoGraphicSensitivity = &photoGraphicSensitivity
+		searchConditionRangeID.PhotoGraphicSensitivity = &photoGraphicSensitivityRangeId
 	}
 
-	if c.Query("shutterSpeedValue") != "" {
-		shutterSpeedValue, err := strconv.Atoi(c.Query("shutterSpeedValue"))
+	if c.Query("shutterSpeedValueRangeId") != "" {
+		shutterSpeedValueRangeId, err := strconv.Atoi(c.Query("shutterSpeedValueRangeId"))
 		if err != nil {
-			logger.Errorf("shutterSpeedValue invalid, %v : %v", c.Query("shutterSpeedValue"), err)
+			logger.Errorf("shutterSpeedValueRangeId invalid, %v : %v", c.Query("shutterSpeedValueRangeId"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		searchConditionRangeID.ShutterSpeedValue = &shutterSpeedValue
+		searchConditionRangeID.ShutterSpeedValue = &shutterSpeedValueRangeId
 	}
 
 	photos, err := p.photoUC.SearchPhotos(withDetail, pageSize, page, searchConditionRangeID)
