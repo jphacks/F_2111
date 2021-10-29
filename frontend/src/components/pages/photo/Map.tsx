@@ -43,7 +43,7 @@ const MapComponent = ({
       height={{ base: "40vh", sm: "50vh" }}
       marginBottom={{ base: "45vh", sm: "7px" }}
       display={{ sm: "-webkit-box" }}
-      {...{ "-webkit-box-pack": "center" }}
+      style={{ "-webkit-box-pack": "center" }}
     >
       <Box
         id="map"
