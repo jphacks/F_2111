@@ -129,8 +129,8 @@ const Upload = (): JSX.Element => {
   const onSubmitForm = async () => {
     const { photo, submitError } = await handleSubmit({ file, state });
     setClickSubmit(true);
-    setErrorSubmit(submitError);
-    router.push(`/photo/${photo.id}`);
+    setErrorSubmit(true);
+    submitError ? setClickSubmit(false) : router.push(`/photo/${photo.id}`);
   };
 
   // TODO: UI設計
