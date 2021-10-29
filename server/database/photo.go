@@ -10,7 +10,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jphacks/F_2111/domain/entity"
 	"github.com/jphacks/F_2111/fixture"
-	"log"
 	"math"
 	"mime/multipart"
 	"strconv"
@@ -158,13 +157,14 @@ func (r *PhotoRepository) FindAllByCondition(withDetail bool, pageSize int, page
 
 	searchCondition := strings.Join(conditions, " AND ")
 
+	var limitOffSet string
+
 	if pageSize != 0 {
-		query += " LIMIT ? OFFSET ?"
+		limitOffSet = " LIMIT ? OFFSET ? "
 		params = append(params, strconv.Itoa(pageSize), strconv.Itoa(pageSize*page))
 	}
 
-	log.Println(query + searchCondition)
-	stmt, err := r.db.Preparex(query + searchCondition)
+	stmt, err := r.db.Preparex(query + searchCondition + limitOffSet)
 	if err != nil {
 		return photos, err
 	}

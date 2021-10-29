@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -134,24 +133,24 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 
 	// conditions
 	searchConditionRangeID := &fixture.PhotoSearchConditionRangeID{}
-	if c.Query("fnumberRangeID") != "" {
-		fnumberRangeID, err := strconv.Atoi(c.Query("fnumberRangeID"))
+	if c.Query("fnumberRangeId") != "" {
+		fnumberRangeId, err := strconv.Atoi(c.Query("fnumberRangeId"))
 		if err != nil {
-			logger.Errorf("fnumberRangeID invalid, %v : %v", c.Query("fnumberRangeID"), err)
+			logger.Errorf("fnumberRangeId invalid, %v : %v", c.Query("fnumberRangeId"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		searchConditionRangeID.FNumber = &fnumberRangeID
+		searchConditionRangeID.FNumber = &fnumberRangeId
 	}
 
-	if c.Query("focalLengthRangeID") != "" {
-		focalLengthRangeID, err := strconv.Atoi(c.Query("focalLengthRangeID"))
+	if c.Query("focalLengthRangeId") != "" {
+		focalLengthRangeId, err := strconv.Atoi(c.Query("focalLengthRangeId"))
 		if err != nil {
-			logger.Errorf("focalLengthRangeID invalid, %v : %v", c.Query("focalLengthRangeID"), err)
+			logger.Errorf("focalLengthRangeId invalid, %v : %v", c.Query("focalLengthRangeId"), err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		searchConditionRangeID.FocalLength = &focalLengthRangeID
+		searchConditionRangeID.FocalLength = &focalLengthRangeId
 	}
 
 	if c.Query("photoGraphicSensitivity") != "" {
@@ -175,7 +174,6 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	}
 
 	photos, err := p.photoUC.SearchPhotos(withDetail, pageSize, page, searchConditionRangeID)
-	fmt.Println(photos)
 	if err != nil {
 		logger.Errorf("get photos: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": entity.ErrInternalServerError.Error()})

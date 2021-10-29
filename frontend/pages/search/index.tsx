@@ -7,7 +7,7 @@ import {RangeForm} from '../../src/components/pages/home/search/RangeForm';
 import {useIntersection} from '../../src/hooks/useIntersection';
 import { collectProjectingAncestors } from 'framer-motion/types/render/dom/projection/utils';
 
-const PHOTO_COUNTS_PER_PAGE = 4;
+const PHOTO_COUNTS_PER_PAGE = 16;
 
 interface PhotoSearchProps {
   photo_search_condition: PhotoSearchCondition
