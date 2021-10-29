@@ -137,7 +137,7 @@ const Upload = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>投稿ページ</title>
+        <title>投稿 | baetoru.com</title>
         <meta name="description" content="Upload | baetoru.com" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:url" content="https://baetoru.tetsuzawa.com/upload" />
@@ -148,6 +148,8 @@ const Upload = (): JSX.Element => {
         <meta property="twitter:title" content="Upload | baetoru.com" />
         <meta property="twitter:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
         <meta property="twitter:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
+        <meta name="description" content="投稿 | baetoru.com" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Image 
         src="/Background.jpg" 
