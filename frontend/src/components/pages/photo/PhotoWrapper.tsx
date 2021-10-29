@@ -70,16 +70,16 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
     render={Render}
   >
     <Img
-      src="/Background.jpg" 
+      src="/Background.jpg"
       display={{ base: "none", sm: "fixed" }}
       position="fixed"
       style={{
         height: "100vh",
         opacity: "20%",
-      }} 
+      }}
     />
-    <Container 
-      maxWidth={{ base: "110vh" }} 
+    <Container
+      maxWidth={{ base: "110vh" }}
       style={{
         paddingTop: "20px",
         backgroundColor: "rgb(255 199 142 / 70%)",
@@ -88,8 +88,9 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
         paddingBottom: "10px",
         textAlign: "center"
       }}
-      >
-      <Heading 
+    >
+      <Heading
+        textAlign="center"
         style={{
           fontSize: "200%",
           fontWeight: 700,
@@ -98,32 +99,30 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           borderBottom: "1px",
           borderBottomWidth: "2px",
           borderColor: "orange",
-          textAlign: "center"
         }}>写真詳細ページ</Heading>
-      <Text 
+      <Text
         width={{
           sm: "20%",
           base: "45%",
         }}
+        borderBottom="1px"
+        borderBottomWidth="4px"
+        borderColor="orange"
         style={{
           marginRight: "auto",
           textAlign: "left",
           paddingBottom: "2px",
           marginBottom: "15px",
-          borderBottom: "1px",
-          borderBottomWidth: "4px",
-          borderColor: "orange",
           fontSize: "200%"
         }}>写真</Text>
-      <Box 
+      <Box
+        textAlign="center"
         style={{
           background: "white",
-          width: "70%",
           padding: "15px",
           borderWidth: "2px",
           borderColor: "orange",
           borderRadius: "5px",
-          textAlign: "center",
           marginBottom: "10px",
         }}>
         <Image
@@ -135,19 +134,19 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
         />
         <Text>タイトル：　{photo.title}</Text>
       </Box>
-      <Text 
+      <Text
         width={{
           sm: "20%",
           base: "45%",
         }}
+        borderBottom="1px"
+        borderBottomWidth="4px"
+        borderColor="orange"
         style={{
           marginRight: "auto",
           textAlign: "left",
           paddingBottom: "2px",
           marginBottom: "15px",
-          borderBottom: "1px",
-          borderBottomWidth: "4px",
-          borderColor: "orange",
           fontSize: "200%"
         }}>位置情報</Text>
       <Box style={Style.MapBox}>
@@ -167,19 +166,19 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           </Box >
         )}
       </Box>
-      <Text 
+      <Text
         width={{
           sm: "20%",
           base: "45%",
         }}
+        borderBottom="1px"
+        borderBottomWidth="4px"
+        borderColor="orange"
         style={{
           marginRight: "auto",
           textAlign: "left",
           paddingBottom: "2px",
           marginBottom: "15px",
-          borderBottom: "1px",
-          borderBottomWidth: "4px",
-          borderColor: "orange",
           fontSize: "200%"
         }}>詳細</Text>
       <Box style={Style.TableBox}>
