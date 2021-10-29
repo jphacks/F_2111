@@ -37,3 +37,36 @@ export type PhotosProps = {
 export type PhotoProps = {
   photo: PhotoType;
 };
+
+
+export type Range = {
+  id: number
+  min: number
+  max: number
+}
+
+export type RangeCondition = {
+  prefix: string
+  suffix: string
+  ranges: Range[]
+}
+
+export type PhotoSearchCondition = {
+  fnumber: RangeCondition
+  focalLength: RangeCondition
+  photoGraphicSensitivityRangeId: RangeCondition
+  shutterSpeedValueRangeId: RangeCondition
+}
+
+export type PhotoSearchParams = {
+  fnumberRangeId: string
+  focalLengthRangeId: string
+  photoGraphicSensitivityRangeId: string
+  shutterSpeedValueRangeId: string
+  page: number
+  perPage: number
+}
+
+export type PhotoSearchResponse = {
+  photos: PhotoType[]
+}

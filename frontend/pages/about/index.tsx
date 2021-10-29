@@ -28,13 +28,11 @@ const Style = {
   },
   Heading: {
     fontSize: "200%",
-    fontWeight: "700",
     paddingBottom: "2px",
     marginBottom: "10px",
     borderBottom: "1px",
     borderBottomWidth: "2px",
     borderColor: "orange",
-    textAlign: "center"
   },
   ContentsBox: {
     focusBorderColor: "Orange",
@@ -44,7 +42,6 @@ const Style = {
     borderRadius: "5px",
   },
   Image: {
-    position: "fixed",
     height: "100vh",
     opacity: "20%",
   }
@@ -61,7 +58,7 @@ const About: NextPage = (): JSX.Element => (
       <Heading marginBottom="10px" textAlign="center">About</Heading>
       <Image padding="10px" src="/OfficialLogo.jpg" />
       <Box style={Style.Box}>
-        <Text {...Style.Heading}>「映えとる」とは</Text>
+        <Text style={Style.Heading}>「映えとる」とは</Text>
         <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
             <UnorderedList>
@@ -79,7 +76,7 @@ const About: NextPage = (): JSX.Element => (
         </Box>
       </Box>
       <Box style={Style.Box}>
-        <Text {...Style.Heading}>映えとるの特徴</Text>
+        <Text style={Style.Heading}>映えとるの特徴</Text>
         <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
             <OrderedList>
@@ -110,8 +107,8 @@ const About: NextPage = (): JSX.Element => (
         </Box>
       </Box>
       <Box style={Style.Box}>
-        <Text {...Style.Heading}>今後の展望</Text>
-        <Box {...Style.ContentsBox}>
+        <Text style={Style.Heading}>今後の展望</Text>
+        <Box style={Style.ContentsBox}>
           <Text lineHeight="8" textAlign="left">
             <UnorderedList>
               <ListItem>既に有名なSNSサービスと連携して撮り方を見れるようにする</ListItem>

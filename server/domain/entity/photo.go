@@ -6,6 +6,7 @@ import (
 	exifcommon "github.com/dsoprea/go-exif/v3/common"
 	"github.com/jphacks/F_2111/constant"
 	"github.com/jphacks/F_2111/pkg/util"
+	"mime/multipart"
 	"time"
 
 	"github.com/jphacks/F_2111/domain/dto"
@@ -118,7 +119,26 @@ func (p *Photo) ConvertFromDTO(photoDTO *dto.PhotoDTO) {
 }
 
 //nolint:gocognit
-func (p *Photo) FillExif(ifd *exif.Ifd) error {
+func (p *Photo) FillExif(image multipart.File) error {
+
+	rawExif, err := exif.SearchAndExtractExifWithReader(image)
+	if err != nil {
+		return fmt.Errorf("failed to search and extract exif: %v", err)
+	}
+	im, err := exifcommon.NewIfdMappingWithStandard()
+	if err != nil {
+		return fmt.Errorf("failed to get ifd mapping with standard: %v", err)
+	}
+
+	ti := exif.NewTagIndex()
+
+	_, index, err := exif.Collect(im, ti, rawExif)
+	if err != nil {
+		return fmt.Errorf("failed to collect exif: %v", err)
+	}
+
+	ifd := index.RootIfd
+
 	targetTagIDs := []uint16{
 		constant.TagIDMake,
 		constant.TagIDModel,
@@ -270,7 +290,7 @@ func (p *Photo) FillExif(ifd *exif.Ifd) error {
 			}
 		}
 	}
-	ifd, err := ifd.ChildWithIfdPath(exifcommon.IfdGpsInfoStandardIfdIdentity)
+	ifd, err = ifd.ChildWithIfdPath(exifcommon.IfdGpsInfoStandardIfdIdentity)
 	if err != nil {
 		return err
 	}

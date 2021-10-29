@@ -18,7 +18,6 @@ const Style = {
     fontSize: "25px",
   },
   th: {
-    textAlign: "left",
     backgroundColor: "white",
     fontSize: "15px",
     width: "40%"

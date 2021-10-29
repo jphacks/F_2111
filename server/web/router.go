@@ -38,5 +38,7 @@ func NewServer(photoUC *usecase.PhotoUseCase) (e *gin.Engine) {
 	photos.GET("", photoHandler.GetPhotos)
 	photos.GET(":id", photoHandler.GetPhoto)
 	photos.POST("", photoHandler.StorePhoto)
+	photos.GET("/search", photoHandler.SearchPhotos)
+	photos.GET("/search/condition", photoHandler.GetPhotoSearchCondition)
 	return
 }
