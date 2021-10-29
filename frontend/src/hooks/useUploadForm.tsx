@@ -30,16 +30,18 @@ export const useUploadForm = () => {
   }: {
     file: File | undefined;
     state: State;
-  }): Promise<ResType> => {
+  }): Promise<{ id: string, error: boolean }> => {
     const formData = new FormData();
     const data = { ...state };
     // @ts-ignore
     formData.append('image', file);
     formData.append('data', JSON.stringify(data));
-    const { photo } = await postData(formData).then(async (res) => res.json());
+    const { photo, _ } = await postData(formData).then(async (res: Response) => res.ok ? res.json() : { key: undefined, body: undefined });
+    const id = (photo === undefined) ? "" : photo.id;
+    const error = (photo === undefined) ? true : false;
     return {
-      photo,
-      submitError: false,
+      id,
+      error,
     };
   };
 
