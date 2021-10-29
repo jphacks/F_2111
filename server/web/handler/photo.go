@@ -3,9 +3,11 @@ package handler
 import (
 	"encoding/json"
 	"errors"
-	"github.com/jphacks/F_2111/fixture"
+	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/jphacks/F_2111/fixture"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/F_2111/domain/dto"
@@ -95,6 +97,7 @@ func (p *PhotoHandler) GetPhotos(c *gin.Context) {
 
 func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	logger := log.GetLogger()
+	fmt.Println("takurinton")
 
 	var withDetail bool
 
@@ -109,7 +112,7 @@ func (p *PhotoHandler) SearchPhotos(c *gin.Context) {
 	}
 
 	var pageSize int
-	if c.Query("page-size") != "" {
+	if c.Query("perPage") != "" {
 		var err error
 		pageSize, err = strconv.Atoi(c.Query("page-size"))
 		if err != nil {

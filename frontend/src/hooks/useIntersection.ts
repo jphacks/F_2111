@@ -20,9 +20,11 @@ export const useIntersection = (ref: React.MutableRefObject<HTMLDivElement>) => 
         if (!entry.isIntersecting) {
           console.log('90% here');
           setIntersecting(entry.isIntersecting);
+        } else {
+          console.log('no');
         }
       }, options);
-  
+
       observer.observe(document.body);
       return () => observer.unobserve(document.body);
     }

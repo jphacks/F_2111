@@ -6,7 +6,7 @@ import {FC, useEffect, useRef, useState} from 'react';
 import {RangeForm} from '../../src/components/pages/home/search/RangeForm';
 import {useIntersection} from '../../src/hooks/useIntersection';
 
-const PHOTO_COUNTS_PER_PAGE = 20;
+const PHOTO_COUNTS_PER_PAGE = 4;
 
 interface PhotoSearchProps {
   photo_search_condition: PhotoSearchCondition
@@ -73,6 +73,7 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
     searchPhoto(params)
     .then(result => {
+      console.log(result.photos.length);
       setSearchResult(result);
       setPage(0);
       setFetching(false);
