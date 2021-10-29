@@ -39,9 +39,27 @@ const MapComponent = ({
   }, [center, zoom]);
 
   return (
-    <Box height="50vh" width="80vw" margin="50px auto">
-      <Box ref={mapRef} id="map" float="left" height="100%" width="50%" />
-      <Box ref={panoRef} id="pano" float="left" height="100%" width="50%" />
+    <Box
+      height={{ base: "40vh", sm: "50vh" }}
+      marginBottom={{ base: "45vh", sm: "7px" }}
+      display={{ sm: "-webkit-box" }}
+      {...{ "-webkit-box-pack": "center" }}
+    >
+      <Box
+        id="map"
+        ref={mapRef}
+        height="100%"
+        width={{ sm: "47%" }}
+        marginRight={{ base: "10px" }}
+        marginBottom={{ base: "10px" }}
+      />
+      <Box
+        id="pano"
+        ref={panoRef}
+        height="100%"
+        width={{ sm: "47%" }}
+        marginBottom={{ base: "10px" }}
+      />
     </Box>
   );
 };
