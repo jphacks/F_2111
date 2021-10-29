@@ -1,5 +1,4 @@
 import { Box, Container, Text, Heading, Image as Img } from '@chakra-ui/react';
-import Image from 'next/image';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import { Map } from './Map';
 import { InfoTable } from './InfoTable';
@@ -124,14 +123,13 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           borderRadius: "5px",
           marginBottom: "10px",
         }}>
-        <Image
+        <Img
           src={photo.url}
-          height={400}
-          width={400}
-          quality={100}
-          priority
+          height="auto"
+          width="80%"
+          margin="auto"
         />
-        <Text>タイトル：　{photo.title}</Text>
+        <Text fontSize="1.4rem" fontWeight="700" padding="20px 0 10px">タイトル：　{photo.title}</Text>
       </Box>
       <Text
         width={{
