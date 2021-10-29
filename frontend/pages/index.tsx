@@ -9,7 +9,16 @@ const Home = (props: PhotosProps): JSX.Element => {
     <Box>
       <Head>
         <title>Home | baetoru.com</title>
-        <meta name="description" content="Home | baetoru.com" />
+        <meta name="description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:url" content="https://baetoru.tetsuzawa.com" />
+        <meta property="og:title" content="Home | baetoru.com" />
+        <meta property="og:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
+        <meta property="og:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
+        <meta property="twitter:url" content="https://baetoru.tetsuzawa.com" />
+        <meta property="twitter:title" content="Home | baetoru.com" />
+        <meta property="twitter:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
+        <meta property="twitter:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Flex flexWrap="wrap" justifyContent="center" marginTop="5px">
