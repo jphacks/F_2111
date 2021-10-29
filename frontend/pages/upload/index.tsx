@@ -191,7 +191,7 @@ const Upload = (): JSX.Element => {
                 ) : (
                   <Text display={{ base: "none", sm: "inherit" }}>画像ファイルをドロップしてください</Text>
                 )}
-                <Button type="submit" colorScheme="orange" variant="solid" Click={open} size="sm">
+                <Button type="submit" colorScheme="orange" variant="solid" onClick={open} size="sm">
                   Select files
                 </Button>
               </Box>
