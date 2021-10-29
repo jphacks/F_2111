@@ -97,7 +97,6 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           paddingBottom: "2px",
           marginBottom: "10px",
           borderBottom: "1px",
-          borderBottomWidth: "2px",
           borderColor: "orange",
         }}>写真詳細ページ</Heading>
       <Text
