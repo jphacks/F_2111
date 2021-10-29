@@ -28,7 +28,7 @@ export const RangeForm: FC<Props> = ({name, value, rangeCondition: {prefix, suff
         {/*<HStack {...group}>*/}
         {
           ranges.map(({id, min, max}) => {
-            if (name == 'シャッタースピード') {
+            if (name === 'シャッタースピード') {
               const minLabel = min > -100 ? `${prefix}${getShutterSpeed(min)}${suffix} ` : '';
               const maxLabel = max < 100 ? ` ${prefix}${getShutterSpeed(max)}${suffix}` : '';
               return <Radio key={id} value={id.toString()}>{`${minLabel}〜${maxLabel}`}</Radio>;
