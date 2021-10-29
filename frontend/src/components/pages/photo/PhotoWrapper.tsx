@@ -28,18 +28,39 @@ const Style = {
   },
   ImageBox: {
     background: "white",
-    width: "90%",
-    padding: "10px",
+    width: "70%",
+    padding: "15px",
     borderWidth: "2px",
     borderColor: "orange",
     borderRadius: "5px",
     textAlign: "center",
     marginBottom: "10px",
   },
+  MapBox: {
+    padding: "10px",
+  },
+  TableBox: {
+    padding: "10px",
+    backgroundColor: "#fbaf51"
+  },
   Image: {
     position: "fixed",
     height: "100vh",
     opacity: "20%",
+  },
+  Sub: {
+    marginRight: "auto",
+    textAlign: "left",
+    paddingBottom: "2px",
+    marginBottom: "15px",
+    borderBottom: "1px",
+    borderBottomWidth: "4px",
+    width: {
+      sm: "20%",
+      base: "45%",
+    },
+    borderColor: "orange",
+    fontSize: "200%"
   }
 };
 
@@ -48,8 +69,10 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
     apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}
     render={Render}
   >
+    <Img src="/Background.jpg" display={{ base: "none", sm: "fixed" }} style={Style.Image} />
     <Container maxWidth={{ base: "110vh" }} style={Style.Container}>
       <Heading style={Style.Heading}>写真詳細ページ</Heading>
+      <Text {...Style.Sub}>写真</Text>
       <Box style={Style.ImageBox}>
         <Image
           src={photo.url}
@@ -60,7 +83,8 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
         />
         <Text>タイトル：　{photo.title}</Text>
       </Box>
-      <Box style={Style.Box}>
+      <Text {...Style.Sub}>位置情報</Text>
+      <Box style={Style.MapBox}>
         {photo.exif?.gpsLatitude && photo.exif?.gpsLongitude ? (
           <Map
             lat={photo.exif?.gpsLatitude ?? 0}
@@ -77,7 +101,8 @@ export const PhotoWrapper = (photo: PhotoType): JSX.Element => (
           </Box >
         )}
       </Box>
-      <Box style={Style.Box}>
+      <Text {...Style.Sub}>詳細</Text>
+      <Box style={Style.TableBox}>
         <InfoTable {...photo} />
       </Box>
     </Container >
