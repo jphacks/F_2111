@@ -27,9 +27,9 @@ SNS を利用する人が増え，いわゆる「映え写真」が多く投稿�
 
 ![image-map](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/image-map.jpg)
 
-#### 3. F 値・焦点距離 で写真を絞り込むことができる
+#### 3. F 値・焦点距離など で写真を絞り込むことができる
 
-![image-search](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/image-search.jpg)
+![image-search](https://baetoru-public.s3.ap-northeast-1.amazonaws.com/baetoru-search.jpg)
 
 ### 解決出来ること
 
