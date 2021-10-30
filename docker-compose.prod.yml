@@ -21,6 +21,7 @@ services:
 
   db:
     image: mysql:8.0
+    restart: always
     command: mysqld
     volumes:
       # MySQLの設定ファイル
@@ -45,6 +46,7 @@ services:
       - baetoru-network
 
   app:
+    restart: always
     build:
       context: ./server/
       dockerfile: docker/prod/Dockerfile
@@ -57,6 +59,7 @@ services:
       - baetoru-network
 
   front:
+    restart: always
     build:
       context: ./frontend/
       dockerfile: docker/prod/Dockerfile
