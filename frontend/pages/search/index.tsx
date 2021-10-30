@@ -1,11 +1,18 @@
-import {Box, Button, CircularProgress, Flex} from '@chakra-ui/react';
+import {
+  Heading,
+  Box,
+  Button,
+  CircularProgress,
+  Flex,
+  Container,
+  Image as Img
+} from '@chakra-ui/react';
 import Head from 'next/head';
-import {Photo} from '../../src/components/pages/home/Photo';
-import {PhotoSearchCondition, PhotoSearchParams, PhotoSearchResponse, PhotoType} from '../../src/types';
-import {FC, useEffect, useRef, useState} from 'react';
-import {RangeForm} from '../../src/components/pages/home/search/RangeForm';
-import {useIntersection} from '../../src/hooks/useIntersection';
-import { collectProjectingAncestors } from 'framer-motion/types/render/dom/projection/utils';
+import { Photo } from '../../src/components/pages/home/Photo';
+import { PhotoSearchCondition, PhotoSearchParams, PhotoSearchResponse, PhotoType } from '../../src/types';
+import { FC, useEffect, useState } from 'react';
+import { RangeForm } from '../../src/components/pages/home/search/RangeForm';
+import { useIntersection } from '../../src/hooks/useIntersection';
 
 const PHOTO_COUNTS_PER_PAGE = 16;
 
@@ -74,11 +81,11 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
 
   useEffect(() => {
     searchPhoto(photoSearchParams)
-    .then(result => {
-      setSearchResult(result.photos);
-      setFetching(false);
-    })
-    .catch(console.error);
+      .then(result => {
+        setSearchResult(result.photos);
+        setFetching(false);
+      })
+      .catch(console.error);
 
     if (intersected && !fetching) {
       handleSearch();
@@ -86,10 +93,10 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
   }, [photoSearchParams]);
 
   return (
-    <Box>
+    <>
       <Head>
-        <title>Home | baetoru.com</title>
-        <meta name="description" content="映える写真や撮り方を共有できるサービス、baetoruです。"/>
+        <title>検索 | baetoru.com</title>
+        <meta name="description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:url" content="https://baetoru.tetsuzawa.com/search" />
         <meta property="og:title" content="Search | baetoru.com" />
@@ -99,57 +106,85 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
         <meta property="twitter:title" content="Search | baetoru.com" />
         <meta property="twitter:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
         <meta property="twitter:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
-        <link rel="icon" href="/favicon.ico"/>
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="検索 | baetoru.com" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>
+      <Img
+        src="/Background.jpg"
+        display={{ base: "none", sm: "fixed" }}
+        position="fixed"
+        style={{
+          height: "100vh",
+          opacity: "15%",
+        }}
+      />
+      <Container
+        maxWidth={{ base: "110vh" }}
+        style={{
+          paddingTop: "20px",
+          backgroundColor: "rgb(255 199 142 / 70%)",
+          backdropFilter: "blur(2px)",
+          height: "100%",
+          paddingBottom: "10px",
+          textAlign: "center"
+        }}
+      >
+        <Heading marginBottom="10px">検索ページ</Heading>
         <Box>
-          <RangeForm
-            name='F値'
-            value={fnumberRangeId}
-            rangeCondition={photoSearchCondition.fnumber}
-            onChange={setFNumberRangeId}
-          />
+          <Box textAlign="left">
+            <RangeForm
+              name='F値'
+              value={fnumberRangeId}
+              rangeCondition={photoSearchCondition.fnumber}
+              onChange={setFNumberRangeId}
+            />
 
-          <RangeForm
-            name='焦点距離'
-            value={focalLengthRangeId}
-            rangeCondition={photoSearchCondition.focalLength}
-            onChange={setFocalLengthRangeId}
-          />
+            <RangeForm
+              name='焦点距離'
+              value={focalLengthRangeId}
+              rangeCondition={photoSearchCondition.focalLength}
+              onChange={setFocalLengthRangeId}
+            />
 
-          <RangeForm
-            name='ISO感度'
-            value={photoGraphicSensitivityRangeId}
-            rangeCondition={photoSearchCondition.photoGraphicSensitivity}
-            onChange={setPhotoGraphicSensitivityRangeId}
-          />
+            <RangeForm
+              name='ISO感度'
+              value={photoGraphicSensitivityRangeId}
+              rangeCondition={photoSearchCondition.photoGraphicSensitivity}
+              onChange={setPhotoGraphicSensitivityRangeId}
+            />
 
-          <RangeForm
-            name='シャッタースピード'
-            value={shutterSpeedValueRangeId}
-            rangeCondition={photoSearchCondition.shutterSpeedValue}
-            onChange={setShutterSpeedValueRangeId}
-          />
+            <RangeForm
+              name='シャッタースピード'
+              value={shutterSpeedValueRangeId}
+              rangeCondition={photoSearchCondition.shutterSpeedValue}
+              onChange={setShutterSpeedValueRangeId}
+            />
+          </Box>
 
-          <Button
-            onClick={() => {
-              const params: PhotoSearchParams = {
-                fnumberRangeId,
-                focalLengthRangeId,
-                photoGraphicSensitivityRangeId,
-                shutterSpeedValueRangeId,
-                page: 0,
-                perPage: PHOTO_COUNTS_PER_PAGE,
-              };
-              setPhotoSearchParams(params);
-            }}
-          >
-            Search
-          </Button>
+          <Box padding="5px" textAlign="left" marginTop="10px">
+            <Button
+              type="button"
+              variant="solid"
+              colorScheme="pink"
+              onClick={() => {
+                const params: PhotoSearchParams = {
+                  fnumberRangeId,
+                  focalLengthRangeId,
+                  photoGraphicSensitivityRangeId,
+                  shutterSpeedValueRangeId,
+                  page: 0,
+                  perPage: PHOTO_COUNTS_PER_PAGE,
+                };
+                setPhotoSearchParams(params);
+              }}
+            >
+              Search
+            </Button>
+          </Box>
         </Box>
-      </Box>
 
-      {/*{photoSearchParams ? (*/}
+        {/*{photoSearchParams ? (*/}
         <Box>
           <Box alignItems='center'>
             <Flex flexWrap="wrap" justifyContent="center" marginTop="5px">
@@ -160,13 +195,14 @@ const PhotoSearch: FC<PhotoSearchProps> = (props: PhotoSearchProps) => {
                   }
                 </>
               ) : (
-                <CircularProgress/>
+                <CircularProgress />
               )}
             </Flex>
           </Box>
         </Box>
-      {/*// ) : null}*/}
-    </Box>
+        {/*// ) : null}*/}
+      </Container>
+    </>
   );
 };
 

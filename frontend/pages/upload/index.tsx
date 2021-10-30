@@ -137,7 +137,7 @@ const Upload = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>投稿ページ</title>
+        <title>投稿 | baetoru.com</title>
         <meta name="description" content="Upload | baetoru.com" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:url" content="https://baetoru.tetsuzawa.com/upload" />
@@ -148,15 +148,17 @@ const Upload = (): JSX.Element => {
         <meta property="twitter:title" content="Upload | baetoru.com" />
         <meta property="twitter:description" content="映える写真や撮り方を共有できるサービス、baetoruです。" />
         <meta property="twitter:image" content="https://baetoru.tetsuzawa.com/Logo.jpg" />
+        <meta name="description" content="投稿 | baetoru.com" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Image 
-        src="/Background.jpg" 
-        display={{ base: "none", sm: "fixed" }} 
+      <Image
+        src="/Background.jpg"
+        display={{ base: "none", sm: "fixed" }}
         style={{
           position: "fixed",
           height: "100vh",
           opacity: "20%",
-        }} 
+        }}
       />
       <Container style={Style.Container} height={file === undefined ? "100vh" : "100%"}>
         <Heading marginBottom="10px">投稿ページ</Heading>
@@ -193,7 +195,7 @@ const Upload = (): JSX.Element => {
           </FormControl>
           <FormControl id="images" isRequired>
             <FormLabel {...Style.Form}>Upload Images</FormLabel>
-            <Box 
+            <Box
               style={{
                 marginTop: '10px',
                 marginBottom: '10px',
