@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -187,6 +188,9 @@ func (r *PhotoRepository) FindByID(id string) (*entity.Photo, error) {
 
 	err = stmt.Get(photo, id)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, entity.ErrPhotoNotFound
+		}
 		return photo, err
 	}
 
