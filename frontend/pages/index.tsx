@@ -6,7 +6,7 @@ import { PhotosProps, PhotoType } from '../src/types';
 import { useIntersection } from '../src/hooks/useIntersection';
 
 const getPhotos = async (page: number) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/photos/search?page=${page}&perPage=8`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/photos/search?page=${page}&perPage=16`);
   return await res.json();
 };
 
@@ -58,7 +58,7 @@ const Home = (props: PhotosProps): JSX.Element => {
 export const getServerSideProps = async (): Promise<{
   props: PhotosProps;
 }> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SSR_HOST}/api/v1/photos/search?page=0&perPage=8`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SSR_HOST}/api/v1/photos/search?page=0&perPage=16`);
   const data = (await res.json());
 
   return {
