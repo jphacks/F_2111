@@ -1,10 +1,37 @@
+import { useState, useEffect } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import Head from 'next/head';
 import { Photo } from '../src/components/pages/home/Photo';
-import { PhotosProps } from '../src/types';
+import { PhotosProps, PhotoType } from '../src/types';
+import { useIntersection } from '../src/hooks/useIntersection';
+
+const getPhotos = async (page: number) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/v1/photos/search?page=${page}&perPage=8`);
+  return await res.json();
+};
 
 const Home = (props: PhotosProps): JSX.Element => {
   const { photos } = props;
+  const [page, setPage] = useState(1);
+  const [result, setResult] = useState<PhotoType[] | null>(photos);
+  const intersection = useIntersection();
+
+  const handleSearch = () => {
+    getPhotos(page)
+      .then(res => {
+        if (res.photos !== null) {
+          const r = result ?? [] as PhotoType[];
+          setResult([...r, ...res.photos]);
+          setPage(page + 1);
+        }
+      })
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    if (intersection) handleSearch();
+  }, [intersection]);
+
   return (
     <Box>
       <Head>
@@ -22,7 +49,7 @@ const Home = (props: PhotosProps): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Flex flexWrap="wrap" justifyContent="center" marginTop="5px">
-        {photos ? photos.map((p) => <Photo key={p.id} {...p} />) : ''}
+        {result ? result.map((p, idx) => <Photo key={idx} {...p} />) : ''}
       </Flex>
     </Box>
   );
@@ -31,8 +58,8 @@ const Home = (props: PhotosProps): JSX.Element => {
 export const getServerSideProps = async (): Promise<{
   props: PhotosProps;
 }> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SSR_HOST}/api/v1/photos`);
-  const data = (await res.json()) as PhotosProps;
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SSR_HOST}/api/v1/photos/search?page=0&perPage=8`);
+  const data = (await res.json());
 
   return {
     props: data,
